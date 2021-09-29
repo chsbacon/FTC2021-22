@@ -58,10 +58,13 @@ public class TeleOp2022 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        robot.init(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        double motorPower = .5;
+        //double motorPower = .5;
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -70,9 +73,16 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            /*
             if (gamepad1.a){
                 robot.leftMotor.setPower(motorPower);
             }
+
+            if (gamepad1.b){
+                robot.leftMotor.setPower(0);
+            }
+
+             */
 
 
 
