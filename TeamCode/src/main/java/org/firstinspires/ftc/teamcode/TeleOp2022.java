@@ -69,6 +69,7 @@ public class TeleOp2022 extends LinearOpMode {
         double frontRight;
         double backLeft;
         double backRight;
+        double fastSlow;
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -79,6 +80,13 @@ public class TeleOp2022 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+            if(gamepad1.a){
+                fastSlow = 2;
+            }
+            else{
+                fastSlow = 1;
+            }
 
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
@@ -96,10 +104,11 @@ public class TeleOp2022 extends LinearOpMode {
             backRight = -y + x + r;
 
 
-            robot.frontLeftMotor.setPower(frontLeft);
-            robot.frontRightMotor.setPower(frontRight);
-            robot.backLeftMotor.setPower(backLeft);
-            robot.backRightMotor.setPower(backRight);
+
+            robot.frontLeftMotor.setPower(frontLeft/fastSlow);
+            robot.frontRightMotor.setPower(frontRight/fastSlow);
+            robot.backLeftMotor.setPower(backLeft/fastSlow);
+            robot.backRightMotor.setPower(backRight/fastSlow);
 
 
         }
