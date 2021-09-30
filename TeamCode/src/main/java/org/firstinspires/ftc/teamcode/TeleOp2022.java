@@ -54,6 +54,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class TeleOp2022 extends LinearOpMode {
 
+    private ElapsedTime runtime = new ElapsedTime();
     HardwareMap2022 robot = new HardwareMap2022();
 
     @Override
@@ -61,10 +62,16 @@ public class TeleOp2022 extends LinearOpMode {
 
         robot.init(hardwareMap);
 
+        double x;
+        double y;
+        double r;
+        double frontLeft;
+        double frontRight;
+        double backLeft;
+        double backRight;
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        //double motorPower = .5;
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -73,21 +80,30 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            /*
-            if (gamepad1.a){
-                robot.leftMotor.setPower(motorPower);
-            }
-
-            if (gamepad1.b){
-                robot.leftMotor.setPower(0);
-            }
-
-             */
+            y = gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            r = gamepad1.right_stick_x;
 
 
+            // do not let rotation dominate movement
+            r = r / 2;
 
+            // calculate the power for each wheel
+            frontLeft = +y - x + r;
+            backLeft = +y + x + r;
+
+            frontRight = -y - x + r;
+            backRight = -y + x + r;
+
+
+            robot.frontLeftMotor.setPower(frontLeft);
+            robot.frontRightMotor.setPower(frontRight);
+            robot.backLeftMotor.setPower(backLeft);
+            robot.backRightMotor.setPower(backRight);
 
 
         }
     }
+
+
 }
