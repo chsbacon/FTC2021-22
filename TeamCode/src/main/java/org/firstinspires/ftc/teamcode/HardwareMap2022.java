@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
+
 public class HardwareMap2022
 {
     /* Public OpMode members. */
@@ -43,6 +44,8 @@ public class HardwareMap2022
     public DcMotor  backRightMotor = null;
 
     public BNO055IMU imu;
+
+
 
 
     /* local OpMode members. */

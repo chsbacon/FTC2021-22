@@ -169,4 +169,61 @@ public class TeleOp2022 extends LinearOpMode {
     }
 
 
+
+    void rotateToHeadingV1(double pwr, Orientation target){
+
+        double kP = 0;
+        double kI = 0;
+        double kD = 0;
+
+        double currAng = 0;
+
+        Orientation targetOrient;
+        Orientation currOrient;
+
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        double integralSum = 0;
+        double lastError = 0;
+        double error;
+        double derivative;
+        double out;
+
+        ElapsedTime pidTimer = new ElapsedTime();
+
+
+
+        while( currAng != targAng ){
+
+            currOrient = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            error = targAng - currAng;
+
+            derivative = (error - lastError) / pidTimer.milliseconds();
+
+            integralSum = integralSum + (error * pidTimer.milliseconds());
+
+            out = (kP * error) + (kI * integralSum) + (kD * derivative);
+
+            robot.frontLeftMotor.setPower(pwr + out);
+            robot.frontRightMotor.setPower(pwr - out);
+            robot.backLeftMotor.setPower(pwr + out);
+            robot.backRightMotor.setPower(pwr - out);
+
+
+
+
+
+
+
+        }
+
+
+
+
+    }
+
+
 }
