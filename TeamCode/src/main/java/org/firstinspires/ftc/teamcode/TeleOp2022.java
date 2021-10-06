@@ -73,16 +73,14 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            /*
+
             if (gamepad1.a){
-                robot.leftMotor.setPower(motorPower);
+                robot.carouselMotor.setPower(.25);
             }
 
-            if (gamepad1.b){
-                robot.leftMotor.setPower(0);
-            }
 
-             */
+
+
 
 
 
