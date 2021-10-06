@@ -190,11 +190,13 @@ public class TeleOp2022 extends LinearOpMode {
         double derivative;
         double out;
 
-        ElapsedTime pidTimer = new ElapsedTime();
+        ElapsedTime pidTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
 
 
         while( currAng != targAng ){
+
+            pidTimer.reset();
 
             currOrient = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
@@ -203,26 +205,19 @@ public class TeleOp2022 extends LinearOpMode {
 
             derivative = (error - lastError) / pidTimer.milliseconds();
 
-            integralSum = integralSum + (error * pidTimer.milliseconds());
+            integralSum = integralSum + (error * pidTimer.time());
 
             out = (kP * error) + (kI * integralSum) + (kD * derivative);
+            //Still have to see if out is -1 < out < 1
 
             robot.frontLeftMotor.setPower(pwr + out);
             robot.frontRightMotor.setPower(pwr - out);
             robot.backLeftMotor.setPower(pwr + out);
             robot.backRightMotor.setPower(pwr - out);
 
-
-
-
-
-
+            lastError = error;
 
         }
-
-
-
-
     }
 
 
