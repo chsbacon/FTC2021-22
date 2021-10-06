@@ -176,7 +176,9 @@ public class TeleOp2022 extends LinearOpMode {
         double kI = 0;
         double kD = 0;
 
-        double currAng = 0;
+        // set to a big number so it doesn't accidently match the target angle
+        //therefore hypothetically completing the while-loop accidently
+        double currAng = 10000;
 
         Orientation targetOrient;
         Orientation currOrient;
