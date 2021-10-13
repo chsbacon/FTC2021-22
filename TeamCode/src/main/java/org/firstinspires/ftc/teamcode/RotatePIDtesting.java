@@ -29,49 +29,37 @@ public class RotatePIDtesting extends LinearOpMode {
 
         waitForStart();
 
+
+        double kP = .48;
+        double kI = .0;
+        double kD = 0;
+
         while(opModeIsActive()){
 
-            double kP = .475;
-            double kI = .34;
-            double kD = .52;
+
 
             if(gamepad1.x){
-                sleep(250);
                 kP = kP + .01;
-            }
-
-            if((gamepad1.x) && (gamepad1.left_bumper)){
                 sleep(250);
-                kP = kP - .01;
             }
 
 
             if(gamepad1.y){
+                kP = kP - .01;
                 sleep(250);
-                kI = kI + .01;
+
             }
-            if((gamepad1.y) && (gamepad1.left_bumper)){
-                sleep(250);
-                kI = kI - .01;
-            }
+
+
 
             if(gamepad1.a){
                 rotateToHeadingV1(.5, 90, kP, kI, kD);
             }
 
-
             if(gamepad1.b){
-                sleep(250);
-                kD = kD + .01;
-            }
-            if((gamepad1.b) && (gamepad1.left_bumper)){
-                sleep(250);
-                kD = kD - .01;
+                stopDriving();
             }
 
-            if(gamepad1.a){
-                rotateToHeadingV1(.25, 90, kP, kI, kD);
-            }
 
             telemetry.addData("kP: ", "%.2f", kP);
             telemetry.addData("kI: ", "%.2f", kI);
@@ -108,6 +96,7 @@ public class RotatePIDtesting extends LinearOpMode {
         double error;
         double derivative;
         double out;
+        double maxOut;
 
         ElapsedTime pidTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
