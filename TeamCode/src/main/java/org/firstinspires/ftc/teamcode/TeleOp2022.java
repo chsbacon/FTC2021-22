@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.util.Range;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
+//Grant's Branch
 @TeleOp(name="TeleOp 2022", group="Linear Opmode")
 //@Disabled
 public class TeleOp2022 extends LinearOpMode {
@@ -58,10 +58,13 @@ public class TeleOp2022 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        robot.init(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        double motorPower = .5;
+        //double motorPower = .5;
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -70,9 +73,16 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            /*
             if (gamepad1.a){
                 robot.leftFrontMotor.setPower(motorPower);
             }
+
+            if (gamepad1.b){
+                robot.leftMotor.setPower(0);
+            }
+
+             */
 
 
 
