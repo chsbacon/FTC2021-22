@@ -75,7 +75,7 @@ public class TeleOp2022 extends LinearOpMode {
 
             /*
             if (gamepad1.a){
-                robot.leftFrontMotor.setPower(motorPower);
+                robot.leftMotor.setPower(motorPower);
             }
 
             if (gamepad1.b){
@@ -83,6 +83,8 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
              */
+
+
 
 
 
