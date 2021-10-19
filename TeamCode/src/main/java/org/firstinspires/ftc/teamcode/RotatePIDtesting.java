@@ -29,23 +29,27 @@ public class RotatePIDtesting extends LinearOpMode {
 
         waitForStart();
 
+        //raise kP until it starts oscalting -- done
+        //raise kD until it stops oscalting
+        //Raise kI until it starts osccalting
+        //Raise kD until its smooth
 
-        double kP = .48;
-        double kI = .0;
-        double kD = 0;
+        double kP = .08;
+            //oscolates at .4; does get stuck (when kI and kD are 0)
+        double kI = 0;
+        double kD = .99;
 
         while(opModeIsActive()){
 
 
-
             if(gamepad1.x){
-                kP = kP + .01;
+                kI = kI + .01;
                 sleep(250);
             }
 
 
             if(gamepad1.y){
-                kP = kP - .01;
+                kI = kI - .01;
                 sleep(250);
 
             }
@@ -53,7 +57,7 @@ public class RotatePIDtesting extends LinearOpMode {
 
 
             if(gamepad1.a){
-                rotateToHeadingV1(.5, 90, kP, kI, kD);
+                rotateToHeadingV1(.0, 90, kP, kI, kD);
             }
 
             if(gamepad1.b){
