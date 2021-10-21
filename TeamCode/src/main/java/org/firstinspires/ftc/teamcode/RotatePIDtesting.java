@@ -34,22 +34,29 @@ public class RotatePIDtesting extends LinearOpMode {
         //Raise kI until it starts osccalting
         //Raise kD until its smooth
 
-        double kP = .08;
-            //oscolates at .4; does get stuck (when kI and kD are 0)
-        double kI = 0;
+        //heavy osilcation but accurate withing 1/10 of a degree
+        //kP = .08
+        // kI = 0
+        //kD = .99
+
+
+        double kP = .04;
+            //baby oscolates at .04; does get stuck (when kI and kD are 0)
+            // full oscolation at .08
+        double kI = .0;
         double kD = .99;
 
         while(opModeIsActive()){
 
 
             if(gamepad1.x){
-                kI = kI + .01;
+                kP = kP + .01;
                 sleep(250);
             }
 
 
             if(gamepad1.y){
-                kI = kI - .01;
+                kP = kP - .01;
                 sleep(250);
 
             }
@@ -116,6 +123,14 @@ public class RotatePIDtesting extends LinearOpMode {
             error = target - currAng;
             derivative = (error - lastError) / pidTimer.milliseconds();
             integralSum = integralSum + (error * pidTimer.time());
+
+           if(integralSum > 2000){
+               integralSum = 2000;
+           }
+           if(integralSum < -2000){
+               integralSum = -2000;
+           }
+
             out = (kP * error) + (kI * integralSum) + (kD * derivative);
 
 
