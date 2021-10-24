@@ -39,6 +39,11 @@ public class RotatePIDtesting extends LinearOpMode {
         // kI = 0
         //kD = .99
 
+        //no oscilation & accurate withing 1/5 of a degree
+        //kP = .04
+        //kI = 0
+        //kD = .99
+
 
         double kP = .04;
             //baby oscolates at .04; does get stuck (when kI and kD are 0)
