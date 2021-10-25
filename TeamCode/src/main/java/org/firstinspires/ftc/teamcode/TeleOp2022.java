@@ -190,7 +190,6 @@ public class TeleOp2022 extends LinearOpMode {
         //therefore hypothetically completing the while-loop accidentally
         double currAng = 10000;
 
-
         Orientation currOrient;
 
         double integralSum = 0;
@@ -205,8 +204,6 @@ public class TeleOp2022 extends LinearOpMode {
 
         ElapsedTime pidTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         ElapsedTime cutTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-
-        //while(  ((currAng - .75) <= target) || ((currAng + .75) >= target)  && opModeIsActive() )
 
         while( (currAng != target) && opModeIsActive()){
 
@@ -228,16 +225,10 @@ public class TeleOp2022 extends LinearOpMode {
 
             out = (kP * error) + (kI * integralSum) + (kD * derivative);
 
-
             telemetry.addData("target: ", "%.2f", target);
             telemetry.addData("current: ", "%.2f", currAng);
             telemetry.addData("out: ", "%.2f", out);
             telemetry.update();
-
-            //robot.frontLeftMotor.setPower(pwr);
-            //robot.frontRightMotor.setPower(pwr);
-            //robot.backLeftMotor.setPower(pwr);
-            //robot.backRightMotor.setPower(pwr);
 
             robot.frontLeftMotor.setPower(pwr + out);
             robot.frontRightMotor.setPower(pwr + out);
@@ -246,13 +237,9 @@ public class TeleOp2022 extends LinearOpMode {
 
             lastError = error;
 
-
-            if (cutTimer.milliseconds() > 1500){
+            if (cutTimer.milliseconds() > 2000){
                 break;
             }
-
-
-
         }
         stopDriving();
         telemetry.addData("target: ", "%.2f", target);
