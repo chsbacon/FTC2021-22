@@ -107,6 +107,11 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
+            if(gamepad1.y){
+                rotateToHeading(0,-135);
+            }
+
+
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
@@ -169,6 +174,91 @@ public class TeleOp2022 extends LinearOpMode {
     }
 
 
+
+    void stopDriving(){
+        robot.frontLeftMotor.setPower(0);
+        robot.frontRightMotor.setPower(0);
+        robot.backLeftMotor.setPower(0);
+        robot.backRightMotor.setPower(0);
+    }
+
+
+
+    void rotateToHeading(double pwr, double target){
+
+        // set to a big number so it doesn't accidentally match the target angle
+        //therefore hypothetically completing the while-loop accidentally
+        double currAng = 10000;
+
+
+        Orientation currOrient;
+
+        double integralSum = 0;
+        double lastError = 0;
+        double error;
+        double derivative;
+        double out;
+
+        double kP = .04;
+        double kI = .0;
+        double kD = .99;
+
+        ElapsedTime pidTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        ElapsedTime cutTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
+        //while(  ((currAng - .75) <= target) || ((currAng + .75) >= target)  && opModeIsActive() )
+
+        while( (currAng != target) && opModeIsActive()){
+
+            pidTimer.reset();
+
+            currOrient = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            error = target - currAng;
+            derivative = (error - lastError) / pidTimer.milliseconds();
+            integralSum = integralSum + (error * pidTimer.time());
+
+            if(integralSum > 2000){
+                integralSum = 2000;
+            }
+            if(integralSum < -2000){
+                integralSum = -2000;
+            }
+
+            out = (kP * error) + (kI * integralSum) + (kD * derivative);
+
+
+            telemetry.addData("target: ", "%.2f", target);
+            telemetry.addData("current: ", "%.2f", currAng);
+            telemetry.addData("out: ", "%.2f", out);
+            telemetry.update();
+
+            //robot.frontLeftMotor.setPower(pwr);
+            //robot.frontRightMotor.setPower(pwr);
+            //robot.backLeftMotor.setPower(pwr);
+            //robot.backRightMotor.setPower(pwr);
+
+            robot.frontLeftMotor.setPower(pwr + out);
+            robot.frontRightMotor.setPower(pwr + out);
+            robot.backLeftMotor.setPower(pwr + out);
+            robot.backRightMotor.setPower(pwr + out);
+
+            lastError = error;
+
+
+            if (cutTimer.milliseconds() > 1500){
+                break;
+            }
+
+
+
+        }
+        stopDriving();
+        telemetry.addData("target: ", "%.2f", target);
+        telemetry.addData("current: ", "%.2f", currAng);
+        telemetry.update();
+    }
 
 
 
