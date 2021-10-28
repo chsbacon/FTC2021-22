@@ -83,7 +83,7 @@ public class TeleOp2022 extends LinearOpMode {
 
             if(gamepad1.x){
                 robot.carouselMotor.setPower(.5);
-                sleep(3000);
+                sleep(3500);
                 robot.carouselMotor.setPower(0);
             }
 
