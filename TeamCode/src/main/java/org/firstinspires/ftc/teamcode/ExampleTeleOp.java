@@ -31,7 +31,7 @@ public class ExampleTeleOp extends LinearOpMode {
     // references GrahamHWMap and calls it robot -- so later on you can just use robot. instead of GrahamHWMap.
     // The hardware map is where all the phone connection and device setup stuff goes
     // you'll have to replace GrahamHWMap with your hardware map file name here
-    GrahamHWMap robot = new GrahamHWMap();
+    //GrahamHWMap robot = new GrahamHWMap();
 
 
     //when the init button is pressed, run the stuff in runOpMode
@@ -39,7 +39,7 @@ public class ExampleTeleOp extends LinearOpMode {
     public void runOpMode() {
 
         //initializes the hardware map
-        robot.init(hardwareMap);
+        //robot.init(hardwareMap);
 
         //example variables -- you can remove these
         double x;
@@ -85,7 +85,7 @@ public class ExampleTeleOp extends LinearOpMode {
 
             //example if statements -- you can remove these
             if ((gamepad2.a) && (gamepad2.left_bumper)) {
-                robot.intakeMotor.setPower(-desiredIntakePower);
+                //robot.intakeMotor.setPower(-desiredIntakePower);
             }
 
             //example if statements -- you can remove these
@@ -132,20 +132,20 @@ public class ExampleTeleOp extends LinearOpMode {
     //Example Function -- you can delete this
     void blindRotateLeft(double pwr){
 
-        robot.frontLeftMotor.setPower(pwr);
-        robot.frontRightMotor.setPower(pwr);
-        robot.backLeftMotor.setPower(pwr);
-        robot.backRightMotor.setPower(pwr);
+        //robot.frontLeftMotor.setPower(pwr);
+        //robot.frontRightMotor.setPower(pwr);
+        //robot.backLeftMotor.setPower(pwr);
+        //robot.backRightMotor.setPower(pwr);
 
     }
 
     //Example Function -- you can delete this
     //kills power ot all wheels
     void stopDriving(){
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        //robot.frontLeftMotor.setPower(0);
+        //robot.frontRightMotor.setPower(0);
+        //robot.backLeftMotor.setPower(0);
+        //robot.backRightMotor.setPower(0);
     }
 
 

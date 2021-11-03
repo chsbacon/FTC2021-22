@@ -1,3 +1,6 @@
+/*
+
+
 // FTC Team 7080 BACON
 // Autonomous code 2020-2021
 
@@ -21,14 +24,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.HardwareBACONbot;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCamera;
+//import org.firstinspires.ftc.teamcode.HardwareBACONbot;
+//import org.opencv.core.Core;
+//import org.opencv.core.Mat;
+//import org.opencv.core.Point;
+//import org.opencv.core.Rect;
+//import org.opencv.core.Scalar;
+//import org.opencv.imgproc.Imgproc;
+//import org.openftc.easyopencv.OpenCvCamera;
+
+
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -52,9 +57,11 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
 
     // === DEFINE CONSTANTS HERE! ===
 
-    /*double STRAFE_SPEED = 0.3;  // Motor power global variables
+    */
+/*double STRAFE_SPEED = 0.3;  // Motor power global variables
     double FAST_SPEED = 1.0;
-    double SLOW_SPEED = 0.2;*/
+    double SLOW_SPEED = 0.2;*//*
+
 
     //Here is where ints will go:
     //For example:
@@ -707,13 +714,15 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
 
 // Functions related to the wobble goal________________________________________________________________________________________________________
 
-    /*void wobbleUp() {
+    */
+/*void wobbleUp() {
         robot.wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     void wobbleDown(){
         robot.wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    } */
+    } *//*
+
 
     void wobbleOpen() {
 
@@ -743,9 +752,11 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
 
     public static class SkystoneDeterminationPipeline extends OpenCvPipeline
     {
-        /*
+        */
+/*
          * An enum to define the skystone position
-         */
+         *//*
+
         public enum RingPosition
         {
             FOUR,
@@ -753,15 +764,19 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
             NONE
         }
 
-        /*
+        */
+/*
          * Some color constants
-         */
+         *//*
+
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
-        /*
+        */
+/*
          * The core values which define the location and size of the sample regions
-         */
+         *//*
+
         static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181,98); //Change these to match up with where rings will be depending on phone placement
 
         static final int REGION_WIDTH = 35;
@@ -777,9 +792,11 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
                 REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
                 REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
-        /*
+        */
+/*
          * Working variables
-         */
+         *//*
+
         Mat region1_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
@@ -788,10 +805,12 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile RingPosition position = RingPosition.FOUR;
 
-        /*
+        */
+/*
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
-         */
+         *//*
+
         void inputToCb(Mat input)
         {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
@@ -856,7 +875,8 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
         double noneForward = 500;
         double oneForward = 500;
         double fourForward = 500;
-       /* enum currentPosition = ONE;
+       */
+/* enum currentPosition = ONE;
         currentPosition = pipeline.position;
         runtime.reset();
         if (currentPosition == pipeline.RingPosition.NONE) {
@@ -892,7 +912,8 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
                 driveForward();
             }
             stopDriving();
-        }*/
+        }*//*
+
         while(lastTime < fourTime){
             strafeRight(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES));
         }
@@ -936,3 +957,5 @@ public class ARCHIVE_Auto2021 extends LinearOpMode {
     }
 
 }
+
+*/
