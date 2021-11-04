@@ -26,118 +26,57 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.firstinspires.ftc.teamcode;
 
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+//Graham Branch
+public class HardwareMap2022
+{
+    /* Public OpMode members. */
+    public DcMotor  frontLeftMotor   = null;
+    public DcMotor  frontRightMotor = null;
+    public DcMotor  backLeftMotor = null;
+    public DcMotor  backRightMotor = null;
+    public DcMotor  carouselMotor = null;
+    public DcMotor  linearSlideMotor = null;
+    /* local OpMode members. */
+    HardwareMap hwMap           =  null;
+    private ElapsedTime period  = new ElapsedTime();
 
-import org.firstinspires.ftc.teamcode.HardwareMap2022;
+    /* Constructor */
+    public HardwareMap2022(){
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
-@TeleOp(name="TeleOp 2022", group="Linear Opmode")
-//@Disabled
-public class TeleOp2022 extends LinearOpMode {
-
-    private ElapsedTime runtime = new ElapsedTime();
-    HardwareMap2022 robot = new HardwareMap2022();
-
-    @Override
-    public void runOpMode() {
-
-        robot.init(hardwareMap);
-
-        double x;
-        double y;
-        double r;
-        double frontLeft;
-        double frontRight;
-        double backLeft;
-        double backRight;
-        double fastSlow;
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-
-            if(gamepad1.x){
-                robot.carouselMotor.setPower(.75);
-                sleep(2500);
-                robot.carouselMotor.setPower(0);
-            }
-
-            if(gamepad1.a){
-                fastSlow = 2;
-            }
-            else{
-                fastSlow = 1;
-            }
-
-            y = gamepad1.left_stick_y;
-            x = gamepad1.left_stick_x;
-            r = gamepad1.right_stick_x;
-
-
-            // do not let rotation dominate movement
-            r = r / 2;
-
-            // calculate the power for each wheel
-            frontLeft = +y - x + r;
-            backLeft = +y + x + r;
-
-            frontRight = -y - x + r;
-            backRight = -y + x + r;
-
-
-
-            robot.frontLeftMotor.setPower(frontLeft/fastSlow);
-            robot.frontRightMotor.setPower(frontRight/fastSlow);
-            robot.backLeftMotor.setPower(backLeft/fastSlow);
-            robot.backRightMotor.setPower(backRight/fastSlow);
-
-
-        }
     }
 
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        // Save reference to Hardware map
+        hwMap = ahwMap;
 
-    void linearSlideExtend(){
-        if (gamepad1.b){
-            boolean extended = false;
-            if (extended=false) {
-                //robot.linearSlideMotor.setPower(1);
-                telemetry.addData("Turn", 1);
-                sleep(5000);
-                extended = true;
-            }
-            else if (extended = true){
-                //robot.linearSlideMotor.setPower(-1);
-                telemetry.addData("ReverseTurn", -1);
-                sleep(5000);
-                extended = false;
-            }
-            //change sleep later
+        // Define and Initialize Motors
+        frontLeftMotor  = hwMap.get(DcMotor.class, "FLM"); //P0
+        frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //P1
+        backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
+        backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
+        carouselMotor = hwMap.get(DcMotor.class, "CM");
+        linearSlideMotor = hwMap.get(DcMotor.class, "LSM");
+        // Set all motors to zero power
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        carouselMotor.setPower(0);
 
-        }
+        // Set all motors to run without encoders.
+        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
-
 }
-
