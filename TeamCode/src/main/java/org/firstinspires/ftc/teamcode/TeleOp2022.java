@@ -37,6 +37,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.concurrent.TimeUnit;
+import java.util.Locale;
+
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
@@ -71,6 +80,12 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow;
 
+        //start Orientation will always be 0; this is the heading when initialized
+        Orientation startOrientation;
+        startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation currentOrientation;
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -81,6 +96,10 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            //grabs current orientation for this iteration of opModeIsActive
+            currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            //fast slow
             if(gamepad1.a){
                 fastSlow = 2;
             }
@@ -88,30 +107,57 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
+            if(gamepad1.y){
+                robot.rotateToHeading(0,-135);
+            }
+
+            if(gamepad1.x){
+                //to grab heading from robot
+                //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+                robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+            }
+
+
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
-
-
             // do not let rotation dominate movement
             r = r / 2;
-
             // calculate the power for each wheel
             frontLeft = +y - x + r;
             backLeft = +y + x + r;
-
             frontRight = -y - x + r;
             backRight = -y + x + r;
-
-
-
             robot.frontLeftMotor.setPower(frontLeft/fastSlow);
             robot.frontRightMotor.setPower(frontRight/fastSlow);
             robot.backLeftMotor.setPower(backLeft/fastSlow);
             robot.backRightMotor.setPower(backRight/fastSlow);
 
 
+            //telemtry for motors
+            telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
+            telemetry.addData("front right", "%.2f", frontRight/fastSlow);
+            telemetry.addData("back left", "%.2f", backLeft/fastSlow);
+            telemetry.addData("back right", "%.2f", backRight/fastSlow);
+            //telemetry for IMU
+            telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
+            telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
+
+            telemetry.update();
+
         }
+    }
+
+
+    //just formatting stuff for the angles -- this was copied and pasted
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+
+    //just formatting stuff for the degrees -- this was copied and pasted
+    String formatDegrees(double degrees) {
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
 
