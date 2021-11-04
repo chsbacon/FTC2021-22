@@ -30,6 +30,7 @@
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMap2022;
@@ -79,8 +80,8 @@ public class TeleOp2022 extends LinearOpMode {
         while (opModeIsActive()) {
 
             if(gamepad1.x){
-                robot.carouselMotor.setPower(.5);
-                sleep(3500);
+                robot.carouselMotor.setPower(.75);
+                sleep(2500);
                 robot.carouselMotor.setPower(0);
             }
 
@@ -117,6 +118,26 @@ public class TeleOp2022 extends LinearOpMode {
         }
     }
 
+
+    void linearSlideExtend(){
+        if (gamepad1.b){
+            boolean extended = false;
+            if (extended=false) {
+                //robot.linearSlideMotor.setPower(1);
+                telemetry.addData("Turn", 1);
+                sleep(5000);
+                extended = true;
+            }
+            else if (extended = true){
+                //robot.linearSlideMotor.setPower(-1);
+                telemetry.addData("ReverseTurn", -1);
+                sleep(5000);
+                extended = false;
+            }
+            //change sleep later
+
+        }
+    }
 
 }
 
