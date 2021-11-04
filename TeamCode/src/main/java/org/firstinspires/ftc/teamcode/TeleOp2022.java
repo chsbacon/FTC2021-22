@@ -96,10 +96,27 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            /*
+            FUNCTION EXAMPLES
+
+            // to drive straight for a set time at a set speed
+            robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+                    //to grab current heading from robot (straight
+                    //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+
+            // to rotate to a certain heading
+                (set pwr to 0)
+            robot.rotateToHeading(0,-135);
+
+
+             */
+
+
+
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            //fast slow
+            //fast slow toggle
             if(gamepad1.a){
                 fastSlow = 2;
             }
@@ -107,17 +124,18 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
+
+
+
             if(gamepad1.y){
-                robot.rotateToHeading(0,-135);
+
             }
 
             if(gamepad1.x){
-                //to grab heading from robot
-                //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
-                robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+
             }
 
-
+            //driving controls
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
@@ -147,6 +165,12 @@ public class TeleOp2022 extends LinearOpMode {
 
         }
     }
+
+
+
+
+
+
 
 
     //just formatting stuff for the angles -- this was copied and pasted
