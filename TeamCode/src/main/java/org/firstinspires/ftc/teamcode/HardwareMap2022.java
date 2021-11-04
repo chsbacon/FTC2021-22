@@ -41,7 +41,7 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
     public DcMotor  carouselMotor = null;
-
+    public DcMotor  linearSlideMotor = null;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -62,7 +62,7 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
         carouselMotor = hwMap.get(DcMotor.class, "CM");
-
+        linearSlideMotor = hwMap.get(DcMotor.class, "LSM");
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
