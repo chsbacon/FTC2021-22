@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
-@TeleOp(name="RotatePIDtesting", group="Linear Opmode")
+@TeleOp(name="driveStraight Testing", group="Linear Opmode")
 public class driveStraight extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -35,7 +35,7 @@ public class driveStraight extends LinearOpMode {
         while(opModeIsActive()){
 
             if(gamepad1.a){
-                driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 10);
+                driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 5000);
             }
 
 
@@ -44,12 +44,6 @@ public class driveStraight extends LinearOpMode {
     }
 
 
-    void stopDriving(){
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
-    }
     void driveStraightTime(double pwr, Orientation target, double desiredTime){
 
         //orients
@@ -86,8 +80,8 @@ public class driveStraight extends LinearOpMode {
             backRight = pwr - r ;
             frontRight = pwr - r ;
 
-            //frontLeft = -frontLeft;
-            //backLeft = -backLeft;
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
 
             max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
             if (max > 1.0) {
@@ -118,7 +112,7 @@ public class driveStraight extends LinearOpMode {
 
 
         }
-
+        robot.stopDriving();
     }
 
 }

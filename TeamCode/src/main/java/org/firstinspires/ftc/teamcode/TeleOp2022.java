@@ -99,7 +99,7 @@ public class TeleOp2022 extends LinearOpMode {
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-
+            //fast slow
             if(gamepad1.a){
                 fastSlow = 2;
             }
@@ -108,38 +108,30 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
             if(gamepad1.y){
-                rotateToHeading(0,-135);
+                robot.rotateToHeading(0,-135);
+            }
+
+            if(gamepad1.x){
+                //to grab heading from robot
+                //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+                robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
             }
 
 
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
-
-
             // do not let rotation dominate movement
             r = r / 2;
-
             // calculate the power for each wheel
             frontLeft = +y - x + r;
             backLeft = +y + x + r;
-
             frontRight = -y - x + r;
             backRight = -y + x + r;
-
-
-
             robot.frontLeftMotor.setPower(frontLeft/fastSlow);
             robot.frontRightMotor.setPower(frontRight/fastSlow);
             robot.backLeftMotor.setPower(backLeft/fastSlow);
             robot.backRightMotor.setPower(backRight/fastSlow);
-
-
-
-
-
-
-
 
 
             //telemtry for motors
@@ -147,19 +139,14 @@ public class TeleOp2022 extends LinearOpMode {
             telemetry.addData("front right", "%.2f", frontRight/fastSlow);
             telemetry.addData("back left", "%.2f", backLeft/fastSlow);
             telemetry.addData("back right", "%.2f", backRight/fastSlow);
-
             //telemetry for IMU
             telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
             telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
-
 
             telemetry.update();
 
         }
     }
-
-
-
 
 
     //just formatting stuff for the angles -- this was copied and pasted
@@ -172,82 +159,6 @@ public class TeleOp2022 extends LinearOpMode {
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
-
-
-
-    void stopDriving(){
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
-    }
-
-
-
-    void rotateToHeading(double pwr, double target){
-
-        // set to a big number so it doesn't accidentally match the target angle
-        //therefore hypothetically completing the while-loop accidentally
-        double currAng = 10000;
-
-        Orientation currOrient;
-
-        double integralSum = 0;
-        double lastError = 0;
-        double error;
-        double derivative;
-        double out;
-
-        double kP = .04;
-        double kI = .0;
-        double kD = .99;
-
-        ElapsedTime pidTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-        ElapsedTime cutTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-
-        while( (currAng != target) && opModeIsActive()){
-
-            pidTimer.reset();
-
-            currOrient = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
-
-            error = target - currAng;
-            derivative = (error - lastError) / pidTimer.milliseconds();
-            integralSum = integralSum + (error * pidTimer.time());
-
-            if(integralSum > 2000){
-                integralSum = 2000;
-            }
-            if(integralSum < -2000){
-                integralSum = -2000;
-            }
-
-            out = (kP * error) + (kI * integralSum) + (kD * derivative);
-
-            telemetry.addData("target: ", "%.2f", target);
-            telemetry.addData("current: ", "%.2f", currAng);
-            telemetry.addData("out: ", "%.2f", out);
-            telemetry.update();
-
-            robot.frontLeftMotor.setPower(pwr + out);
-            robot.frontRightMotor.setPower(pwr + out);
-            robot.backLeftMotor.setPower(pwr + out);
-            robot.backRightMotor.setPower(pwr + out);
-
-            lastError = error;
-
-            if (cutTimer.milliseconds() > 2000){
-                break;
-            }
-        }
-        stopDriving();
-        telemetry.addData("target: ", "%.2f", target);
-        telemetry.addData("current: ", "%.2f", currAng);
-        telemetry.update();
-    }
-
-
 
 
 }
