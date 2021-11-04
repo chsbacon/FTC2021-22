@@ -80,7 +80,7 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow;
 
-        //start Orientation will always be 0; this is the heading when initialized
+        //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
         startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         Orientation currentOrientation;
