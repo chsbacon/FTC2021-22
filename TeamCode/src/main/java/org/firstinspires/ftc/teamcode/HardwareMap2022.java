@@ -49,6 +49,8 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
 
+    public DcMotor  carouselMotor = null;
+
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
     public DistanceSensor backDistance = null;
@@ -79,6 +81,8 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
+        carouselMotor = hwMap.get(DcMotor.class, "CM");
+
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
         backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
@@ -89,6 +93,7 @@ public class HardwareMap2022
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        carouselMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -96,6 +101,7 @@ public class HardwareMap2022
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -255,6 +261,18 @@ public class HardwareMap2022
 
         }
         stopDriving();
+    }
+
+
+    public void spinCarouselMotor(){
+
+     ElapsedTime carouselTime  = new ElapsedTime();
+
+     carouselMotor.setPower(.75);
+     while (carouselTime.milliseconds()<2500){
+
+        }
+     carouselMotor.setPower(0);
     }
 
 }

@@ -56,7 +56,6 @@ public class Auto2022 extends LinearOpMode {
 
 
 
-
     }
 
 
