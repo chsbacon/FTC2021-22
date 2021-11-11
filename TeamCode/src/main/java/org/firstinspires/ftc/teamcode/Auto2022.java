@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.HardwareMap2022;
 
 
 
-@Autonomous(name="Pushbot: Auto Drive By Encoder", group="Pushbot")
+@Autonomous(name="Auto22", group="Opmode")
 //@Disabled
 public class Auto2022 extends LinearOpMode {
 
