@@ -29,6 +29,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -47,6 +48,11 @@ public class HardwareMap2022
     public DcMotor  frontRightMotor = null;
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
+
+    public DistanceSensor frontDistance = null;
+    public DistanceSensor rightDistance = null;
+    public DistanceSensor backDistance = null;
+    public DistanceSensor leftDistance = null;
 
     public BNO055IMU imu;
 
@@ -72,6 +78,11 @@ public class HardwareMap2022
         frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //P1
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
+
+        frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
+        rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
+        backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
+        leftDistance = hwMap.get(DistanceSensor.class,"LDS"); //H1P3
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);

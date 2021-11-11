@@ -135,13 +135,19 @@ public class TeleOp2022 extends LinearOpMode {
 
 
             //telemtry for motors
-            telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
-            telemetry.addData("front right", "%.2f", frontRight/fastSlow);
-            telemetry.addData("back left", "%.2f", backLeft/fastSlow);
-            telemetry.addData("back right", "%.2f", backRight/fastSlow);
+            //telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
+            //telemetry.addData("front right", "%.2f", frontRight/fastSlow);
+            //telemetry.addData("back left", "%.2f", backLeft/fastSlow);
+            //telemetry.addData("back right", "%.2f", backRight/fastSlow);
             //telemetry for IMU
-            telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
-            telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
+            //telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
+            //telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
+            //telemtry for Distance Sensors
+            telemetry.addData("Front Sensor", String.format("%.01f mm", robot.frontDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Right Sensor", String.format("%.01f mm", robot.rightDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Back Sensor", String.format("%.01f mm", robot.backDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Left Sensor", String.format("%.01f mm", robot.leftDistance.getDistance(DistanceUnit.MM)));
+
 
             telemetry.update();
 
