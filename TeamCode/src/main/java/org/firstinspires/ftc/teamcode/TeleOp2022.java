@@ -114,7 +114,12 @@ public class TeleOp2022 extends LinearOpMode {
             if(gamepad1.x){
                 //to grab heading from robot
                 //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
-                robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+                robot.driveStraightForwardTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+            }
+
+            if(gamepad1.b){
+                robot.driveStraightBackwardTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+
             }
 
 

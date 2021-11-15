@@ -192,7 +192,7 @@ public class HardwareMap2022
         //telemetry.update();
     }
 
-    public void driveStraightTime(double pwr, Orientation target, double desiredTime){
+    public void driveStraightForwardTime(double pwr, Orientation target, double desiredTime){
 
         //orients
         Orientation targetOrient;
@@ -262,6 +262,78 @@ public class HardwareMap2022
         }
         stopDriving();
     }
+
+    public void driveStraightBackwardTime(double pwr, Orientation target, double desiredTime){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+        double lastTime = runtime.milliseconds();
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        while(((runtime.milliseconds() < lastTime + desiredTime) /*&& (opModeIsActive())*/)){
+
+
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (-error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(-frontLeft);
+            backLeftMotor.setPower(-backLeft);
+            backRightMotor.setPower(-backRight);
+            frontRightMotor.setPower(-frontRight);
+
+
+
+        }
+        stopDriving();
+    }
+
 
 
     public void spinCarouselMotor(){

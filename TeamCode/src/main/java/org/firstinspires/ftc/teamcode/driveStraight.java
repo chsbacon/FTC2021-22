@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.concurrent.TimeUnit;
@@ -35,7 +36,7 @@ public class driveStraight extends LinearOpMode {
         while(opModeIsActive()){
 
             if(gamepad1.a){
-                driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 5000);
+                driveStraightForwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 100);
             }
 
 
@@ -44,14 +45,13 @@ public class driveStraight extends LinearOpMode {
     }
 
 
-    void driveStraightTime(double pwr, Orientation target, double desiredTime){
+    void driveStraightForwardDistance(double pwr, Orientation target, double desiredDistanceCM){
 
         //orients
         Orientation targetOrient;
         Orientation currOrient;
 
 
-        double lastTime = runtime.milliseconds();
 
         //converts the target heading to a double to use in error calculation
         targetOrient = target;
@@ -61,7 +61,7 @@ public class driveStraight extends LinearOpMode {
         //double rChanger = 10;
         double frontLeft, frontRight, backLeft, backRight, max;
 
-        while(((runtime.milliseconds() < lastTime + desiredTime) && (opModeIsActive()))){
+        while(((robot.frontDistance.getDistance(DistanceUnit.CM) > desiredDistanceCM) && (opModeIsActive()))){
 
 
 
