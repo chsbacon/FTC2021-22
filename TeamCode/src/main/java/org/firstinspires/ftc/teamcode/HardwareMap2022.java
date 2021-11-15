@@ -289,8 +289,8 @@ public class HardwareMap2022
 
             double error = targAng - currAng;
 
-
-            double r = (-error / 180) / (pwr);
+            //drive straight's is :::: double r = (-error / 180) / (pwr);
+            double r = (error / 180) / (pwr);
             //r = 0;
 
             // Normalize the values so none exceeds +/- 1.0
