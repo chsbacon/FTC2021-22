@@ -91,15 +91,20 @@ public class TeleOp2022 extends LinearOpMode {
 
 
         // Wait for the game to start (driver presses PLAY)
+
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            // to grab heading from robot
+            //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             //fast slow
+
+
             if(gamepad1.a){
                 fastSlow = 2;
             }
@@ -107,22 +112,17 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
-
-
-            if(gamepad1.y){
-                robot.rotateToHeading(0,-135);
-            }
-
-            if(gamepad1.x){
-                //to grab heading from robot
-                //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
-                robot.driveStraightForwardTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
-            }
-
+            //Auto 1 215 and 600
             if(gamepad1.b){
-                robot.driveStraightBackwardTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
-
+                robot.driveBackwardUseBackDistance(.25,startOrientation,300);
+                robot.strafeRight(.5,startOrientation,2000);
+                robot.rotateToHeading(0,90);
+                robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),3000);
+                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
+                robot.spinCarouselMotor();
             }
+
+
 
 
             y = gamepad1.left_stick_y;

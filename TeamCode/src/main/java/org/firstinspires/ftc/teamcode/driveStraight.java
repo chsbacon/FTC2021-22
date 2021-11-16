@@ -36,7 +36,7 @@ public class driveStraight extends LinearOpMode {
         while(opModeIsActive()){
 
             if(gamepad1.a){
-                driveStraightForwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 100);
+                driveStraightForwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 10);
             }
 
 
@@ -100,6 +100,8 @@ public class driveStraight extends LinearOpMode {
 
             telemetry.addData("current heading", currAng);
             telemetry.addData("target heading", targAng);
+            telemetry.addData("desired Distance", desiredDistanceCM);
+            telemetry.addData("current Distance", robot.frontDistance.getDistance(DistanceUnit.CM));
 
             telemetry.update();
 
