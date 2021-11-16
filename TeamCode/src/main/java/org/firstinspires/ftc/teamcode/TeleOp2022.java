@@ -112,13 +112,13 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
-            //Auto 1 215 and 600
+            //auto test
             if(gamepad1.b){
-                robot.driveBackwardUseBackDistance(.25,startOrientation,300);
-                robot.strafeRight(.5,startOrientation,2000);
-                robot.rotateToHeading(0,90);
+                robot.driveBackwardUseBackDistance(.25,startOrientation,500);
+                robot.strafeRight(.5,startOrientation,1000);
+                robot.rotateToHeading(0,-90);
                 robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),3000);
-                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
+                robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
                 robot.spinCarouselMotor();
             }
 
