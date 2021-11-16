@@ -115,11 +115,19 @@ public class TeleOp2022 extends LinearOpMode {
             //auto test
             if(gamepad1.b){
                 robot.driveBackwardUseBackDistance(.25,startOrientation,500);
-                robot.strafeRight(.5,startOrientation,1000);
+                robot.strafeRight(.5,startOrientation,1500);
                 robot.rotateToHeading(0,-90);
-                robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),3000);
+                robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1500);
                 robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
                 robot.spinCarouselMotor();
+                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),800);
+                robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 750 );
+                robot.rotateToHeading(0,0);
+                robot.driveForwardUseTime(.25,startOrientation,4000);
+                robot.driveForwardUseTime(.7,startOrientation,3000);
+
+
+
             }
 
 
@@ -148,7 +156,7 @@ public class TeleOp2022 extends LinearOpMode {
             //telemetry.addData("back right", "%.2f", backRight/fastSlow);
             //telemetry for IMU
             //telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
-            //telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
+            telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
             //telemtry for Distance Sensors
             telemetry.addData("Front Sensor", String.format("%.01f mm", robot.frontDistance.getDistance(DistanceUnit.MM)));
             telemetry.addData("Right Sensor", String.format("%.01f mm", robot.rightDistance.getDistance(DistanceUnit.MM)));
