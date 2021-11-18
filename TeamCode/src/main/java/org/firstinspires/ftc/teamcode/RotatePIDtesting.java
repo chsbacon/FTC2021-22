@@ -149,6 +149,8 @@ public class RotatePIDtesting extends LinearOpMode {
             //robot.backLeftMotor.setPower(pwr);
             //robot.backRightMotor.setPower(pwr);
 
+            out = out * .9;
+
             robot.frontLeftMotor.setPower(pwr + out);
             robot.frontRightMotor.setPower(pwr + out);
             robot.backLeftMotor.setPower(pwr + out);
