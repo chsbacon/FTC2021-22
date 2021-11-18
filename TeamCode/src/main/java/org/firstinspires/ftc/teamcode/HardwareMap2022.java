@@ -29,6 +29,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -37,6 +38,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
@@ -47,6 +49,13 @@ public class HardwareMap2022
     public DcMotor  frontRightMotor = null;
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
+
+    public DcMotor  carouselMotor = null;
+
+    public DistanceSensor frontDistance = null;
+    public DistanceSensor rightDistance = null;
+    public DistanceSensor backDistance = null;
+    public DistanceSensor leftDistance = null;
 
     public BNO055IMU imu;
 
@@ -73,11 +82,19 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
+        carouselMotor = hwMap.get(DcMotor.class, "CM");
+
+        frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
+        rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
+        backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
+        leftDistance = hwMap.get(DistanceSensor.class,"LDS"); //H1P3
+
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        carouselMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -85,6 +102,7 @@ public class HardwareMap2022
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -175,7 +193,7 @@ public class HardwareMap2022
         //telemetry.update();
     }
 
-    public void driveStraightTime(double pwr, Orientation target, double desiredTime){
+    public void driveForwardUseTime(double pwr, Orientation target, double desiredTime){
 
         //orients
         Orientation targetOrient;
@@ -244,6 +262,546 @@ public class HardwareMap2022
 
         }
         stopDriving();
+    }
+
+    public void driveBackwardUseTime(double pwr, Orientation target, double desiredTime){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+        double lastTime = runtime.milliseconds();
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        while(((runtime.milliseconds() < lastTime + desiredTime) /*&& (opModeIsActive())*/)){
+
+
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+            //drive straight's is :::: double r = (-error / 180) / (pwr);
+            double r = (error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(-frontLeft);
+            backLeftMotor.setPower(-backLeft);
+            backRightMotor.setPower(-backRight);
+            frontRightMotor.setPower(-frontRight);
+
+
+
+        }
+        stopDriving();
+    }
+
+    public void driveForwardUseFrontDistance(double pwr, Orientation target, double desiredDistanceMM){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        while(((frontDistance.getDistance(DistanceUnit.MM) > desiredDistanceMM))){
+
+
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (-error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+            //telemetry.addData("desired Distance", desiredDistanceCM);
+            //telemetry.addData("current Distance", frontDistance.getDistance(DistanceUnit.CM));
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(frontLeft);
+            backLeftMotor.setPower(backLeft);
+            backRightMotor.setPower(backRight);
+            frontRightMotor.setPower(frontRight);
+        }
+        stopDriving();
+    }
+
+    public void driveForwardUseBackwardDistance(double pwr, Orientation target, double desiredDistanceMM){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        while(((backDistance.getDistance(DistanceUnit.MM) < desiredDistanceMM))){
+
+
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (-error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+            //telemetry.addData("desired Distance", desiredDistanceCM);
+            //telemetry.addData("current Distance", frontDistance.getDistance(DistanceUnit.CM));
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(frontLeft);
+            backLeftMotor.setPower(backLeft);
+            backRightMotor.setPower(backRight);
+            frontRightMotor.setPower(frontRight);
+        }
+        stopDriving();
+    }
+
+    public void driveBackwardUseFrontDistance(double pwr, Orientation target, double desiredDistanceMM){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        while(((frontDistance.getDistance(DistanceUnit.MM) < desiredDistanceMM))){
+
+
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+            //telemetry.addData("desired Distance", desiredDistanceCM);
+            //telemetry.addData("current Distance", frontDistance.getDistance(DistanceUnit.CM));
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(-frontLeft);
+            backLeftMotor.setPower(-backLeft);
+            backRightMotor.setPower(-backRight);
+            frontRightMotor.setPower(-frontRight);
+        }
+        stopDriving();
+    }
+
+    public void driveBackwardUseBackDistance(double pwr, Orientation target, double desiredDistanceMM){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        while(((backDistance.getDistance(DistanceUnit.MM) > desiredDistanceMM))){
+
+
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+            //telemetry.addData("desired Distance", desiredDistanceCM);
+            //telemetry.addData("current Distance", frontDistance.getDistance(DistanceUnit.CM));
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(-frontLeft);
+            backLeftMotor.setPower(-backLeft);
+            backRightMotor.setPower(-backRight);
+            frontRightMotor.setPower(-frontRight);
+        }
+        stopDriving();
+    }
+
+    void strafeLeft(double pwr, Orientation target, double desiredTime) {
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+
+        //rChanger changes the sensitivity of the R value
+        double rChanger = 5;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        double lastTime = runtime.milliseconds();
+
+        while((((runtime.milliseconds() < lastTime + desiredTime)))){
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+            double error = targAng - currAng;
+
+            double r = (-error / 180) / (pwr) ;
+
+            //double r = (-error / 180) / (pwr) ;
+            //double r = (-error / 180)  / (rChanger * pwr);
+            //double r = (-error/180);
+            //r = 0;
+            //r=-r;
+
+
+            if (error > 0){
+                r = r;
+            }
+            if (error < 0){
+                r = -r;
+            }
+
+
+
+            if ((r > .07) && (r > 0)) {
+                r = .07;
+            } else if ((r < -.07) && (r < 0)) {
+                r = -.07;
+            }
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = -pwr + r ;
+            backRight = -pwr + r ;
+            frontRight = pwr + r ;
+
+            //original
+            // +    +
+            // -    +
+            // -    +
+            // +    +
+            //strafe right
+            // -    +
+            // +    +
+            // +    +
+            // -    +
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+            //telemetry.addData("error", error);
+            //telemetry.addData("currOrient", currOrient);
+            //telemetry.addData("r",r);
+            //telemetry.addData("targetOrient", targetOrient);
+
+            //telemetry.update();
+            //send the power to the motors
+            frontLeftMotor.setPower(frontLeft);
+            backLeftMotor.setPower(backLeft);
+            backRightMotor.setPower(backRight);
+            frontRightMotor.setPower(frontRight);
+        }
+        stopDriving();
+    }
+
+    void strafeRight(double pwr, Orientation target, double desiredTime) {
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+
+        //rChanger changes the sensitivity of the R value
+        double rChanger = 5;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        double lastTime = runtime.milliseconds();
+
+        while((((runtime.milliseconds() < lastTime + desiredTime)))){
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+            double error = targAng - currAng;
+
+            double r = (-error / 180) / (pwr) ;
+
+            //double r = (-error / 180) / (pwr) ;
+            //double r = (-error / 180)  / (rChanger * pwr);
+            //double r = (-error/180);
+            //r = 0;
+            //r=-r;
+
+
+            if (error > 0){
+                r = r;
+            }
+            if (error < 0){
+                r = -r;
+            }
+
+
+
+            if ((r > .07) && (r > 0)) {
+                r = .07;
+            } else if ((r < -.07) && (r < 0)) {
+                r = -.07;
+            }
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = -pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr + r ;
+            frontRight = -pwr + r ;
+
+            //original (strafe left)
+            // +    +
+            // -    +
+            // -    +
+            // +    +
+            //strafe right
+            // -    +
+            // +    +
+            // +    +
+            // -    +
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+            //telemetry.addData("error", error);
+            //telemetry.addData("currOrient", currOrient);
+            //telemetry.addData("r",r);
+            //telemetry.addData("targetOrient", targetOrient);
+
+            //telemetry.update();
+            //send the power to the motors
+            frontLeftMotor.setPower(frontLeft);
+            backLeftMotor.setPower(backLeft);
+            backRightMotor.setPower(backRight);
+            frontRightMotor.setPower(frontRight);
+        }
+        stopDriving();
+    }
+
+    public void spinCarouselMotor(){
+
+        ElapsedTime carouselTime  = new ElapsedTime();
+
+        carouselMotor.setPower(.75);
+        while (carouselTime.milliseconds()<2500){
+
+        }
+        carouselMotor.setPower(0);
     }
 
 }
