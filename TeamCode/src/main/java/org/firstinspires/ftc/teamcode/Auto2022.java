@@ -28,7 +28,7 @@ package org.firstinspires.ftc.teamcode;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -56,9 +56,12 @@ public class Auto2022 extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        //double var = 10;
 
 
+        waitForStart();
 
+        //Log.d("variale: ", Double.toString(var));
 
 
     }

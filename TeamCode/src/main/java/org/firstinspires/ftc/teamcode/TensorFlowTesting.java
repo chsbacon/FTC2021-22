@@ -127,25 +127,29 @@ public class TensorFlowTesting extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
+
+        float leftPixel = 0;
         waitForStart();
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                System.out.println(getDuckLocation());
+                leftPixel = getDuckLocation();
+                telemetry.addData("LP: ", leftPixel);
+                telemetry.update();
 
             }
         }
     }
-    java.util.Hashtable getDuckLocation() {
+
+    private float getDuckLocation() {
         List<Float> list = null;
-        java.util.Hashtable<String, Float> cameraVals = new java.util.Hashtable<String, Float>();
+        float leftPixel = 0;
+        String ballString = "Ball";
 
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-
-
 
             if (updatedRecognitions != null) {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
@@ -153,22 +157,27 @@ public class TensorFlowTesting extends LinearOpMode {
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
                 for (Recognition recognition : updatedRecognitions) {
-                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                            recognition.getLeft(), recognition.getTop());
-                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                            recognition.getRight(), recognition.getBottom());
-                    cameraVals.put(recognition.getLabel(), recognition.getLeft());
+                   // telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    //telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                         //   recognition.getLeft(), recognition.getTop());
+                    //telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                           // recognition.getRight(), recognition.getBottom());
+
+                    //telemetry.addData("test",recognition.getLabel());
+
+                    if (recognition.getLabel().equals(ballString));{
+                        leftPixel = recognition.getLeft();
+
+                    }
 
                     i++;
 
                 }
                 telemetry.update();
 
-
             }
         }
-        return cameraVals;
+        return leftPixel;
     }
 
 

@@ -112,6 +112,8 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
+
+
             //auto test
             if(gamepad1.b){
                 //distance from wall to shipping hub is 550
