@@ -20,5 +20,5 @@ Elisabeth
 ## Abby
 
 My branch has:
-- Updated [teleop code](https://github.com/chsbacon/FTC2021-22/blob/Abby/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Teleop22.java) with gamepad control map and the start of linear slide functions
-- Updated [hardware map](https://github.com/chsbacon/FTC2021-22/blob/Abby/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/HardwareMap2022.java) with new strafe based on distance functions, linear slide motors, and start of linear slide functions
+- Updated (11/27/21) [teleop code](https://github.com/chsbacon/FTC2021-22/blob/Abby/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Teleop22.java) with gamepad control map and the start of linear slide functions
+- Updated (11/27/21) [hardware map](https://github.com/chsbacon/FTC2021-22/blob/Abby/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/HardwareMap2022.java) with new strafe based on distance functions, linear slide motors, and start of linear slide functions
