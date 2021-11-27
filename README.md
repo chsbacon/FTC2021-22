@@ -10,3 +10,10 @@ Elisabeth
 - Autonomous code (outline)
 - Teleop code with gamepad control map
 
+🗒 To Do List:
+- [x] Create distance-based strafing functions in the hardware map
+- [x] Plan out sequenced routes for each side/color 
+- [ ] Figure out exact maneuvering situation (when to turn, whether to drive forward or strafe, etc)
+- [ ] Integrate Vuforia code into auto
+- [ ] TEST!!!
+
