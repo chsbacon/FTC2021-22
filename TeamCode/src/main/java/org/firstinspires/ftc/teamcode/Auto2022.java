@@ -40,11 +40,37 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.HardwareMap2022;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 @Autonomous(name="Auto22", group="Opmode")
 //@Disabled
 public class Auto2022 extends LinearOpMode {
+
+    float leftPixelDuck = 0;
+
+
+    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String[] LABELS = {
+            "Ball",
+            "Cube",
+            "Duck",
+            "Marker"
+    };
+    private static final String VUFORIA_KEY =
+            "AUOQWxb/////AAABmRP6L/V1T0Bclh/MquexUq8kKPD3h3N5sSIPraEvHInc1KyTB1KSLqkDd0mdJZibl8t7LsWmHogI6fR7p44UvkxD6uBvANg8xebRLgWIHaPvqxf3IqT8IG2VkljyPD/Unlfi357W5qXls0rtkFem3yX5kROTZEfRbmf5ZwtC3KSu6hBzriQwM7zk0zptP/MWtO6B/SZz6OWwLCR6O4I6TkKC7kQS3b1VGNonWq4fFL5jMcVPypqZKohDySdG4URcz0NqxpeEcC9P/c/VL67JKBcFaNBtix+7N/yccggWv8tUKuofNLIS1mUEv5kTzw9n4ps6ApmE2PziqmOjzpNL0MgF+V3KhRddiJjx51nFKEdX";
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
+
+
 
     /* Declare OpMode members. */
     HardwareMap2022 robot = new HardwareMap2022();
@@ -56,16 +82,108 @@ public class Auto2022 extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        //double var = 10;
 
+
+        initVuforia();
+        initTfod();
+        if (tfod != null) {
+            tfod.activate();
+            tfod.setZoom(2.5, 16.0 / 9.0);
+
+        }
+
+
+        while(!isStarted()){
+            leftPixelDuck = getDuckLocation();
+            telemetry.addData("LP: ", leftPixelDuck);
+            telemetry.update();
+
+        }
 
         waitForStart();
 
-        //Log.d("variale: ", Double.toString(var));
+        telemetry.addData("LP Final: ", leftPixelDuck);
+        telemetry.update();
+
+
+
+
+
+
+
+
 
 
     }
 
+
+
+    private void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        //parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        //parameters.cameraDirection = CameraDirection.BACK;
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    }
+
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minResultConfidence = 0.8f;
+        tfodParameters.isModelTensorFlow2 = true;
+        tfodParameters.inputSize = 320;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+    }
+
+    public float getDuckLocation() {
+
+               if (tfod != null) {
+                   // getUpdatedRecognitions() will return null if no new information is available since
+                   // the last time that call was made.
+                   List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                   if (updatedRecognitions != null) {
+                       telemetry.addData("# Object Detected", updatedRecognitions.size());
+                       // step through the list of recognitions and display boundary info.
+                       int i = 0;
+                       for (Recognition recognition : updatedRecognitions) {
+                           telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                           telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                   recognition.getLeft(), recognition.getTop());
+                           telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                   recognition.getRight(), recognition.getBottom());
+                           i++;
+
+                           if (recognition.getLabel().equalsIgnoreCase("Ball")){
+
+                               //telemetry.addData("LP", recognition.getLeft());
+
+                               //float leftpixel;
+                               //leftpixel = recognition.getLeft();
+                               //telemetry.addData("LP",leftpixel);
+
+
+                               leftPixelDuck = recognition.getLeft();
+                               return leftPixelDuck;
+                           }
+                       }
+                       telemetry.update();
+                   }
+
+       }
+        return leftPixelDuck;
+    }
 
 
 }
