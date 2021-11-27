@@ -1,0 +1,8 @@
+org/firstinspires/ftc/teamcode/HardwareMap2022.java
+ org.firstinspires.ftc.teamcode.HardwareMap2022
+org/firstinspires/ftc/teamcode/BACONConceptRampMotorSpeed.java
+ org.firstinspires.ftc.teamcode.BACONConceptRampMotorSpeed
+org/firstinspires/ftc/teamcode/BuildConfig.java
+ org.firstinspires.ftc.teamcode.BuildConfig
+org/firstinspires/ftc/teamcode/TeleOp2022.java
+ org.firstinspires.ftc.teamcode.TeleOp2022

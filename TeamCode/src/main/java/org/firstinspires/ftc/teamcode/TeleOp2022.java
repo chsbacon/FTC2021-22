@@ -58,7 +58,7 @@ import java.util.Locale;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-//Graham Branch
+//Grant Branch
 @TeleOp(name="TeleOp 2022", group="Linear Opmode")
 //@Disabled
 public class TeleOp2022 extends LinearOpMode {
@@ -96,26 +96,27 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            /*
-            FUNCTION EXAMPLES
+           /*
+           FUNCTION EXAMPLES
 
-            // to drive straight for a set time at a set speed
-            robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
-                    //to grab current heading from robot (straight
-                    //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+           // to drive straight for a set time at a set speed
+           robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+                   //to grab current heading from robot (straight
+                   //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
 
-            // to rotate to a certain heading
-                (set pwr to 0)
-            robot.rotateToHeading(0,-135);
+           // to rotate to a certain heading
+               (set pwr to 0)
+           robot.rotateToHeading(0,-135);
 
 
-             */
+            */
 
 
 
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+            //GAMEPAD 1 Capabilities
             //fast slow toggle
             if(gamepad1.a){
                 fastSlow = 2;
@@ -124,15 +125,11 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
-
-
-
-            if(gamepad1.y){
-
+            if(gamepad1.dpad_left){
+                //rotate 90 deg left
             }
-
-            if(gamepad1.x){
-
+            if(gamepad1.dpad_right){
+                //rotate 90 deg right
             }
 
             //driving controls
@@ -163,11 +160,30 @@ public class TeleOp2022 extends LinearOpMode {
 
             telemetry.update();
 
+            //GAMEPAD 2 Capabilities
+            if(gamepad2.y){
+                //carousel motor
+                robot.spinCarouselMotor();
+            }
+            if(gamepad2.a){
+                //dump cargo
+            }
+            if(gamepad2.left_bumper){
+                //linear slide down
+            }
+            if(gamepad2.right_bumper){
+                //linear slide up
+            }
+            if(gamepad2.dpad_down){
+                //linear slide in
+            }
+            if(gamepad2.dpad_up){
+                //linear slide out
+            }
+
+            //TODO: Figure out how encoders work so that we can the encoders for the linear slides (vertical and horizontal) to trigger the placement and intake systems, respectively
         }
     }
-
-
-
 
 
 
@@ -186,3 +202,4 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 }
+

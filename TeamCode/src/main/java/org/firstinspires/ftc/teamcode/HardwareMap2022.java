@@ -49,6 +49,8 @@ public class HardwareMap2022
     public DcMotor  frontRightMotor = null;
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
+    public DcMotor  linearUp = null;
+    public DcMotor  linearOut = null;
 
     public DcMotor  carouselMotor = null;
 
@@ -103,6 +105,12 @@ public class HardwareMap2022
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        linearOut.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearOut.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -803,6 +811,8 @@ public class HardwareMap2022
         }
         carouselMotor.setPower(0);
     }
+
+
 
 }
 
