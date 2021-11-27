@@ -77,30 +77,26 @@ public class BACONmechAuto extends LinearOpMode {
         while (!gamepad1.x && !gamepad1.b) {
         }
 
-
-
         telemetry.addData("teamcolor ", teamcolor);
         telemetry.update();
 
-        // Choosing task
-        telemetry.addData("Press A for drop&park, Y for fullRun", "");
+        // Choosing side
+        telemetry.addData("Press A for warehouse, Y for carousel", "");
         telemetry.update();
+
         while (!gamepad1.a && !gamepad1.y) {
         }
         if (gamepad1.a) {
-            task = dropPark;
+            side = warehouse;
         }
         if (gamepad1.y) {
-            task = fullRun ;
+            side = carousel;
         }
-        telemetry.addData("task ", task);
+        telemetry.addData("side ", side);
         telemetry.update();
 
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) robot.backDistance;
 
-        //Wobble grabber position
-        robot.wobbleServo.setPosition(grabPos);
-        //robot.wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
         runtime.reset();
@@ -113,41 +109,49 @@ public class BACONmechAuto extends LinearOpMode {
 
         // run until the end of the match (when driver presses STOP)
 
-        if (teamcolor==red && side==warehouse){
+        if (teamcolor == red && side == warehouse) {
 
         }
-        if (teamcolor==red && side==carousel){
+        if (teamcolor == red && side == carousel) {
 
         }
-        if (teamcolor==blue && side==warehouse){
+        if (teamcolor == blue && side == warehouse) {
 
         }
-        if (teamcolor==blue && side==carousel){
+        if (teamcolor == blue && side == carousel) {
             //sense
-            robot.strafeRightUsingRightDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES),500);
-            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES),200);
+            robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
             robot.spinCarouselMotor();
-            robot.strafeLeftUsingRightDistance(0.25,);
+            robot.strafeLeftUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 225);
+            robot.rotateToHeading(0.25, -90);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
+            robot.rotateToHeading(0.25, 0);
+            //drop item
+            robot.rotateToHeading(0.25, -90);
+            robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 550);
+            //park
 
         }
 
 
 
 
-        public void verticalSlide (duckPlace){
-        if duckPlace == {
+        /*public void verticalSlide (duckPlace){
+            if duckPlace == {
                 linearUp.setPower(-1);
             while ((linearUp.getCurrentPosition() > -1500) && opModeIsActive()) {
                 telemetry.addData("verticalSlide pos: ", linearUp.getCurrentPosition());
                 telemetry.update();
-        }
-        linearUp.setPower(0.0);
-        }
-        if duckPlace == {
+            }
+            linearUp.setPower(0.0);
+            }
+            if duckPlace == {
 
-        }
-        if duckPlace == {
+            }
+            if duckPlace == {
 
-        }
+            } */
     }
+}
 
