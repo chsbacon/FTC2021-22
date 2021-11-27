@@ -48,11 +48,10 @@ public class BACONmechAuto extends LinearOpMode {
         int blue = 1;
         int red = 2;
 
-        int task = 0; //1 = drop&park  2 = fullRun
-        int dropPark = 1;
-        int fullRun = 2;
 
         int side = 0; // 1 = left side start 2 = right side start
+        int warehouse = 1;
+        int carousel = 2;
 
         double meetDistance = 860; //Distance from wall to the rings (CM From Wall (BackSensor))
 
@@ -114,6 +113,23 @@ public class BACONmechAuto extends LinearOpMode {
 
         // run until the end of the match (when driver presses STOP)
 
+        if (teamcolor==red && side==warehouse){
+
+        }
+        if (teamcolor==red && side==carousel){
+
+        }
+        if (teamcolor==blue && side==warehouse){
+
+        }
+        if (teamcolor==blue && side==carousel){
+            //sense
+            robot.strafeRightUsingRightDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES),500);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES),200);
+            robot.spinCarouselMotor();
+            robot.strafeLeftUsingRightDistance(0.25,);
+
+        }
 
 
 
@@ -121,9 +137,9 @@ public class BACONmechAuto extends LinearOpMode {
         public void verticalSlide (duckPlace){
         if duckPlace == {
                 linearUp.setPower(-1);
-        while ((linearUp.getCurrentPosition() > -1500) && opModeIsActive()) {
-            telemetry.addData("verticalSlide pos: ", linearUp.getCurrentPosition());
-            telemetry.update();
+            while ((linearUp.getCurrentPosition() > -1500) && opModeIsActive()) {
+                telemetry.addData("verticalSlide pos: ", linearUp.getCurrentPosition());
+                telemetry.update();
         }
         linearUp.setPower(0.0);
         }
