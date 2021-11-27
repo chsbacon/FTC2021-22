@@ -88,7 +88,7 @@ public class Auto2022 extends LinearOpMode {
         initTfod();
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(2.5, 16.0 / 9.0);
+            //tfod.setZoom(2, 16.0 / 9.0);
 
         }
 
@@ -140,7 +140,8 @@ public class Auto2022 extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.8f;
+        tfodParameters.minResultConfidence = 0.8f; //original
+        tfodParameters.minResultConfidence = 0.65f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
@@ -165,7 +166,7 @@ public class Auto2022 extends LinearOpMode {
                                    recognition.getRight(), recognition.getBottom());
                            i++;
 
-                           if (recognition.getLabel().equalsIgnoreCase("Ball")){
+                           if (recognition.getLabel().equalsIgnoreCase("Duck")){
 
                                //telemetry.addData("LP", recognition.getLeft());
 
