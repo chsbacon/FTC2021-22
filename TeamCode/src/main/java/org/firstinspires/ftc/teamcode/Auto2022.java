@@ -93,26 +93,14 @@ public class Auto2022 extends LinearOpMode {
 
         }
 
-        /*
-        while(!isStarted()){
-            leftPixelDuck = getDuckLocation();
-            telemetry.addData("LP: ", leftPixelDuck);
-            telemetry.update();
-
-        }
-         */
 
 
         waitForStart();
 
-        /*
-        tfod.shutdown(); //turn off vuforia camera
-        telemetry.addData("LP Final: ", leftPixelDuck);
-        telemetry.update();
-        sleep(5000);
-        */
 
 
+        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+        robot.rotateToHeading(.25,15);
         double placeHeight = getPlaceHeight();
         telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
@@ -204,8 +192,6 @@ public class Auto2022 extends LinearOpMode {
 
         double startTime = runtime.milliseconds();
 
-        //robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),120);
-        //robot.rotateToHeading(0,-15);
 
         while (runtime.milliseconds() < startTime + 5000){
             leftPixelDuck = getDuckLocation();

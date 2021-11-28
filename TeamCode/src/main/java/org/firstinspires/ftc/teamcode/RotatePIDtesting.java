@@ -69,7 +69,7 @@ public class RotatePIDtesting extends LinearOpMode {
 
 
             if(gamepad1.a){
-                rotateToHeadingV1(.0, 90, kP, kI, kD);
+                rotateToHeadingV1(.99, 90, kP, kI, kD);
             }
 
             if(gamepad1.b){
@@ -149,7 +149,7 @@ public class RotatePIDtesting extends LinearOpMode {
             //robot.backLeftMotor.setPower(pwr);
             //robot.backRightMotor.setPower(pwr);
 
-            out = out * .9;
+            //out = out * .9;
 
             robot.frontLeftMotor.setPower(pwr + out);
             robot.frontRightMotor.setPower(pwr + out);
