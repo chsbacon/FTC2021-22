@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.HardwareMap2022;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -55,8 +56,8 @@ import java.util.List;
 //@Disabled
 public class Auto2022 extends LinearOpMode {
 
-    float leftPixelDuck = 0;
 
+    float leftPixelDuck = 0;
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -92,19 +93,30 @@ public class Auto2022 extends LinearOpMode {
 
         }
 
-
+        /*
         while(!isStarted()){
             leftPixelDuck = getDuckLocation();
             telemetry.addData("LP: ", leftPixelDuck);
             telemetry.update();
 
         }
+         */
+
 
         waitForStart();
 
+        /*
+        tfod.shutdown(); //turn off vuforia camera
         telemetry.addData("LP Final: ", leftPixelDuck);
         telemetry.update();
+        sleep(5000);
+        */
 
+
+        double placeHeight = getPlaceHeight();
+        telemetry.addData("Place Height: ", placeHeight);
+        telemetry.update();
+        sleep(5000);
 
 
 
@@ -140,8 +152,8 @@ public class Auto2022 extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.8f; //original
-        tfodParameters.minResultConfidence = 0.65f;
+        //tfodParameters.minResultConfidence = 0.8f; //original
+        tfodParameters.minResultConfidence = 0.30f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
@@ -186,5 +198,36 @@ public class Auto2022 extends LinearOpMode {
         return leftPixelDuck;
     }
 
+
+    public float getPlaceHeight(){
+        float placeHeight = 0;
+
+        double startTime = runtime.milliseconds();
+
+        //robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),120);
+        //robot.rotateToHeading(0,-15);
+
+        while (runtime.milliseconds() < startTime + 5000){
+            leftPixelDuck = getDuckLocation();
+        }
+
+        if((leftPixelDuck < 200) && (leftPixelDuck > 0)){
+            placeHeight = 1;
+        }
+
+        if(leftPixelDuck > 300){
+            placeHeight = 2;
+        }
+
+
+        if (leftPixelDuck == 0){
+            placeHeight = 3;
+        }
+
+
+        telemetry.addData("Duck Detected in Place: ", placeHeight);
+        telemetry.update();
+        return placeHeight;
+    }
 
 }
