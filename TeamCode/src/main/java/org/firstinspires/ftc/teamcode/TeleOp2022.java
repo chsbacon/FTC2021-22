@@ -80,6 +80,8 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow;
 
+        int linearSlideTicks = 0;
+
         //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
         startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -115,7 +117,7 @@ public class TeleOp2022 extends LinearOpMode {
 
 
             //auto test
-            if(gamepad1.b){
+            /*if(gamepad1.b){
                 //distance from wall to shipping hub is 550
                 robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),550);
                 //rotate towards shipping hub
@@ -143,13 +145,37 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.driveForwardUseTime(.9,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
 
             }
+            */
 
-
-            if(gamepad1.y){
+            if(gamepad1.left_bumper){
                 sleep(250);
-                moveLinearSlide(103);
+                linearSlideTicks += 5;
+                moveLinearSlide(linearSlideTicks);
             }
 
+            if(gamepad1.right_bumper){
+                sleep(250);
+                linearSlideTicks -= 5;
+                moveLinearSlide(linearSlideTicks);
+            }
+
+            if(gamepad1.y){
+                robot.rightLinearSlideMotor.setPower(0);
+            }
+
+            if(gamepad1.x){
+                sleep(500);
+                robot.rightLinearSlideMotor.setPower(.1);
+                sleep(250);
+                robot.rightLinearSlideMotor.setPower(0);
+            }
+
+            if(gamepad1.b){
+                sleep(500);
+                robot.rightLinearSlideMotor.setPower(-.1);
+                sleep(250);
+                robot.rightLinearSlideMotor.setPower(0);
+            }
 
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
@@ -202,21 +228,21 @@ public class TeleOp2022 extends LinearOpMode {
 
 
     public void moveLinearSlide(int myTicks){
-        robot.leftLinearSlideMotor.setTargetPosition(myTicks);
+        //robot.leftLinearSlideMotor.setTargetPosition(myTicks);
         robot.rightLinearSlideMotor.setTargetPosition(myTicks);
 
-        robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.leftLinearSlideMotor.setPower(0.5);
-        robot.rightLinearSlideMotor.setPower(0.5);
+        //robot.leftLinearSlideMotor.setPower(0.1);
+        robot.rightLinearSlideMotor.setPower(0.1);
 
-        while(robot.leftLinearSlideMotor.isBusy() && robot.rightLinearSlideMotor.isBusy()){
+        while(/*robot.leftLinearSlideMotor.isBusy() && */robot.rightLinearSlideMotor.isBusy()){
         }
-        robot.leftLinearSlideMotor.setPower(0);
+        //robot.leftLinearSlideMotor.setPower(0);
         robot.rightLinearSlideMotor.setPower(0);
 
-        robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 

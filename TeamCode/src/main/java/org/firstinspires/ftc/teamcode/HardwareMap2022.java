@@ -51,7 +51,7 @@ public class HardwareMap2022
     public DcMotor  backRightMotor = null;
 
     public DcMotor  carouselMotor = null;
-    public DcMotor  leftLinearSlideMotor = null;
+    //public DcMotor  leftLinearSlideMotor = null;
     public DcMotor  rightLinearSlideMotor = null;
 
     public DistanceSensor frontDistance = null;
@@ -84,9 +84,9 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
-        carouselMotor = hwMap.get(DcMotor.class, "CM");
+        carouselMotor = hwMap.get(DcMotor.class, "CM"); //H2P0
 
-        leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM");
+        //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM");
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
@@ -100,7 +100,7 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         carouselMotor.setPower(0);
-        leftLinearSlideMotor.setPower(0);
+        //leftLinearSlideMotor.setPower(0);
         rightLinearSlideMotor.setPower(0);
 
 
@@ -113,7 +113,7 @@ public class HardwareMap2022
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
