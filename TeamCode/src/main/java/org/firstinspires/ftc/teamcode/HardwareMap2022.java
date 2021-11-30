@@ -28,6 +28,7 @@
  */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -50,11 +51,14 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
 
-
     //public DcMotor  leftLinearSlideMotor = null;
     public DcMotor  rightLinearSlideMotor = null;
 
     public DcMotor  liftMotor = null;
+
+
+    public CRServo carouselServo = null;
+
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -86,12 +90,15 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
-
         liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
-
 
         //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
+
+
+        carouselServo = hwMap.get(CRServo.class,"CS"); //H2P1
+
+
 
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
@@ -108,6 +115,9 @@ public class HardwareMap2022
         //leftLinearSlideMotor.setPower(0);
         rightLinearSlideMotor.setPower(0);
         liftMotor.setPower(0);
+
+
+        carouselServo.setPower(0); //not sure if this is stationary
 
 
 

@@ -7,6 +7,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -23,6 +24,7 @@ import java.util.Locale;
 //double check and make sure this is commented out, if it is uncommented, you're gonna have some trouble
 //@Disabled
 
+@Disabled
 // this is where most of the code will go
 //the class name, in this case, ExampleTeleOp, should match the file name just with out the .java on the end
 // Extends LinearOpMode means the code will execute chronologically
