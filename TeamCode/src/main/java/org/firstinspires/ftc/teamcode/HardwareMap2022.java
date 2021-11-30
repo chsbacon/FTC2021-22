@@ -54,6 +54,8 @@ public class HardwareMap2022
     //public DcMotor  leftLinearSlideMotor = null;
     public DcMotor  rightLinearSlideMotor = null;
 
+    //public DcMotor  liftMotor = null;
+
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
     public DistanceSensor backDistance = null;
@@ -88,6 +90,7 @@ public class HardwareMap2022
 
         //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM");
+        //liftMotor = hwMap.get(DcMotor.class,"LiftM");
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -102,6 +105,7 @@ public class HardwareMap2022
         carouselMotor.setPower(0);
         //leftLinearSlideMotor.setPower(0);
         rightLinearSlideMotor.setPower(0);
+        //liftMotor.setPower(0);
 
 
 
@@ -115,6 +119,7 @@ public class HardwareMap2022
 
         //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 

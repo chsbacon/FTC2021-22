@@ -27,9 +27,9 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
     public void runOpMode(){
 
         robot.init(hardwareMap);
+
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //robot.rightLinearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
@@ -79,6 +79,7 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
 
     public void moveLinearSlide(int myTicks, double positivePWR){
         robot.rightLinearSlideMotor.setTargetPosition(myTicks);
+
 
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
