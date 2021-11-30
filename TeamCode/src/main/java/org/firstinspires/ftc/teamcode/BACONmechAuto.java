@@ -110,10 +110,22 @@ public class BACONmechAuto extends LinearOpMode {
         // run until the end of the match (when driver presses STOP)
 
         if (teamcolor == red && side == warehouse) {
+            robot.sensingSetup(); //sensingSetup drives forward 60mm and then rotates 15deg to be in place to sense for the duck
             //sense (includes driving forward a little)
-
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 300);
+            robot.rotateToHeading(0.25,0);
+            //drop item (including half back)
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            robot.rotateToHeading(0.25,0);
+            robot.spinCarouselMotor();
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            //park
         }
         if (teamcolor == red && side == carousel) {
+            robot.sensingSetup();
             //sense (includes driving forward a little)
             robot.strafeLeftUsingLeftDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
             robot.spinCarouselMotor();
@@ -127,6 +139,7 @@ public class BACONmechAuto extends LinearOpMode {
 
         }
         if (teamcolor == blue && side == warehouse) {
+            robot.sensingSetup();
             //sense (includes driving forward a little)
             robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
             robot.rotateToHeading(0.25,-90);
@@ -142,6 +155,7 @@ public class BACONmechAuto extends LinearOpMode {
             //park
         }
         if (teamcolor == blue && side == carousel) {
+            robot.sensingSetup();
             //sense (includes driving forward a litle)
             robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
