@@ -43,12 +43,14 @@ public class LiftMotorEncoderTesting extends LinearOpMode {
         while(opModeIsActive()){
 
 
-           if(gamepad1.b){   // increment down
+           if(gamepad1.b){
+               // increment LiftMotor DOWN
                liftMotorTicks += 500;
                moveLiftMotor(liftMotorTicks, .5);
            }
 
-           if(gamepad1.x){   // increment up
+           if(gamepad1.x){
+               // increment LiftMoter UP
                liftMotorTicks -= 500;
                moveLiftMotor(liftMotorTicks,.5);
            }
@@ -56,11 +58,13 @@ public class LiftMotorEncoderTesting extends LinearOpMode {
 
 
             if(gamepad1.y){
+                //go all the way up
                 liftMotorTicks = -2200;
                 moveLiftMotor(-2200, .5);
             }
 
             if(gamepad1.a){
+                //go all the way down
                 liftMotorTicks = 0;
                 moveLiftMotor(0, .5);
 

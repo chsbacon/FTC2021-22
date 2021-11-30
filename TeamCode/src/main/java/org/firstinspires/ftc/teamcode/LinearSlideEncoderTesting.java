@@ -43,22 +43,25 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
 
 
             if(gamepad1.x){
-
+                //increment LinearSlide OUT
                 linearSlideTicks -= 50;
                 moveLinearSlide(linearSlideTicks, .1);
             }
 
             if(gamepad1.b){
+                //increment LinearSlide IN
                 linearSlideTicks += 50;
                 moveLinearSlide(linearSlideTicks, .1);
             }
 
             if(gamepad1.y){
+                //Shoot LinearSlide ALL the way OUT
                 linearSlideTicks = -800;
                 moveLinearSlide(-800, .5);
             }
 
             if(gamepad1.a){
+                //Return Linear Slide to 0
                 linearSlideTicks = 0;
                 moveLinearSlide(0, .5);
 
