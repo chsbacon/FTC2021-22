@@ -619,7 +619,7 @@ public class HardwareMap2022
         stopDriving();
     }
 
-    void strafeLeft(double pwr, Orientation target, double desiredTime) {
+    public void strafeLeft(double pwr, Orientation target, double desiredTime) {
         //orients
         Orientation targetOrient;
         Orientation currOrient;
@@ -710,7 +710,7 @@ public class HardwareMap2022
         stopDriving();
     }
 
-    void strafeRight(double pwr, Orientation target, double desiredTime) {
+    public void strafeRight(double pwr, Orientation target, double desiredTime) {
         //orients
         Orientation targetOrient;
         Orientation currOrient;
