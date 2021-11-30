@@ -147,35 +147,8 @@ public class TeleOp2022 extends LinearOpMode {
             }
             */
 
-            if(gamepad1.left_bumper){
-                sleep(250);
-                linearSlideTicks += 5;
-                moveLinearSlide(linearSlideTicks);
-            }
 
-            if(gamepad1.right_bumper){
-                sleep(250);
-                linearSlideTicks -= 5;
-                moveLinearSlide(linearSlideTicks);
-            }
 
-            if(gamepad1.y){
-                robot.rightLinearSlideMotor.setPower(0);
-            }
-
-            if(gamepad1.x){
-                sleep(500);
-                robot.rightLinearSlideMotor.setPower(.1);
-                sleep(250);
-                robot.rightLinearSlideMotor.setPower(0);
-            }
-
-            if(gamepad1.b){
-                sleep(500);
-                robot.rightLinearSlideMotor.setPower(-.1);
-                sleep(250);
-                robot.rightLinearSlideMotor.setPower(0);
-            }
 
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
