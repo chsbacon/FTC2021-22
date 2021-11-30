@@ -110,16 +110,39 @@ public class BACONmechAuto extends LinearOpMode {
         // run until the end of the match (when driver presses STOP)
 
         if (teamcolor == red && side == warehouse) {
+            //sense (includes driving forward a little)
 
         }
         if (teamcolor == red && side == carousel) {
+            //sense (includes driving forward a little)
+            robot.strafeLeftUsingLeftDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            robot.spinCarouselMotor();
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+            robot.rotateToHeading(0.25,0);
+            //drop item (half back?)
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 60);
+            //park
 
         }
         if (teamcolor == blue && side == warehouse) {
-
+            //sense (includes driving forward a little)
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
+            robot.rotateToHeading(.25,0);
+            //drop item (including coming back to start (halfback))
+            robot.rotateToHeading(.25,-90);
+            robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0.25,0);
+            robot.spinCarouselMotor();
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),80);
+            //park
         }
         if (teamcolor == blue && side == carousel) {
-            //sense
+            //sense (includes driving forward a litle)
             robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
             robot.spinCarouselMotor();
@@ -133,6 +156,8 @@ public class BACONmechAuto extends LinearOpMode {
             //park
 
         }
+        //TODO Flip all of the heading things (counterclockwise is pos)
+        //TODO drive 60mm and then rotate ~15deg (getduckposition --> 1,2,3)
 
 
 
