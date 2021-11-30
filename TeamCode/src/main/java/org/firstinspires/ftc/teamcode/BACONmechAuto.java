@@ -161,11 +161,11 @@ public class BACONmechAuto extends LinearOpMode {
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
             robot.spinCarouselMotor();
             robot.strafeLeftUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 225);
-            robot.rotateToHeading(0.25, -90);
+            robot.rotateToHeading(0.25, 90);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
             robot.rotateToHeading(0.25, 0);
             //drop item
-            robot.rotateToHeading(0.25, -90);
+            robot.rotateToHeading(0.25, 90);
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 550);
             //park
 
