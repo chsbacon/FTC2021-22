@@ -2,18 +2,22 @@
 ### Progress Updates ###
 Elisabeth
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
+Last updated: 11/30
 
 🎯 My main goal is creating the **autonomous code**
 
 🌳 My branch has:
-- Updated hardware map (matches Graham's and the main branch) with a few lines added for encoder-enabled linear slide motors & 4 new strafe/distance functions 
+- Mostly up-to-date hardware map + new sensingSetup fuction, missing linear slide-related elements of Graham's branch HW map
 - Autonomous code (outline)
 - Teleop code with gamepad control map
 
 🗒 To Do List:
 - [x] Create distance-based strafing functions in the hardware map
 - [x] Plan out sequenced routes for each side/color 
-- [ ] Figure out exact maneuvering situation (when to turn, whether to drive forward or strafe, etc)
+- [x] Write auto commands for the four conditions
+- [ ] Figure out exact maneuvering situation (distance sensor readings)
+- [x] Create a setup fuction for sensing
+- [ ] Integrate Graham's linear slide functions into teleop and auto (**next up**)
 - [ ] Integrate Vuforia code into auto
 - [ ] TEST!!!
 
