@@ -26,10 +26,12 @@ public class LiftMotorEncoderTesting extends LinearOpMode {
 
     public void runOpMode(){
 
+        robot.init(hardwareMap);
+
         int liftMotorTicks = 0;
-        //robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
@@ -41,16 +43,28 @@ public class LiftMotorEncoderTesting extends LinearOpMode {
         while(opModeIsActive()){
 
 
-           if(gamepad1.y){
-               liftMotorTicks += 5;
-               moveLiftMotor(liftMotorTicks, .2);
+           if(gamepad1.b){   // increment down
+               liftMotorTicks += 500;
+               moveLiftMotor(liftMotorTicks, .5);
            }
 
-           if(gamepad1.a){
-               liftMotorTicks -= 5;
-               moveLiftMotor(liftMotorTicks,.2);
+           if(gamepad1.x){   // increment up
+               liftMotorTicks -= 500;
+               moveLiftMotor(liftMotorTicks,.5);
            }
 
+
+
+            if(gamepad1.y){
+                liftMotorTicks = -2200;
+                moveLiftMotor(-2200, .5);
+            }
+
+            if(gamepad1.a){
+                liftMotorTicks = 0;
+                moveLiftMotor(0, .5);
+
+            }
 
 
         }
@@ -62,20 +76,20 @@ public class LiftMotorEncoderTesting extends LinearOpMode {
 
 
     public void moveLiftMotor(int myTicks, double positivePWR){
-        //robot.liftMotor.setTargetPosition(myTicks);
+        robot.liftMotor.setTargetPosition(myTicks);
 
-        //robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        //robot.liftMotor.setPower(positivePWR);
+        robot.liftMotor.setPower(positivePWR);
 
-        while(/*robot.liftMotor.isBusy() && */opModeIsActive()){
+        while(robot.liftMotor.isBusy() && opModeIsActive()){
             telemetry.addData("Target: ", myTicks);
-            //telemetry.addData("tickPos: ",robot.liftMotor.getCurrentPosition());
+            telemetry.addData("tickPos: ",robot.liftMotor.getCurrentPosition());
             telemetry.update();
         }
-        //robot.liftMotor.setPower(0);
+        robot.liftMotor.setPower(0);
 
-        //robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
