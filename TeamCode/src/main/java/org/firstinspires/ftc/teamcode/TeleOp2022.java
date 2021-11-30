@@ -78,7 +78,7 @@ public class TeleOp2022 extends LinearOpMode {
         double frontRight;
         double backLeft;
         double backRight;
-        double fastSlow;
+        double fastSlow = 1;
 
         int linearSlideTicks = 0;
 
@@ -104,9 +104,8 @@ public class TeleOp2022 extends LinearOpMode {
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            //fast slow
-
-
+            //fast slow + auto test
+            /*
             if(gamepad1.a){
                 fastSlow = 2;
             }
@@ -146,6 +145,15 @@ public class TeleOp2022 extends LinearOpMode {
 
             }
             */
+
+
+
+
+
+
+
+
+
 
 
 
