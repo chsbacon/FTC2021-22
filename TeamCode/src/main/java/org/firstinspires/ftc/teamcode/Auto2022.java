@@ -57,7 +57,7 @@ import java.util.List;
 public class Auto2022 extends LinearOpMode {
 
 
-    float leftPixelDuck = 0;
+    boolean duckFound = false;
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -98,10 +98,8 @@ public class Auto2022 extends LinearOpMode {
         waitForStart();
 
 
+        double placeHeight = getPlaceHeight(); //moves robot to phase 2
 
-        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
-        robot.rotateToHeading(.25,15);
-        double placeHeight = getPlaceHeight();
         telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
         sleep(5000);
@@ -148,7 +146,7 @@ public class Auto2022 extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
     }
 
-    public float getDuckLocation() {
+    public boolean getDuckLocation() {
 
                if (tfod != null) {
                    // getUpdatedRecognitions() will return null if no new information is available since
@@ -175,45 +173,47 @@ public class Auto2022 extends LinearOpMode {
                                //telemetry.addData("LP",leftpixel);
 
 
-                               leftPixelDuck = recognition.getLeft();
-                               return leftPixelDuck;
+                               duckFound = true;
+                               return duckFound;
                            }
                        }
                        telemetry.update();
                    }
 
        }
-        return leftPixelDuck;
+        return duckFound;
     }
 
 
     public float getPlaceHeight(){
-        float placeHeight = 0;
+        float funcPlaceHeight = 0;
 
         double startTime = runtime.milliseconds();
 
 
-        while (runtime.milliseconds() < startTime + 5000){
-            leftPixelDuck = getDuckLocation();
+        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+        robot.rotateToHeading(.5,15);
+
+        if(getDuckLocation() == true){ // if middle confirmed
+            funcPlaceHeight = 2;
+            robot.rotateToHeading(.5,-90);
+        }
+        else{ // else test right
+            robot.rotateToHeading(.5,-15);
+            if(getDuckLocation() == true){ //if right confirmed
+                funcPlaceHeight = 3;
+                robot.rotateToHeading(.5,-90);
+            }
+            else{  //means it is left
+                funcPlaceHeight = 1;
+                robot.rotateToHeading(.5,-90);
+            }
+
         }
 
-        if((leftPixelDuck < 200) && (leftPixelDuck > 0)){
-            placeHeight = 1;
-        }
-
-        if(leftPixelDuck > 300){
-            placeHeight = 2;
-        }
-
-
-        if (leftPixelDuck == 0){
-            placeHeight = 3;
-        }
-
-
-        telemetry.addData("Duck Detected in Place: ", placeHeight);
+        telemetry.addData("Duck Detected in Place: ", funcPlaceHeight);
         telemetry.update();
-        return placeHeight;
+        return funcPlaceHeight;
     }
 
 }
