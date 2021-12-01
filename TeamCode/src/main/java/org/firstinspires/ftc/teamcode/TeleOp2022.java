@@ -27,13 +27,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.HardwareMap2022;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -47,7 +58,7 @@ import org.firstinspires.ftc.teamcode.HardwareMap2022;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
+//Grant Branch
 @TeleOp(name="TeleOp 2022", group="Linear Opmode")
 //@Disabled
 public class TeleOp2022 extends LinearOpMode {
@@ -69,6 +80,12 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow;
 
+        //start Orientation will always be 0; this is the heading when initialized
+        Orientation startOrientation;
+        startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation currentOrientation;
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -79,65 +96,117 @@ public class TeleOp2022 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            if(gamepad1.x){
-                robot.carouselMotor.setPower(.75);
-                sleep(2500);
-                robot.carouselMotor.setPower(0);
-            }
+            /*
+            FUNCTION EXAMPLES
 
+            // to drive straight for a set time at a set speed
+            robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
+                    //to grab current heading from robot (straight
+                    //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+
+            // to rotate to a certain heading
+                (set pwr to 0)
+            robot.rotateToHeading(0,-135);
+
+
+             */
+
+
+
+            //grabs current orientation for this iteration of opModeIsActive
+            currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+
+            //GAMEPAD 1 Capabilities
+
+            //fast slow toggle
             if(gamepad1.a){
                 fastSlow = 2;
             }
             else{
                 fastSlow = 1;
             }
+            if(gamepad1.dpad_left){
+                //rotate 90 deg left
+                robot.rotateToHeading(0.25,90);
+            }
+            if(gamepad1.dpad_right){
+                //rotate 90 deg right
+                robot.rotateToHeading(0.25,-90);
+            }
+            if(gamepad1.b){
+                //pick up object?
+            }
 
+
+
+            //GAMEPAD 2 Capabilities
+
+            if(gamepad2.y){
+                robot.spinCarouselMotor();
+            }
+            if(gamepad2.a){
+                //dump cargo
+            }
+            if(gamepad2.dpad_up){
+                //linear slide out
+            }
+            if(gamepad2.dpad_down){
+                //linear slide in
+            }
+            if(gamepad2.b){
+                //linear slide up down toggle
+            }
+
+
+
+            //driving controls
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
-
-
             // do not let rotation dominate movement
             r = r / 2;
-
             // calculate the power for each wheel
             frontLeft = +y - x + r;
             backLeft = +y + x + r;
-
             frontRight = -y - x + r;
             backRight = -y + x + r;
-
-
-
             robot.frontLeftMotor.setPower(frontLeft/fastSlow);
             robot.frontRightMotor.setPower(frontRight/fastSlow);
             robot.backLeftMotor.setPower(backLeft/fastSlow);
             robot.backRightMotor.setPower(backRight/fastSlow);
 
 
+            //telemtry for motors
+            telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
+            telemetry.addData("front right", "%.2f", frontRight/fastSlow);
+            telemetry.addData("back left", "%.2f", backLeft/fastSlow);
+            telemetry.addData("back right", "%.2f", backRight/fastSlow);
+            //telemetry for IMU
+            telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
+            telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
+
+            telemetry.update();
+
+            //TODO: Figure out how encoders work so that we can the encoders for the linear slides (vertical and horizontal) to trigger the placement and intake systems, respectively
         }
     }
 
 
-    void linearSlideExtend(){
-        if (gamepad1.b){
-            boolean extended = false;
-            if (extended=false) {
-                //robot.linearSlideMotor.setPower(1);
-                telemetry.addData("Turn", 1);
-                sleep(5000);
-                extended = true;
-            }
-            else if (extended = true){
-                //robot.linearSlideMotor.setPower(-1);
-                telemetry.addData("ReverseTurn", -1);
-                sleep(5000);
-                extended = false;
-            }
-            //change sleep later
 
-        }
+
+
+    //just formatting stuff for the angles -- this was copied and pasted
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
+
+
+    //just formatting stuff for the degrees -- this was copied and pasted
+    String formatDegrees(double degrees) {
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
 
 }
-
