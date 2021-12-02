@@ -70,8 +70,9 @@ public class driveStraightEncoderTesting extends LinearOpMode {
         //double rChanger = 10;
         double frontLeft, frontRight, backLeft, backRight, max;
 
-        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         while(robot.backLeftMotor.getCurrentPosition() < desiredTicks){
 
@@ -125,6 +126,7 @@ public class driveStraightEncoderTesting extends LinearOpMode {
 
         }
         robot.stopDriving();
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
