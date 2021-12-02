@@ -136,6 +136,9 @@ public class HardwareMap2022
 
         leftLinearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         // Set up the parameters with which we will use our IMU. Note that integration
