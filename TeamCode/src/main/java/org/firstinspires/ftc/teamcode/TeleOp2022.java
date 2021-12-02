@@ -80,6 +80,8 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
+        double carouselServoOnPower = -1;
+
         int linearSlideTicks = 0;
 
         //start Orientation will always be 0; this is the heading when robot is initialized
@@ -151,7 +153,7 @@ public class TeleOp2022 extends LinearOpMode {
 
 
             if(gamepad1.b){
-                robot.carouselServo.setPower(.5);
+                robot.carouselServo.setPower(carouselServoOnPower);
             }
 
             if(gamepad1.y){
