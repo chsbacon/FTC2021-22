@@ -825,6 +825,16 @@ public class HardwareMap2022
         stopDriving();
     }
 
+    void spinCarouselServo(){
+        ElapsedTime  carouselRuntime = new ElapsedTime();
+
+        carouselServo.setPower(-1);
+        while(carouselRuntime.milliseconds() < 4250){
+
+        }
+        carouselServo.setPower(0);
+
+    }
 
 }
 
