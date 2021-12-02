@@ -138,6 +138,7 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
+
             //GAMEPAD 2 Capabilities
 
             if(gamepad2.y){
@@ -156,7 +157,7 @@ public class TeleOp2022 extends LinearOpMode {
                 //linear slide up down toggle
             }
             if(gamepad2.x){
-                //pick up object?
+                robot.spintake();
             }
 
 
