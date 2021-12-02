@@ -85,10 +85,10 @@ public class HardwareMap2022
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        frontLeftMotor  = hwMap.get(DcMotor.class, "FLM"); //P0
-        frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //P1
-        backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
-        backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
+        frontLeftMotor  = hwMap.get(DcMotor.class, "FLM"); //H1P0
+        frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //H1P1
+        backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //H1P2
+        backRightMotor = hwMap.get(DcMotor.class, "BRM"); //H1P3
 
         liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
 
@@ -96,7 +96,7 @@ public class HardwareMap2022
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
 
 
-        carouselServo = hwMap.get(CRServo.class,"CS"); //H2P1
+        carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
 
