@@ -135,9 +135,6 @@ public class TeleOp2022 extends LinearOpMode {
                 //rotate 90 deg right
                 robot.rotateToHeading(0.25,-90);
             }
-            if(gamepad1.b){
-                //pick up object?
-            }
 
 
 
@@ -157,6 +154,9 @@ public class TeleOp2022 extends LinearOpMode {
             }
             if(gamepad2.b){
                 //linear slide up down toggle
+            }
+            if(gamepad2.x){
+                //pick up object?
             }
 
 
