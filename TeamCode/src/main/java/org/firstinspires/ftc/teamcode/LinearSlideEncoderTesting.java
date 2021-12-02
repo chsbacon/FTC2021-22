@@ -83,17 +83,18 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
     public void moveLinearSlide(int myTicks, double positivePWR){
         robot.rightLinearSlideMotor.setTargetPosition(myTicks);
 
-
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         robot.rightLinearSlideMotor.setPower(positivePWR);
+        robot.leftLinearSlideMotor.setPower(positivePWR);
 
-        while(robot.rightLinearSlideMotor.isBusy() && opModeIsActive()){
+        while(robot.rightLinearSlideMotor.isBusy()  && opModeIsActive()){
             telemetry.addData("Target: ", myTicks);
             telemetry.addData("tickPos: ",robot.rightLinearSlideMotor.getCurrentPosition());
             telemetry.update();
         }
         robot.rightLinearSlideMotor.setPower(0);
+        robot.leftLinearSlideMotor.setPower(0);
 
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }

@@ -30,6 +30,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -51,7 +52,7 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
 
-    //public DcMotor  leftLinearSlideMotor = null;
+    public DcMotor  leftLinearSlideMotor = null;
     public DcMotor  rightLinearSlideMotor = null;
 
     public DcMotor  liftMotor = null;
@@ -92,7 +93,7 @@ public class HardwareMap2022
 
         liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
 
-        //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
+        leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
 
 
@@ -112,7 +113,7 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-        //leftLinearSlideMotor.setPower(0);
+        leftLinearSlideMotor.setPower(0);
         rightLinearSlideMotor.setPower(0);
         liftMotor.setPower(0);
 
@@ -129,10 +130,11 @@ public class HardwareMap2022
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        leftLinearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 
