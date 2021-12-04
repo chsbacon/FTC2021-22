@@ -1235,7 +1235,7 @@ public class HardwareMap2022
    public void intakeTiltIn (){
         if(intakeToggle1 == true){
             intakeServo1.setPower(.25);
-            intakeServo2.setPower(.25);
+            intakeServo2.setPower(-.25);
             intakeToggle1 = false;
         }
         if(intakeToggle1 == false) {
@@ -1247,7 +1247,7 @@ public class HardwareMap2022
     public void intakeTiltOut (){
         if(intakeToggle2 == true){
             intakeServo1.setPower(-.25);
-            intakeServo2.setPower(-.25);
+            intakeServo2.setPower(.25);
             intakeToggle2 = false;
         }
         if(intakeToggle2 == false) {
