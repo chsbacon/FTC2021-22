@@ -46,18 +46,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 
 @TeleOp(name="TeleOp 2022", group="Linear Opmode")
 //@Disabled
@@ -131,12 +119,11 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-            if(gamepad1.y){
-
+       if(gamepad1.dpad_left){
+                //rotate 90 deg left
             }
-
-            if(gamepad1.x){
-
+            if(gamepad1.dpad_right){
+                //rotate 90 deg right
             }
 
             //driving controls
@@ -167,11 +154,30 @@ public class TeleOp2022 extends LinearOpMode {
 
             telemetry.update();
 
+            //GAMEPAD 2 Capabilities
+            if(gamepad2.y){
+                //carousel motor
+                robot.spinCarouselMotor();
+            }
+            if(gamepad2.a){
+                //dump cargo
+            }
+            if(gamepad2.left_bumper){
+                //linear slide down
+            }
+            if(gamepad2.right_bumper){
+                //linear slide up
+            }
+            if(gamepad2.dpad_down){
+                //linear slide in
+            }
+            if(gamepad2.dpad_up){
+                //linear slide out
+            }
+
+            //TODO: Figure out how encoders work so that we can the encoders for the linear slides (vertical and horizontal) to trigger the placement and intake systems, respectively
         }
     }
-
-
-
 
 
 
