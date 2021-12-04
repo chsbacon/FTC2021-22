@@ -1,6 +1,10 @@
 // FTC Team 7080 BACON
 // Autonomous code 2021-2022
 
+
+//**This code is a combination of Graham's Vuforia code and Elisabeth's auto code (testing)
+
+
 package org.firstinspires.ftc.teamcode;
 
 
@@ -28,14 +32,39 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.Locale;
 
+//Vuforia-related libraries
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 //_________________________________________________________________________________________________
 
 
-@Autonomous(name = "BACON: Autonomous 21-22", group = "Opmode")
+@Autonomous(name = "BACON: Autonomous Test 21-22", group = "Opmode")
 //@Disabled
 
 
-public class BACONmechAuto extends LinearOpMode {
+public class BACONautoComboCode extends LinearOpMode {
+
+    boolean duckFound = false;
+
+    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String[] LABELS = {
+            "Ball",
+            "Cube",
+            "Duck",
+            "Marker"
+    };
+    private static final String VUFORIA_KEY =
+            "AUOQWxb/////AAABmRP6L/V1T0Bclh/MquexUq8kKPD3h3N5sSIPraEvHInc1KyTB1KSLqkDd0mdJZibl8t7LsWmHogI6fR7p44UvkxD6uBvANg8xebRLgWIHaPvqxf3IqT8IG2VkljyPD/Unlfi357W5qXls0rtkFem3yX5kROTZEfRbmf5ZwtC3KSu6hBzriQwM7zk0zptP/MWtO6B/SZz6OWwLCR6O4I6TkKC7kQS3b1VGNonWq4fFL5jMcVPypqZKohDySdG4URcz0NqxpeEcC9P/c/VL67JKBcFaNBtix+7N/yccggWv8tUKuofNLIS1mUEv5kTzw9n4ps6ApmE2PziqmOjzpNL0MgF+V3KhRddiJjx51nFKEdX";
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -99,11 +128,28 @@ public class BACONmechAuto extends LinearOpMode {
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) robot.backDistance;
 
 
+        initVuforia();
+        initTfod();
+        if (tfod != null) {
+            tfod.activate();
+            //tfod.setZoom(2, 16.0 / 9.0);
+
+        }
+
+
+
+        ///_____________________________________________________________________________________________________
         waitForStart();
         runtime.reset();
 
 
         double WSrestPos1 = 0;
+
+        double placeHeight = getPlaceHeight(); //moves robot to phase 2
+
+        telemetry.addData("Place Height: ", placeHeight);
+        telemetry.update();
+        sleep(5000);
 
         // Don't burn CPU cycles busy-looping in this sample
         //sleep(50);
@@ -192,6 +238,106 @@ public class BACONmechAuto extends LinearOpMode {
             if duckPlace == {
 
             } */
+    }
+    //Functions__________________________________________________________________________________________________________________
+    private void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        //parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        //parameters.cameraDirection = CameraDirection.BACK;
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    }
+
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        //tfodParameters.minResultConfidence = 0.8f; //original
+        tfodParameters.minResultConfidence = 0.30f;
+        tfodParameters.isModelTensorFlow2 = true;
+        tfodParameters.inputSize = 320;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+    }
+
+    public boolean getDuckLocation() {
+
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : updatedRecognitions) {
+                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                    i++;
+
+                    if (recognition.getLabel().equalsIgnoreCase("Duck")){
+
+                        //telemetry.addData("LP", recognition.getLeft());
+
+                        //float leftpixel;
+                        //leftpixel = recognition.getLeft();
+                        //telemetry.addData("LP",leftpixel);
+
+
+                        duckFound = true;
+                        return duckFound;
+                    }
+                }
+                telemetry.update();
+            }
+
+        }
+        return duckFound;
+    }
+
+
+    public float getPlaceHeight(){
+        float funcPlaceHeight = 0;
+
+        double startTime = runtime.milliseconds();
+
+
+        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+        robot.rotateToHeading(.5,15);
+
+        if(getDuckLocation() == true){ // if middle confirmed
+            funcPlaceHeight = 2;
+            robot.rotateToHeading(.5,-90);
+        }
+        else{ // else test right
+            robot.rotateToHeading(.5,-15);
+            if(getDuckLocation() == true){ //if right confirmed
+                funcPlaceHeight = 3;
+                robot.rotateToHeading(.5,-90);
+            }
+            else{  //means it is left
+                funcPlaceHeight = 1;
+                robot.rotateToHeading(.5,-90);
+            }
+
+        }
+
+        telemetry.addData("Duck Detected in Place: ", funcPlaceHeight);
+        telemetry.update();
+        return funcPlaceHeight;
     }
 }
 
