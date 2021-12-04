@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -108,6 +109,8 @@ public class TeleOp2022 extends LinearOpMode {
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+            //GAMEPAD 1 Capabilities
+            
             //fast slow toggle
             if(gamepad1.a){
                 fastSlow = 2;
@@ -116,16 +119,38 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
-
-
-
-       if(gamepad1.dpad_left){
+            if(gamepad1.dpad_left){
                 //rotate 90 deg left
+                robot.rotateToHeading(0.25,90);
             }
             if(gamepad1.dpad_right){
                 //rotate 90 deg right
+                robot.rotateToHeading(0.25,-90);
+            }
+            
+            //GAMEPAD 2 Capabilities
+
+            if(gamepad2.y){
+                robot.spinCarouselMotor();
+            }
+            if(gamepad2.a){
+                //dump cargo
+            }
+            if(gamepad2.dpad_up){
+                //linear slide out
+            }
+            if(gamepad2.dpad_down){
+                //linear slide in
+            }
+            if(gamepad2.b){
+                //linear slide up down toggle
+            }
+            if(gamepad2.x){
+                robot.spintake();
             }
 
+
+            
             //driving controls
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
@@ -153,29 +178,7 @@ public class TeleOp2022 extends LinearOpMode {
             telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
 
             telemetry.update();
-
-            //GAMEPAD 2 Capabilities
-            if(gamepad2.y){
-                //carousel motor
-                robot.spinCarouselMotor();
-            }
-            if(gamepad2.a){
-                //dump cargo
-            }
-            if(gamepad2.left_bumper){
-                //linear slide down
-            }
-            if(gamepad2.right_bumper){
-                //linear slide up
-            }
-            if(gamepad2.dpad_down){
-                //linear slide in
-            }
-            if(gamepad2.dpad_up){
-                //linear slide out
-            }
-
-            //TODO: Figure out how encoders work so that we can the encoders for the linear slides (vertical and horizontal) to trigger the placement and intake systems, respectively
+            
         }
     }
 
