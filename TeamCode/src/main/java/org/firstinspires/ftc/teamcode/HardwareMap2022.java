@@ -1173,7 +1173,7 @@ public class HardwareMap2022
         driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
         rotateToHeading(0.25,15);
     }
-
+    
     public void spinCarouselMotor(){
 
         ElapsedTime carouselTime  = new ElapsedTime();
@@ -1184,17 +1184,18 @@ public class HardwareMap2022
         }
         carouselMotor.setPower(0);
     }
-
+    
     public void spintake () {
         if(spintakeToggle == true){
-            spinTakeMotor.setPower(.75);
-            spintakeToggle = false;
+        spinTakeMotor.setPower(.75);
+        spintakeToggle = false;
         }
         if(spintakeToggle == false) {
-            spinTakeMotor.setPower(0);
-            spintakeToggle = true;
+        spinTakeMotor.setPower(0);
+        spintakeToggle = true;
         }
     }
 
 
 }
+
