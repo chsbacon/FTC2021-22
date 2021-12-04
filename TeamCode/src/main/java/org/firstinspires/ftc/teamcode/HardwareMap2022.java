@@ -61,6 +61,9 @@ public class HardwareMap2022
     
     public CRServo carouselServo = null;
 
+    public CRServo intakeServo1 = null;
+    public CRServo intakeServo2 = null;
+
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
     public DistanceSensor backDistance = null;
@@ -91,7 +94,7 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
-        spinTakeMotor = hwMap.get(DcMotor.class, "ST");
+        spinTakeMotor = hwMap.get(DcMotor.class, "ST"); //H2 P3
         
         liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
         
@@ -99,6 +102,8 @@ public class HardwareMap2022
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
         
         carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
+        intakeServo1 = hwMap.get(CRServo.class, "IS1"); //H2ServoP2
+        intakeServo2 = hwMap.get(CRServo.class, "IS2"); // H2ServoP3
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -119,6 +124,8 @@ public class HardwareMap2022
 
 
         carouselServo.setPower(0); //not sure if this is stationary
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -1221,6 +1228,10 @@ public class HardwareMap2022
         spinTakeMotor.setPower(0);
         spintakeToggle = true;
         }
+    }
+
+    public void intakeTilt (){
+
     }
 
 
