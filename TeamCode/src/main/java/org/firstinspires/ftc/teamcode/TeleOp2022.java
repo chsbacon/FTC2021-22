@@ -128,6 +128,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.rotateToHeading(0.25,-90);
             }
             
+            
             //GAMEPAD 2 Capabilities
 
             if(gamepad2.y){
@@ -148,8 +149,14 @@ public class TeleOp2022 extends LinearOpMode {
             if(gamepad2.x){
                 robot.spintake();
             }
+            if(gamepad2.right_bumper){
+                robot.intakeTiltIn();
+            }
+            if(gamepad2.left_bumper){
+                robot.intakeTiltOut();
+            }
 
-
+            
             
             //driving controls
             y = gamepad1.left_stick_y;
