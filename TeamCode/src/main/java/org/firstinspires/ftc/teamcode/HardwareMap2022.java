@@ -1169,11 +1169,6 @@ public class HardwareMap2022
         }
         stopDriving();
     }
-
-    public void sensingSetup (){
-        driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
-        rotateToHeading(0.25,15);
-    }
     
     public void spinCarouselMotor(){
 
