@@ -72,6 +72,8 @@ public class HardwareMap2022
     public BNO055IMU imu;
 
     boolean spintakeToggle = true;
+    boolean intakeToggle1 = true;
+    boolean intakeToggle2 = true;
 
 
     /* local OpMode members. */
@@ -1230,9 +1232,29 @@ public class HardwareMap2022
         }
     }
 
-    public void intakeTilt (){
-
+   public void intakeTiltIn (){
+        if(intakeToggle1 == true){
+            intakeServo1.setPower(.25);
+            intakeServo2.setPower(.25);
+            intakeToggle1 = false;
+        }
+        if(intakeToggle1 == false) {
+            intakeServo1.setPower(0);
+            intakeServo2.setPower(0);
+            intakeToggle1 = true;
+        }
     }
-
+    public void intakeTiltOut (){
+        if(intakeToggle2 == true){
+            intakeServo1.setPower(-.25);
+            intakeServo2.setPower(-.25);
+            intakeToggle2 = false;
+        }
+        if(intakeToggle2 == false) {
+            intakeServo1.setPower(0);
+            intakeServo2.setPower(0);
+            intakeToggle2 = true;
+        }
+    }
 
 }
