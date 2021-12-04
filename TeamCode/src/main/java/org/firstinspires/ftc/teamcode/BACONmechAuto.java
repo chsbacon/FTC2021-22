@@ -58,11 +58,6 @@ public class BACONmechAuto extends LinearOpMode {
 
         double lastTime = runtime.milliseconds();
 
-        // wobbleServo and wobbleMotor states
-        float grabPos = 0;
-        float freePos = 1;
-        float upTilt = 0;
-        float downTilt = 1;
 
         Orientation angles;
         Acceleration gravity;

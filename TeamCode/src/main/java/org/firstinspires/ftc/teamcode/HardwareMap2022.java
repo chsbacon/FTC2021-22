@@ -1030,7 +1030,8 @@ public class HardwareMap2022
 
             if ((r > .07) && (r > 0)) {
                 r = .07;
-            } else if ((r < -.07) && (r < 0)) {
+            }
+            else if ((r < -.07) && (r < 0)) {
                 r = -.07;
             }
 
