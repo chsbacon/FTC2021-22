@@ -53,6 +53,7 @@ public class HardwareMap2022
     public DcMotor  linearOut = null;
 
     public DcMotor  carouselMotor = null;
+    public DcMotor  spinTakeMotor = null;
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -61,7 +62,7 @@ public class HardwareMap2022
 
     public BNO055IMU imu;
 
-
+    boolean spintakeToggle = true;
 
 
     /* local OpMode members. */
@@ -85,6 +86,7 @@ public class HardwareMap2022
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
         carouselMotor = hwMap.get(DcMotor.class, "CM");
+        spinTakeMotor = hwMap.get(DcMotor.class, "ST");
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -97,6 +99,7 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         carouselMotor.setPower(0);
+        spinTakeMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -105,6 +108,7 @@ public class HardwareMap2022
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        spinTakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         linearOut.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearOut.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -801,16 +805,6 @@ public class HardwareMap2022
         stopDriving();
     }
 
-    public void spinCarouselMotor(){
-
-        ElapsedTime carouselTime  = new ElapsedTime();
-
-        carouselMotor.setPower(.75);
-        while (carouselTime.milliseconds()<2500){
-
-        }
-        carouselMotor.setPower(0);
-    }
 
     public void strafeLeftUsingLeftDistance (double pwr, Orientation target, double desiredDistanceMM){
         //orients
@@ -1179,7 +1173,28 @@ public class HardwareMap2022
         driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
         rotateToHeading(0.25,15);
     }
+    
+    public void spinCarouselMotor(){
 
+        ElapsedTime carouselTime  = new ElapsedTime();
+
+        carouselMotor.setPower(.75);
+        while (carouselTime.milliseconds()<2500){
+
+        }
+        carouselMotor.setPower(0);
+    }
+    
+    public void spintake () {
+        if(spintakeToggle == true){
+        spinTakeMotor.setPower(.75);
+        spintakeToggle = false;
+        }
+        if(spintakeToggle == false) {
+        spinTakeMotor.setPower(0);
+        spintakeToggle = true;
+        }
+    }
 
 
 }
