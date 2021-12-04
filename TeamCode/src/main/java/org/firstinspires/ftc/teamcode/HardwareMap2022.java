@@ -28,7 +28,9 @@
  */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -52,8 +54,12 @@ public class HardwareMap2022
     public DcMotor  linearUp = null;
     public DcMotor  linearOut = null;
 
-    public DcMotor  carouselMotor = null;
-    public DcMotor  spinTakeMotor = null;
+    public DcMotor  leftLinearSlideMotor = null;
+    public DcMotor  rightLinearSlideMotor = null;
+    
+    public DcMotor  liftMotor = null;
+    
+    public CRServo carouselServo = null;
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -85,8 +91,14 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
-        carouselMotor = hwMap.get(DcMotor.class, "CM");
         spinTakeMotor = hwMap.get(DcMotor.class, "ST");
+        
+        liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
+        
+        leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
+        rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
+        
+        carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -98,8 +110,15 @@ public class HardwareMap2022
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-        carouselMotor.setPower(0);
+
         spinTakeMotor.setPower(0);
+        
+        leftLinearSlideMotor.setPower(0);
+        rightLinearSlideMotor.setPower(0);
+        liftMotor.setPower(0);
+
+
+        carouselServo.setPower(0); //not sure if this is stationary
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -107,13 +126,21 @@ public class HardwareMap2022
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         spinTakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        linearOut.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearOut.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLinearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLinearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        
+        leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+        leftLinearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // Set up the parameters with which we will use our IMU. Note that integration
@@ -1174,15 +1201,15 @@ public class HardwareMap2022
         rotateToHeading(0.25,15);
     }
     
-    public void spinCarouselMotor(){
+    void spinCarouselServo(){
+        ElapsedTime  carouselRuntime = new ElapsedTime();
 
-        ElapsedTime carouselTime  = new ElapsedTime();
-
-        carouselMotor.setPower(.75);
-        while (carouselTime.milliseconds()<2500){
+        carouselServo.setPower(-1);
+        while(carouselRuntime.milliseconds() < 4250){
 
         }
-        carouselMotor.setPower(0);
+        carouselServo.setPower(0);
+
     }
     
     public void spintake () {
