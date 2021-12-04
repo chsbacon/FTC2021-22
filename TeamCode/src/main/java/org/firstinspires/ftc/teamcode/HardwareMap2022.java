@@ -51,8 +51,8 @@ public class HardwareMap2022
     public DcMotor  frontRightMotor = null;
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
-    public DcMotor  linearUp = null;
-    public DcMotor  linearOut = null;
+
+    public DcMotor  spinTakeMotor = null;
 
     public DcMotor  leftLinearSlideMotor = null;
     public DcMotor  rightLinearSlideMotor = null;
