@@ -107,48 +107,13 @@ public class TeleOp2022 extends LinearOpMode {
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             //fast slow + auto test
-            /*
+
+
+
+
             if(gamepad1.a){
-                fastSlow = 2;
-            }
-            else{
-                fastSlow = 1;
-            }
-
-
-
-            //auto test
-            /*if(gamepad1.b){
-                //distance from wall to shipping hub is 550
-                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),550);
-                //rotate towards shipping hub
-                robot.rotateToHeading(0,55);
-                //drive slow straight for 1/4 a second
-                robot.driveForwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
-                //place
-                robot.spinCarouselMotor();
-                //drive slow backwards for 1/4 a second
-                robot.driveBackwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
-                //rotate towards to -90
-                robot.rotateToHeading(0,-90);
-                robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
-                robot.rotateToHeading(0,0);
-                robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-                robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
-                robot.spinCarouselMotor();
-                robot.driveForwardUseBackwardDistance(.25,startOrientation,1200);
-                robot.driveForwardUseTime(.25,startOrientation,1000);
-                robot.rotateToHeading(0,90);
-                robot.driveForwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5500);
-                robot.rotateToHeading(0,0);
-                robot.driveBackwardUseBackDistance(.25,startOrientation,650);
-                robot.rotateToHeading(0,90);
-                robot.driveForwardUseTime(.9,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
 
             }
-            */
-
-
 
 
 

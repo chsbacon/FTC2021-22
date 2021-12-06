@@ -181,7 +181,7 @@ public class HardwareMap2022
         double derivative;
         double out;
 
-        double kP = .04;
+        double kP = .07;
         double kI = .0;
         double kD = .99;
 

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
-@TeleOp(name="Lift Motor Encoder Testing", group="Linear Opmode")
+@TeleOp(name="Drive Straight Encoder Testing", group="Linear Opmode")
 public class driveStraightEncoderTesting extends LinearOpMode {
 
 

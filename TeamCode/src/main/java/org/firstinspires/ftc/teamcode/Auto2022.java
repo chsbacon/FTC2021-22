@@ -192,21 +192,21 @@ public class Auto2022 extends LinearOpMode {
 
 
         robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
-        robot.rotateToHeading(.5,15);
+        robot.rotateToHeading(0,15);
 
         if(getDuckLocation() == true){ // if middle confirmed
             funcPlaceHeight = 2;
-            robot.rotateToHeading(.5,-90);
+            robot.rotateToHeading(0,-90);
         }
         else{ // else test right
-            robot.rotateToHeading(.5,-15);
+            robot.rotateToHeading(0,-15);
             if(getDuckLocation() == true){ //if right confirmed
                 funcPlaceHeight = 3;
-                robot.rotateToHeading(.5,-90);
+                robot.rotateToHeading(0,-90);
             }
             else{  //means it is left
                 funcPlaceHeight = 1;
-                robot.rotateToHeading(.5,-90);
+                robot.rotateToHeading(0,-90);
             }
 
         }
