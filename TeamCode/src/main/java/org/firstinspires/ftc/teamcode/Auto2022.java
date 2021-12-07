@@ -215,6 +215,7 @@ public class Auto2022 extends LinearOpMode {
         }
         else{ // else test right
             robot.rotateToHeading(0,-30);
+            robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
             if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
                 funcPlaceHeight = 3;
             }
