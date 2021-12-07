@@ -59,6 +59,9 @@ public class Auto2022 extends LinearOpMode {
 
     boolean duckFound = false;
 
+
+
+
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
             "Ball",
@@ -76,6 +79,8 @@ public class Auto2022 extends LinearOpMode {
     /* Declare OpMode members. */
     HardwareMap2022 robot = new HardwareMap2022();
 
+
+
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -83,6 +88,12 @@ public class Auto2022 extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+
+        robot.leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
 
 
         initVuforia();
@@ -148,39 +159,45 @@ public class Auto2022 extends LinearOpMode {
 
     public boolean getDuckLocation() {
 
-               if (tfod != null) {
-                   // getUpdatedRecognitions() will return null if no new information is available since
-                   // the last time that call was made.
-                   List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                   if (updatedRecognitions != null) {
-                       telemetry.addData("# Object Detected", updatedRecognitions.size());
-                       // step through the list of recognitions and display boundary info.
-                       int i = 0;
-                       for (Recognition recognition : updatedRecognitions) {
-                           telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                           telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                   recognition.getLeft(), recognition.getTop());
-                           telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                   recognition.getRight(), recognition.getBottom());
-                           i++;
+        ElapsedTime duckRuntime = new ElapsedTime();
 
-                           if (recognition.getLabel().equalsIgnoreCase("Duck")){
+        while (duckRuntime.milliseconds() < 2500) {
 
-                               //telemetry.addData("LP", recognition.getLeft());
+            if (tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    // step through the list of recognitions and display boundary info.
+                    int i = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                recognition.getLeft(), recognition.getTop());
+                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                recognition.getRight(), recognition.getBottom());
+                        i++;
 
-                               //float leftpixel;
-                               //leftpixel = recognition.getLeft();
-                               //telemetry.addData("LP",leftpixel);
+                        if (recognition.getLabel().equalsIgnoreCase("Duck")) {
+
+                            //telemetry.addData("LP", recognition.getLeft());
+
+                            //float leftpixel;
+                            //leftpixel = recognition.getLeft();
+                            //telemetry.addData("LP",leftpixel);
 
 
-                               duckFound = true;
-                               return duckFound;
-                           }
-                       }
-                       telemetry.update();
-                   }
+                            duckFound = true;
+                            return duckFound;
+                        }
+                    }
+                    telemetry.update();
+                }
 
-       }
+            }
+
+        }
         return duckFound;
     }
 
@@ -191,7 +208,7 @@ public class Auto2022 extends LinearOpMode {
         double startTime = runtime.milliseconds();
 
 
-        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
         robot.rotateToHeading(0,15);
 
         if(getDuckLocation() == true){ // if middle confirmed
@@ -202,12 +219,11 @@ public class Auto2022 extends LinearOpMode {
             robot.rotateToHeading(0,-15);
             if(getDuckLocation() == true){ //if right confirmed
                 funcPlaceHeight = 3;
-                robot.rotateToHeading(0,-90);
             }
             else{  //means it is left
                 funcPlaceHeight = 1;
-                robot.rotateToHeading(0,-90);
             }
+            robot.rotateToHeading(0,-90);
 
         }
 

@@ -33,6 +33,8 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
         robot.rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
+
+
         int linearSlideTicks = 0;
 
         waitForStart();
@@ -45,25 +47,25 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
             if(gamepad1.x){
                 //increment LinearSlide OUT
                 linearSlideTicks -= 50;
-                moveLinearSlide(linearSlideTicks, .1);
+                moveLinearSlide(linearSlideTicks, .25, 0);
             }
 
             if(gamepad1.b){
                 //increment LinearSlide IN
                 linearSlideTicks += 50;
-                moveLinearSlide(linearSlideTicks, .1);
+                moveLinearSlide(linearSlideTicks, .25,1);
             }
 
             if(gamepad1.y){
                 //Shoot LinearSlide ALL the way OUT
                 linearSlideTicks = -800;
-                moveLinearSlide(-800, .5);
+                moveLinearSlide(-800, .5,0);
             }
 
             if(gamepad1.a){
                 //Return Linear Slide to 0
                 linearSlideTicks = 0;
-                moveLinearSlide(0, .5);
+                moveLinearSlide(0, .5, 1);
 
             }
 
@@ -80,13 +82,24 @@ public class LinearSlideEncoderTesting extends LinearOpMode {
 
 
 
-    public void moveLinearSlide(int myTicks, double positivePWR){
+    public void moveLinearSlide(int myTicks, double positivePWR, double desiredDirection){
         robot.rightLinearSlideMotor.setTargetPosition(myTicks);
 
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.rightLinearSlideMotor.setPower(positivePWR);
-        robot.leftLinearSlideMotor.setPower(positivePWR);
+
+        if(desiredDirection == 1){ //in
+            robot.rightLinearSlideMotor.setPower(positivePWR);
+            robot.leftLinearSlideMotor.setPower(-positivePWR);
+        }
+
+        if(desiredDirection == 0){ //out
+            robot.rightLinearSlideMotor.setPower(positivePWR);
+            robot.leftLinearSlideMotor.setPower(positivePWR);
+        }
+
+        //robot.rightLinearSlideMotor.setPower(positivePWR);
+        //robot.leftLinearSlideMotor.setPower(-positivePWR);
 
         while(robot.rightLinearSlideMotor.isBusy()  && opModeIsActive()){
             telemetry.addData("Target: ", myTicks);

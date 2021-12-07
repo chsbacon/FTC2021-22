@@ -134,7 +134,7 @@ public class HardwareMap2022
         rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        leftLinearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
