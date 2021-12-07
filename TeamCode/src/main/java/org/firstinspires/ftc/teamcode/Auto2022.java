@@ -208,7 +208,7 @@ public class Auto2022 extends LinearOpMode {
         double startTime = runtime.milliseconds();
 
 
-        robot.driveForwardUseBackwardDistance(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
         robot.rotateToHeading(0,15);
 
         if(getDuckLocation() == true){ // if middle confirmed
