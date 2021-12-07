@@ -63,6 +63,7 @@ public class HardwareMap2022
 
     public CRServo intakeServo1 = null;
     public CRServo intakeServo2 = null;
+    public Servo dropServo = null;
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -103,9 +104,11 @@ public class HardwareMap2022
         leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
 
+        //I think these ports must be off...
         carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
         intakeServo1 = hwMap.get(CRServo.class, "IS1"); //H2ServoP2
         intakeServo2 = hwMap.get(CRServo.class, "IS2"); // H2ServoP3
+        dropServo = hwMap.get(Servo.class,"DS"); //H2ServoP1?
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -125,9 +128,10 @@ public class HardwareMap2022
         liftMotor.setPower(0);
 
 
-        carouselServo.setPower(0); //not sure if this is stationary
+        /*carouselServo.setPower(0); //not sure if this is stationary
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
+        dropServo.setPower(0); */
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -1256,5 +1260,26 @@ public class HardwareMap2022
             intakeToggle2 = true;
         }
     }
+
+    public void autoDrop(double placeHeight){
+
+        if(placeHeight == 1){
+            driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
+            rotateToHeading(0.25,180);
+            dropItem();
+
+        }
+        if(placeHeight==2){
+
+        }
+        if(placeHeight==3){
+
+        }
+    }
+
+    public void dropItem(){
+        dropServo.setPosition(90);
+
+    } //drop toggle?
 
 }
