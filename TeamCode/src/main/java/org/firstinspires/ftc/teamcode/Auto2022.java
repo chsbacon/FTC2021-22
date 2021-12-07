@@ -208,12 +208,11 @@ public class Auto2022 extends LinearOpMode {
         double startTime = runtime.milliseconds();
 
 
-        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
+        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
         robot.rotateToHeading(0,15);
 
         if(getDuckLocation() == true){ // if middle confirmed
             funcPlaceHeight = 2;
-            robot.rotateToHeading(0,-90);
         }
         else{ // else test right
             robot.rotateToHeading(0,-15);
@@ -223,9 +222,9 @@ public class Auto2022 extends LinearOpMode {
             else{  //means it is left
                 funcPlaceHeight = 1;
             }
-            robot.rotateToHeading(0,-90);
 
         }
+        robot.rotateToHeading(0,-90);
 
         telemetry.addData("Duck Detected in Place: ", funcPlaceHeight);
         telemetry.update();
