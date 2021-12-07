@@ -175,8 +175,7 @@ public class TeleOp2022 extends LinearOpMode {
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
-
-
+    /*
     public void moveLinearSlide(int myTicks){
         //robot.leftLinearSlideMotor.setTargetPosition(myTicks);
         robot.rightLinearSlideMotor.setTargetPosition(myTicks);
@@ -187,7 +186,7 @@ public class TeleOp2022 extends LinearOpMode {
         //robot.leftLinearSlideMotor.setPower(0.1);
         robot.rightLinearSlideMotor.setPower(0.1);
 
-        while(/*robot.leftLinearSlideMotor.isBusy() && */robot.rightLinearSlideMotor.isBusy()){
+        while(robot.leftLinearSlideMotor.isBusy() && robot.rightLinearSlideMotor.isBusy()){
         }
         //robot.leftLinearSlideMotor.setPower(0);
         robot.rightLinearSlideMotor.setPower(0);
@@ -195,8 +194,9 @@ public class TeleOp2022 extends LinearOpMode {
         //robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
+    */
 }
+
 
 //auto test
 /*

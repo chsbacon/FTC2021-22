@@ -100,7 +100,7 @@ public class Auto2022 extends LinearOpMode {
         initTfod();
         if (tfod != null) {
             tfod.activate();
-            //tfod.setZoom(2, 16.0 / 9.0);
+            tfod.setZoom(1, 16.0 / 9.0);
 
         }
 
@@ -109,7 +109,7 @@ public class Auto2022 extends LinearOpMode {
         waitForStart();
 
 
-        double placeHeight = getPlaceHeight(); //moves robot to phase 2
+        double placeHeight = getPlaceHeightTurnRight(); //moves robot to phase 2
 
         telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
@@ -150,7 +150,7 @@ public class Auto2022 extends LinearOpMode {
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         //tfodParameters.minResultConfidence = 0.8f; //original
-        tfodParameters.minResultConfidence = 0.30f;
+        tfodParameters.minResultConfidence = 0.80f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
@@ -161,7 +161,7 @@ public class Auto2022 extends LinearOpMode {
 
         ElapsedTime duckRuntime = new ElapsedTime();
 
-        while (duckRuntime.milliseconds() < 2500) {
+        while (duckRuntime.milliseconds() < 3000) {
 
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
@@ -179,7 +179,7 @@ public class Auto2022 extends LinearOpMode {
                                 recognition.getRight(), recognition.getBottom());
                         i++;
 
-                        if (recognition.getLabel().equalsIgnoreCase("Duck")) {
+                        if ((recognition.getLabel().equalsIgnoreCase("Duck") || recognition.getLabel().equalsIgnoreCase("Cube"))){
 
                             //telemetry.addData("LP", recognition.getLeft());
 
@@ -202,21 +202,20 @@ public class Auto2022 extends LinearOpMode {
     }
 
 
-    public float getPlaceHeight(){
+    public float getPlaceHeightTurnRight(){
         float funcPlaceHeight = 0;
 
         double startTime = runtime.milliseconds();
 
 
         robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
-        robot.rotateToHeading(0,15);
 
         if(getDuckLocation() == true){ // if middle confirmed
             funcPlaceHeight = 2;
         }
         else{ // else test right
-            robot.rotateToHeading(0,-15);
-            if(getDuckLocation() == true){ //if right confirmed
+            robot.rotateToHeading(0,-20);
+            if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
                 funcPlaceHeight = 3;
             }
             else{  //means it is left
@@ -225,6 +224,34 @@ public class Auto2022 extends LinearOpMode {
 
         }
         robot.rotateToHeading(0,-90);
+
+        telemetry.addData("Duck Detected in Place: ", funcPlaceHeight);
+        telemetry.update();
+        return funcPlaceHeight;
+    }
+
+    public float getPlaceHeightTurnLeft(){
+        float funcPlaceHeight = 0;
+
+        double startTime = runtime.milliseconds();
+
+
+        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
+
+        if(getDuckLocation() == true){ // if middle confirmed
+            funcPlaceHeight = 2;
+        }
+        else{ // else test right
+            robot.rotateToHeading(0,20);
+            if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
+                funcPlaceHeight = 3;
+            }
+            else{  //means it is left
+                funcPlaceHeight = 1;
+            }
+
+        }
+        robot.rotateToHeading(0,90);
 
         telemetry.addData("Duck Detected in Place: ", funcPlaceHeight);
         telemetry.update();
