@@ -28,7 +28,9 @@
  */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -49,11 +51,18 @@ public class HardwareMap2022
     public DcMotor  frontRightMotor = null;
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
-    public DcMotor  linearUp = null;
-    public DcMotor  linearOut = null;
 
-    public DcMotor  carouselMotor = null;
     public DcMotor  spinTakeMotor = null;
+
+    public DcMotor  leftLinearSlideMotor = null;
+    public DcMotor  rightLinearSlideMotor = null;
+
+    public DcMotor  liftMotor = null;
+
+    public CRServo carouselServo = null;
+
+    public CRServo intakeServo1 = null;
+    public CRServo intakeServo2 = null;
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -63,6 +72,8 @@ public class HardwareMap2022
     public BNO055IMU imu;
 
     boolean spintakeToggle = true;
+    boolean intakeToggle1 = true;
+    boolean intakeToggle2 = true;
 
 
     /* local OpMode members. */
@@ -85,8 +96,16 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
 
-        carouselMotor = hwMap.get(DcMotor.class, "CM");
-        spinTakeMotor = hwMap.get(DcMotor.class, "ST");
+        spinTakeMotor = hwMap.get(DcMotor.class, "ST"); //H2 P3
+
+        liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
+
+        leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
+        rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
+
+        carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
+        intakeServo1 = hwMap.get(CRServo.class, "IS1"); //H2ServoP2
+        intakeServo2 = hwMap.get(CRServo.class, "IS2"); // H2ServoP3
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -98,8 +117,17 @@ public class HardwareMap2022
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-        carouselMotor.setPower(0);
+
         spinTakeMotor.setPower(0);
+
+        leftLinearSlideMotor.setPower(0);
+        rightLinearSlideMotor.setPower(0);
+        liftMotor.setPower(0);
+
+
+        carouselServo.setPower(0); //not sure if this is stationary
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -107,13 +135,21 @@ public class HardwareMap2022
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         spinTakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        linearOut.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearOut.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLinearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLinearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        leftLinearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // Set up the parameters with which we will use our IMU. Note that integration
@@ -1030,8 +1066,7 @@ public class HardwareMap2022
 
             if ((r > .07) && (r > 0)) {
                 r = .07;
-            }
-            else if ((r < -.07) && (r < 0)) {
+            } else if ((r < -.07) && (r < 0)) {
                 r = -.07;
             }
 
@@ -1169,29 +1204,57 @@ public class HardwareMap2022
         }
         stopDriving();
     }
-    
-    public void spinCarouselMotor(){
 
-        ElapsedTime carouselTime  = new ElapsedTime();
+    public void sensingSetup (){
+        driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+        rotateToHeading(0.25,15);
+    }
 
-        carouselMotor.setPower(.75);
-        while (carouselTime.milliseconds()<2500){
+    void spinCarouselServo(){
+        ElapsedTime  carouselRuntime = new ElapsedTime();
+
+        carouselServo.setPower(-1);
+        while(carouselRuntime.milliseconds() < 4250){
 
         }
-        carouselMotor.setPower(0);
+        carouselServo.setPower(0);
+
     }
-    
+
     public void spintake () {
         if(spintakeToggle == true){
-        spinTakeMotor.setPower(.75);
-        spintakeToggle = false;
+            spinTakeMotor.setPower(.75);
+            spintakeToggle = false;
         }
         if(spintakeToggle == false) {
-        spinTakeMotor.setPower(0);
-        spintakeToggle = true;
+            spinTakeMotor.setPower(0);
+            spintakeToggle = true;
         }
     }
 
+    public void intakeTiltIn (){
+        if(intakeToggle1 == true){
+            intakeServo1.setPower(.25);
+            intakeServo2.setPower(-.25);
+            intakeToggle1 = false;
+        }
+        if(intakeToggle1 == false) {
+            intakeServo1.setPower(0);
+            intakeServo2.setPower(0);
+            intakeToggle1 = true;
+        }
+    }
+    public void intakeTiltOut (){
+        if(intakeToggle2 == true){
+            intakeServo1.setPower(-.25);
+            intakeServo2.setPower(.25);
+            intakeToggle2 = false;
+        }
+        if(intakeToggle2 == false) {
+            intakeServo1.setPower(0);
+            intakeServo2.setPower(0);
+            intakeToggle2 = true;
+        }
+    }
 
 }
-

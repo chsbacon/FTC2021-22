@@ -161,7 +161,7 @@ public class BACONautoComboCode extends LinearOpMode {
             robot.rotateToHeading(0.25,90);
             robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
             robot.rotateToHeading(0.25,0);
-            robot.spinCarouselMotor();
+            robot.spinCarouselServo();
             robot.rotateToHeading(0.25,-90);
             robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
             //park
@@ -169,7 +169,7 @@ public class BACONautoComboCode extends LinearOpMode {
         if (teamcolor == red && side == carousel) {
             //sense (includes driving forward a little)
             robot.strafeLeftUsingLeftDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
-            robot.spinCarouselMotor();
+            robot.spinCarouselServo();
             robot.rotateToHeading(0.25,-90);
             robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
             robot.rotateToHeading(0.25,0);
@@ -189,7 +189,7 @@ public class BACONautoComboCode extends LinearOpMode {
             robot.rotateToHeading(.25,-90);
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
             robot.rotateToHeading(0.25,0);
-            robot.spinCarouselMotor();
+            robot.spinCarouselServo();
             robot.rotateToHeading(0.25,90);
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),80);
             //park
@@ -198,7 +198,7 @@ public class BACONautoComboCode extends LinearOpMode {
             //sense (includes driving forward a litle)
             robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 260);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
-            robot.spinCarouselMotor();
+            robot.spinCarouselServo();
             robot.strafeLeftUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 225);
             robot.rotateToHeading(0.25, 90);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
