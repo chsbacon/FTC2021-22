@@ -127,9 +127,14 @@ public class TeleOp2022 extends LinearOpMode {
 
             if(gamepad1.dpad_left){
                 //rotate 90 deg left
+                robot.rotateToHeading(0.25,90);
             }
             if(gamepad1.dpad_right){
                 //rotate 90 deg right
+                robot.rotateToHeading(0.25,-90);
+            }
+            if(gamepad1.y){
+
             }
 
             //driving controls
