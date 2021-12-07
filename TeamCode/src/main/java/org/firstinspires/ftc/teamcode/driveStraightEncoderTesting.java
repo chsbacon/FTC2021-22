@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+import java.lang.Math;
 
 
 
@@ -74,7 +74,7 @@ public class driveStraightEncoderTesting extends LinearOpMode {
         robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        while(robot.backLeftMotor.getCurrentPosition() < desiredTicks){
+        while(Math.abs(robot.backLeftMotor.getCurrentPosition()) < Math.abs(desiredTicks)){
 
             currOrient = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
