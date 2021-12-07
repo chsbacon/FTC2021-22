@@ -109,7 +109,7 @@ public class Auto2022 extends LinearOpMode {
         waitForStart();
 
 
-        double placeHeight = getPlaceHeightTurnRight(); //moves robot to phase 2
+        double placeHeight = getPlaceHeightTurnLeft(); //moves robot to phase 2
 
         telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
@@ -150,7 +150,7 @@ public class Auto2022 extends LinearOpMode {
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         //tfodParameters.minResultConfidence = 0.8f; //original
-        tfodParameters.minResultConfidence = 0.80f;
+        tfodParameters.minResultConfidence = 0.60f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
@@ -214,7 +214,7 @@ public class Auto2022 extends LinearOpMode {
             funcPlaceHeight = 2;
         }
         else{ // else test right
-            robot.rotateToHeading(0,-20);
+            robot.rotateToHeading(0,-30);
             if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
                 funcPlaceHeight = 3;
             }
@@ -242,7 +242,8 @@ public class Auto2022 extends LinearOpMode {
             funcPlaceHeight = 2;
         }
         else{ // else test right
-            robot.rotateToHeading(0,20);
+            robot.rotateToHeading(0,30);
+            robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
             if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
                 funcPlaceHeight = 3;
             }
