@@ -64,6 +64,7 @@ public class HardwareMap2022
 
     public CRServo intakeServo1 = null;
     public CRServo intakeServo2 = null;
+    public Servo dropServo = null;
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -109,6 +110,7 @@ public class HardwareMap2022
         carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
         intakeServo1 = hwMap.get(CRServo.class, "IS1"); //H2ServoP2
         intakeServo2 = hwMap.get(CRServo.class, "IS2"); // H2ServoP3
+        dropServo = hwMap.get(Servo.class, "DS"); //H1ServoP2
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -131,6 +133,7 @@ public class HardwareMap2022
         carouselServo.setPower(0);
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
+        dropServo.setPosition(0);
 
 
 
