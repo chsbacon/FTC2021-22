@@ -113,8 +113,8 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-        leftLinearSlideMotor.setPower(0);
-        rightLinearSlideMotor.setPower(0);
+        //leftLinearSlideMotor.setPower(0);
+        //rightLinearSlideMotor.setPower(0);
         liftMotor.setPower(0);
 
 
@@ -130,14 +130,14 @@ public class HardwareMap2022
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
-        leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

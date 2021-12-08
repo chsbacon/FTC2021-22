@@ -58,6 +58,8 @@ public class Auto2022 extends LinearOpMode {
 
 
     boolean duckFound = false;
+    double  duckRotateAuto = 25;
+    double  duckDriveForward = 250;
 
 
 
@@ -89,8 +91,7 @@ public class Auto2022 extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-        robot.leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
 
@@ -100,7 +101,7 @@ public class Auto2022 extends LinearOpMode {
         initTfod();
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(1, 16.0 / 9.0);
+            tfod.setZoom(2, 16.0 / 9.0);
 
         }
 
@@ -109,7 +110,7 @@ public class Auto2022 extends LinearOpMode {
         waitForStart();
 
 
-        double placeHeight = getPlaceHeightTurnLeft(); //moves robot to phase 2
+        double placeHeight = getPlaceHeightTurnRight(); //moves robot to phase 2
 
         telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
@@ -179,7 +180,7 @@ public class Auto2022 extends LinearOpMode {
                                 recognition.getRight(), recognition.getBottom());
                         i++;
 
-                        if ((recognition.getLabel().equalsIgnoreCase("Duck") || recognition.getLabel().equalsIgnoreCase("Cube"))){
+                        if ((recognition.getLabel().equalsIgnoreCase("Duck") || recognition.getLabel().equalsIgnoreCase("Cube") || recognition.getLabel().equalsIgnoreCase("Ball"))){
 
                             //telemetry.addData("LP", recognition.getLeft());
 
@@ -208,14 +209,13 @@ public class Auto2022 extends LinearOpMode {
         double startTime = runtime.milliseconds();
 
 
-        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
+        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),duckDriveForward);
 
         if(getDuckLocation() == true){ // if middle confirmed
             funcPlaceHeight = 2;
         }
         else{ // else test right
-            robot.rotateToHeading(0,-30);
-            robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0,-duckRotateAuto);
             if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
                 funcPlaceHeight = 3;
             }
@@ -237,14 +237,13 @@ public class Auto2022 extends LinearOpMode {
         double startTime = runtime.milliseconds();
 
 
-        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
+        robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),duckDriveForward);
 
         if(getDuckLocation() == true){ // if middle confirmed
             funcPlaceHeight = 2;
         }
         else{ // else test right
-            robot.rotateToHeading(0,30);
-            robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0,duckRotateAuto);
             if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
                 funcPlaceHeight = 3;
             }
