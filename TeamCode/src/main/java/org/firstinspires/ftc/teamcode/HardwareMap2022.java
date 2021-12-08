@@ -42,6 +42,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 
 public class HardwareMap2022
@@ -75,6 +77,10 @@ public class HardwareMap2022
     boolean spintakeToggle = true;
     boolean intakeToggle1 = true;
     boolean intakeToggle2 = true;
+
+    int liftMotorTicks = 0;
+
+
 
 
     /* local OpMode members. */
@@ -154,6 +160,10 @@ public class HardwareMap2022
 
         leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
 
 
         // Set up the parameters with which we will use our IMU. Note that integration
@@ -1267,19 +1277,47 @@ public class HardwareMap2022
             driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
             rotateToHeading(0.25,180);
             dropItem();
+            rotateToHeading(.25,0);
 
         }
         if(placeHeight==2){
+            driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
+            rotateToHeading(0.25,180);
+            liftMotorTicks = -1100;
+            moveLiftMotor(-1100, .5);
 
         }
         if(placeHeight==3){
-
+            driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
+            rotateToHeading(0.25,180);
+            liftMotorTicks = -2200;
+            moveLiftMotor(-2200, .5);
         }
     }
 
     public void dropItem(){
         dropServo.setPosition(90);
+        ElapsedTime  dropTime = new ElapsedTime();
+        while(dropTime.milliseconds() < 1000){
+
+        }
+        dropServo.setPosition(0);
 
     } //drop toggle?
+
+    public void moveLiftMotor(int myTicks, double positivePWR){
+        liftMotor.setTargetPosition(myTicks);
+
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        liftMotor.setPower(positivePWR);
+
+        while(liftMotor.isBusy()){
+
+        }
+        liftMotor.setPower(0);
+
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
 }
