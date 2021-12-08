@@ -136,6 +136,8 @@ public class TeleOp2022 extends LinearOpMode {
             }
             if(gamepad2.a){
                 //dump cargo
+                robot.intakeServo1.setPower(0);
+                robot.intakeServo2.setPower(0);
             }
             if(gamepad2.dpad_up){
                 //linear slide out
@@ -150,11 +152,24 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.spintake();
             }
             if(gamepad2.right_bumper){
-                robot.intakeTiltIn();
+                robot.intakeServo1.setPower(-1);
+                robot.intakeServo2.setPower(1);
+                while (gamepad2.right_bumper){
+
+                }
+                robot.intakeServo1.setPower(0);
+                robot.intakeServo2.setPower(0);
             }
             if(gamepad2.left_bumper){
-                robot.intakeTiltOut();
+                robot.intakeServo1.setPower(1);
+                robot.intakeServo2.setPower(-1);
+                while (gamepad2.left_bumper){
+
+                }
+                robot.intakeServo1.setPower(0);
+                robot.intakeServo2.setPower(0);
             }
+
 
             
             

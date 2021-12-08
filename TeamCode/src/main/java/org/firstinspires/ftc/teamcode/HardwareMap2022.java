@@ -125,7 +125,7 @@ public class HardwareMap2022
         liftMotor.setPower(0);
 
 
-        carouselServo.setPower(0); //not sure if this is stationary
+        carouselServo.setPower(0);
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
 
@@ -1232,10 +1232,11 @@ public class HardwareMap2022
         }
     }
 
-   public void intakeTiltIn (){
+    /*
+    public void intakeTiltIn (){
         if(intakeToggle1 == true){
-            intakeServo1.setPower(.25);
-            intakeServo2.setPower(-.25);
+            intakeServo1.setPower(-1);
+            intakeServo2.setPower(.1);
             intakeToggle1 = false;
         }
         if(intakeToggle1 == false) {
@@ -1244,17 +1245,8 @@ public class HardwareMap2022
             intakeToggle1 = true;
         }
     }
-    public void intakeTiltOut (){
-        if(intakeToggle2 == true){
-            intakeServo1.setPower(-.25);
-            intakeServo2.setPower(.25);
-            intakeToggle2 = false;
-        }
-        if(intakeToggle2 == false) {
-            intakeServo1.setPower(0);
-            intakeServo2.setPower(0);
-            intakeToggle2 = true;
-        }
-    }
+    */
+
+
 
 }
