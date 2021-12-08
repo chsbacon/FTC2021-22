@@ -129,6 +129,8 @@ public class HardwareMap2022
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
 
+
+
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -1220,7 +1222,8 @@ public class HardwareMap2022
         carouselServo.setPower(0);
 
     }
-    
+
+    /*
     public void spintake () {
         if(spintakeToggle == true){
         spinTakeMotor.setPower(.75);
@@ -1231,6 +1234,7 @@ public class HardwareMap2022
         spintakeToggle = true;
         }
     }
+  */
 
 
 

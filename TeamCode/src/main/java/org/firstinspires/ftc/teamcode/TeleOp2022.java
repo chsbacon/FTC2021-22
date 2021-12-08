@@ -70,6 +70,7 @@ public class TeleOp2022 extends LinearOpMode {
         double fastSlow = 1;
         
         double carouselServoOnPower = -1;
+        double spintakeMotorState = 0;
 
         int linearSlideTicks = 0;
 
@@ -139,18 +140,43 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
+
+            /*
             if(gamepad2.dpad_up){
                 //linear slide out
             }
             if(gamepad2.dpad_down){
                 //linear slide in
             }
-            if(gamepad2.b){
-                //linear slide up down toggle
+            */
+
+
+            if(gamepad2.dpad_down){
+                robot.spinTakeMotor.setPower(-.75);
+                while(gamepad2.dpad_down){
+
+                }
+                robot.spinTakeMotor.setPower(0);
             }
-            if(gamepad2.x){
-                robot.spintake();
+
+
+            //spintake motor in
+            if(gamepad2.dpad_up){
+
+
+                if(spintakeMotorState == 0){
+                    spintakeMotorState = 1;
+                    robot.spinTakeMotor.setPower(.75);
+
+                }
+                else{
+                    robot.spinTakeMotor.setPower(0);
+                    spintakeMotorState = 0;
+
+                }
             }
+
+
 
 
             //Intake Servos
