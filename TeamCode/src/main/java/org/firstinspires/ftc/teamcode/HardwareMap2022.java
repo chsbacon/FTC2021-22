@@ -1232,21 +1232,6 @@ public class HardwareMap2022
         }
     }
 
-    /*
-    public void intakeTiltIn (){
-        if(intakeToggle1 == true){
-            intakeServo1.setPower(-1);
-            intakeServo2.setPower(.1);
-            intakeToggle1 = false;
-        }
-        if(intakeToggle1 == false) {
-            intakeServo1.setPower(0);
-            intakeServo2.setPower(0);
-            intakeToggle1 = true;
-        }
-    }
-    */
-
 
 
 }

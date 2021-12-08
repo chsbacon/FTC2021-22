@@ -151,6 +151,9 @@ public class TeleOp2022 extends LinearOpMode {
             if(gamepad2.x){
                 robot.spintake();
             }
+
+
+            //Intake Servos
             if(gamepad2.right_bumper){
                 robot.intakeServo1.setPower(-1);
                 robot.intakeServo2.setPower(1);
