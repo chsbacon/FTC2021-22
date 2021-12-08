@@ -140,6 +140,9 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
+            if(gamepad2.b){
+                robot.dropItem();
+            }
 
             /*
             if(gamepad2.dpad_up){
