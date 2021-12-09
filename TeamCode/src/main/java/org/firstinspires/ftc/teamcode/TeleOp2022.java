@@ -113,7 +113,7 @@ public class TeleOp2022 extends LinearOpMode {
             
             //fast slow toggle
             if(gamepad1.a){
-                fastSlow = 2;
+                fastSlow = 3;
             }
             else{
                 fastSlow = 1;
