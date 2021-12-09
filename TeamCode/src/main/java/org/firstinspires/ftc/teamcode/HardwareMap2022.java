@@ -1323,31 +1323,32 @@ public class HardwareMap2022
       public void autoDrop(double placeHeight){
 
         if(placeHeight == 1){
-            driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
-            rotateToHeading(0,180);
             lowerIntake();
             dropItem();
-            rotateToHeading(0,0);
-            driveForwardUseFrontDistance(.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+            liftMotorTicks = -1;
+            moveLiftMotor(-1, .5);
+            raiseIntake();
+
         }
         if(placeHeight==2){
-            driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
-            rotateToHeading(0,180);
+
             lowerIntake();
-            liftMotorTicks = -1100;
-            moveLiftMotor(-1100, .5);
+            liftMotorTicks = -1200;
+            moveLiftMotor(-1200, .5);
             dropItem();
-            driveForwardUseFrontDistance(.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+            liftMotorTicks = -1;
+            moveLiftMotor(-1, .5);
+            raiseIntake();
 
         }
         if(placeHeight==3){
-            driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
-            rotateToHeading(0,180);
             lowerIntake();
             liftMotorTicks = -2200;
             moveLiftMotor(-2200, .5);
             dropItem();
-            driveForwardUseFrontDistance(.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+            liftMotorTicks = -1;
+            moveLiftMotor(-1, .5);
+            raiseIntake();
         }
     }
 
@@ -1369,6 +1370,21 @@ public class HardwareMap2022
         intakeServo2.setPower(1);
 
         while(lowerTime.milliseconds() < 1000){
+
+        }
+
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
+
+    }
+
+    public void raiseIntake(){
+        ElapsedTime  raiseTime = new ElapsedTime();
+
+        intakeServo1.setPower(1);
+        intakeServo2.setPower(-1);
+
+        while(raiseTime.milliseconds() < 2000){
 
         }
 

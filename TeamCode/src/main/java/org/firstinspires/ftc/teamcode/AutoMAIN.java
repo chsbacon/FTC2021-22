@@ -81,7 +81,7 @@ public class AutoMAIN extends LinearOpMode {
 
 
     boolean duckFound = false;
-    double  duckRotateAuto = 25;
+    double  duckRotateAuto = 17;
     double  duckDriveForward = 250;
 
     private ElapsedTime     runtime = new ElapsedTime();
@@ -120,6 +120,13 @@ public class AutoMAIN extends LinearOpMode {
         while (!gamepad1.x && !gamepad1.b) {
         }
 
+        if(gamepad1.x){
+            teamcolor = blue;
+        }
+        if(gamepad1.b){
+            teamcolor = red;
+        }
+
         telemetry.addData("teamcolor ", teamcolor);
         telemetry.update();
 
@@ -141,6 +148,9 @@ public class AutoMAIN extends LinearOpMode {
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) robot.backDistance;
 
 
+        Orientation startOrientation;
+        startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
         waitForStart();
         runtime.reset();
 
@@ -148,22 +158,27 @@ public class AutoMAIN extends LinearOpMode {
 
         //THIS MOVES THE ROBOT TO THE BEGINNING OF PHASE 2
 
-        if (teamcolor == red && side == warehouse){
+        //red warehouse
+        if ((teamcolor == red) && (side == warehouse)){
+            telemetry.addLine("Running AUTO");
+            telemetry.update();
+
+            //ADD A SLEEP HERE FOR COMPETITON OF AROUND 10 SECONDS
+
+
             double placeHeight = getPlaceHeightTurnLeft();
-            //Which of these needs to be turn LEFT?
 
-            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
-            robot.rotateToHeading(0,0);
+
+            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),700);
+            robot.rotateToHeading(0,179);
+            robot.driveBackwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),490);
             robot.autoDrop(placeHeight);
+            robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
+            robot.rotateToHeading(0,-90);
+            robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
 
 
-            robot.rotateToHeading(0.25,90);
-            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
-            robot.rotateToHeading(0.25,0);
-            robot.spinCarouselServo();
-            robot.rotateToHeading(0.25,-90);
-            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
-            //park
+
 
         }
         if (teamcolor == red && side == carousel){
@@ -207,13 +222,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 550);
             //park
         }
-        
 
-
-
-        /*telemetry.addData("Place Height: ", placeHeight);
-        telemetry.update();
-        sleep(5000);*/
 
 
 
@@ -331,6 +340,7 @@ public class AutoMAIN extends LinearOpMode {
         double startTime = runtime.milliseconds();
 
 
+
         robot.driveForwardUseEncoder(.3,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),duckDriveForward);
 
         if(getDuckLocation() == true){ // if middle confirmed
@@ -338,11 +348,11 @@ public class AutoMAIN extends LinearOpMode {
         }
         else{ // else test right
             robot.rotateToHeading(0,duckRotateAuto);
-            if(getDuckLocation() == true){ //if right (highest shelf) is confirmed
-                funcPlaceHeight = 3;
-            }
-            else{  //means it is left
+            if(getDuckLocation() == true){ //if left is found (lowest shelf)
                 funcPlaceHeight = 1;
+            }
+            else{  //means it is right (highest shelf)
+                funcPlaceHeight = 3;
             }
 
         }
