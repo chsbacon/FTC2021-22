@@ -132,7 +132,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.dropServo.setPosition(0);
             }
             if(gamepad1.y){
-                robot.dropServo.setPosition(.4);
+                robot.dropServo.setPosition(.3);
             }
 
 
