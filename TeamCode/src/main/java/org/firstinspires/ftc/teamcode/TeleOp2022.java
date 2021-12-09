@@ -145,7 +145,7 @@ public class TeleOp2022 extends LinearOpMode {
 
 
             // move Lift motor up a bit
-            if(gamepad2.x){
+          /*  if(gamepad2.x){
 
                liftMotorTicks += 500;
                robot.moveLiftMotor(liftMotorTicks,.75);
@@ -154,11 +154,21 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
             //move Lift Motor down a bit
-            if(gamepad2.a){
-
+           if(gamepad2.a){
                 liftMotorTicks -= 500;
                 robot.moveLiftMotor(liftMotorTicks,.75);
 
+            }*/
+
+            if(gamepad2.a && robot.liftMotor.getCurrentPosition()<0){
+                robot.liftMotor.setPower(1);
+
+            }
+            else if (gamepad2.x && robot.liftMotor.getCurrentPosition()>-2800){
+                robot.liftMotor.setPower(-1);
+            }
+            else{
+                robot.liftMotor.setPower(0);
             }
 
 
@@ -197,8 +207,8 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-
-            //Intake Servo Down
+            /*
+            //Intake Servo Down - Locking
             if(gamepad2.right_bumper){
                 robot.intakeServo1.setPower(-1);
                 robot.intakeServo2.setPower(1);
@@ -208,11 +218,26 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
+            */
 
 
 
 
-            //Intake Servo Up
+            if(gamepad2.right_bumper){
+                robot.intakeServo1.setPower(-1);
+                robot.intakeServo2.setPower(1);
+            }
+            else if (gamepad2.left_bumper){
+                robot.intakeServo1.setPower(1);
+                robot.intakeServo2.setPower(-1);
+            }
+            else{
+                robot.intakeServo1.setPower(0);
+                robot.intakeServo2.setPower(0);
+            }
+
+            /*
+            //Intake Servo Up - Locking
             if(gamepad2.left_bumper){
                 robot.intakeServo1.setPower(1);
                 robot.intakeServo2.setPower(-1);
@@ -222,7 +247,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
-
+            */
 
             
             
@@ -244,13 +269,15 @@ public class TeleOp2022 extends LinearOpMode {
 
 
             //telemtry for motors
-            telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
-            telemetry.addData("front right", "%.2f", frontRight/fastSlow);
-            telemetry.addData("back left", "%.2f", backLeft/fastSlow);
-            telemetry.addData("back right", "%.2f", backRight/fastSlow);
+            //telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
+            //telemetry.addData("front right", "%.2f", frontRight/fastSlow);
+            //telemetry.addData("back left", "%.2f", backLeft/fastSlow);
+            //telemetry.addData("back right", "%.2f", backRight/fastSlow);
             //telemetry for IMU
             telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
             telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
+
+            telemetry.addData("Lift Motor Pos: ", robot.liftMotor.getCurrentPosition());
 
             telemetry.update();
             
