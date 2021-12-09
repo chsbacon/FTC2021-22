@@ -1324,23 +1324,30 @@ public class HardwareMap2022
 
         if(placeHeight == 1){
             driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
-            rotateToHeading(0.25,180);
+            rotateToHeading(0,180);
+            lowerIntake();
             dropItem();
-            rotateToHeading(.25,0);
-
+            rotateToHeading(0,0);
+            driveForwardUseFrontDistance(.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
         }
         if(placeHeight==2){
             driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
-            rotateToHeading(0.25,180);
+            rotateToHeading(0,180);
+            lowerIntake();
             liftMotorTicks = -1100;
             moveLiftMotor(-1100, .5);
+            dropItem();
+            driveForwardUseFrontDistance(.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
 
         }
         if(placeHeight==3){
             driveForwardUseBackwardDistance(0.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),540);
-            rotateToHeading(0.25,180);
+            rotateToHeading(0,180);
+            lowerIntake();
             liftMotorTicks = -2200;
             moveLiftMotor(-2200, .5);
+            dropItem();
+            driveForwardUseFrontDistance(.25,imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
         }
     }
 
@@ -1353,6 +1360,22 @@ public class HardwareMap2022
         dropServo.setPosition(0);
 
     } //drop toggle?
+
+
+    public void lowerIntake(){
+        ElapsedTime  lowerTime = new ElapsedTime();
+
+        intakeServo1.setPower(-1);
+        intakeServo2.setPower(1);
+
+        while(lowerTime.milliseconds() < 1000){
+
+        }
+
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
+
+    }
 
     public void moveLiftMotor(int myTicks, double positivePWR){
         liftMotor.setTargetPosition(myTicks);

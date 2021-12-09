@@ -149,12 +149,14 @@ public class AutoMAIN extends LinearOpMode {
         //THIS MOVES THE ROBOT TO THE BEGINNING OF PHASE 2
 
         if (teamcolor == red && side == warehouse){
-            double placeHeight = getPlaceHeightTurnRight();
+            double placeHeight = getPlaceHeightTurnLeft();
             //Which of these needs to be turn LEFT?
-            robot.rotateToHeading(0.25,90);
-            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 300);
-            robot.rotateToHeading(0.25,0);
-            //drop item (including half back)
+
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
+            robot.rotateToHeading(0,0);
+            robot.autoDrop(placeHeight);
+
+
             robot.rotateToHeading(0.25,90);
             robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
             robot.rotateToHeading(0.25,0);
@@ -192,7 +194,7 @@ public class AutoMAIN extends LinearOpMode {
             //park
         }
         if (teamcolor == blue && side == carousel){
-            double placeHeight = getPlaceHeightTurnRight();
+            double placeHeight = getPlaceHeightTurnLeft();
             robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 260);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
             robot.spinCarouselServo();
