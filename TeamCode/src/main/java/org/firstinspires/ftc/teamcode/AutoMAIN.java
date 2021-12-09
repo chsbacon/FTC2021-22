@@ -110,7 +110,14 @@ public class AutoMAIN extends LinearOpMode {
 
         //ADD THE SIDE SET UP CODE BELOW
 
+        int teamcolor = 0; // 1 = Blue 2 = Red
+        int blue = 1;
+        int red = 2;
 
+
+        int side = 0; // 1 = left side start 2 = right side start
+        int warehouse = 1;
+        int carousel = 2;
 
 
 
@@ -120,9 +127,24 @@ public class AutoMAIN extends LinearOpMode {
 
 
         //THIS MOVES THE ROBOT TO THE BEGINNING OF PHASE 2
-        double placeHeight = getPlaceHeightTurnRight();
 
+        if (teamcolor == red && side == warehouse){
+            double placeHeight = getPlaceHeightTurnRight();
+            //Which of these needs to be turn LEFT?
 
+        }
+        if (teamcolor == red && side == carousel){
+            double placeHeight = getPlaceHeightTurnRight();
+
+        }
+        if (teamcolor == blue && side == warehouse){
+            double placeHeight = getPlaceHeightTurnRight();
+
+        }
+        if (teamcolor == blue && side == carousel){
+            double placeHeight = getPlaceHeightTurnRight();
+        }
+        
 
 
 
