@@ -29,12 +29,15 @@ package org.firstinspires.ftc.teamcode;
  */
 
 import android.util.Log;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -58,10 +61,6 @@ public class AutoMAIN extends LinearOpMode {
 
 
 
-
-
-
-
     //Vuforia Stuff
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -74,13 +73,6 @@ public class AutoMAIN extends LinearOpMode {
             "AUOQWxb/////AAABmRP6L/V1T0Bclh/MquexUq8kKPD3h3N5sSIPraEvHInc1KyTB1KSLqkDd0mdJZibl8t7LsWmHogI6fR7p44UvkxD6uBvANg8xebRLgWIHaPvqxf3IqT8IG2VkljyPD/Unlfi357W5qXls0rtkFem3yX5kROTZEfRbmf5ZwtC3KSu6hBzriQwM7zk0zptP/MWtO6B/SZz6OWwLCR6O4I6TkKC7kQS3b1VGNonWq4fFL5jMcVPypqZKohDySdG4URcz0NqxpeEcC9P/c/VL67JKBcFaNBtix+7N/yccggWv8tUKuofNLIS1mUEv5kTzw9n4ps6ApmE2PziqmOjzpNL0MgF+V3KhRddiJjx51nFKEdX";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
-
-
-
-
-
-
-
 
 
     /* Declare OpMode members. */
@@ -108,7 +100,6 @@ public class AutoMAIN extends LinearOpMode {
 
         }
 
-        //ADD THE SIDE SET UP CODE BELOW
 
         int teamcolor = 0; // 1 = Blue 2 = Red
         int blue = 1;
@@ -119,10 +110,39 @@ public class AutoMAIN extends LinearOpMode {
         int warehouse = 1;
         int carousel = 2;
 
+        Orientation angles;
+        Acceleration gravity;
+
+        // Choosing the team color
+        telemetry.addData("Press X for Blue, B for Red", "");
+        telemetry.update();
+
+        while (!gamepad1.x && !gamepad1.b) {
+        }
+
+        telemetry.addData("teamcolor ", teamcolor);
+        telemetry.update();
+
+        // Choosing side
+        telemetry.addData("Press A for warehouse, Y for carousel", "");
+        telemetry.update();
+
+        while (!gamepad1.a && !gamepad1.y) {
+        }
+        if (gamepad1.a) {
+            side = warehouse;
+        }
+        if (gamepad1.y) {
+            side = carousel;
+        }
+        telemetry.addData("side ", side);
+        telemetry.update();
+
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) robot.backDistance;
 
 
         waitForStart();
-
+        runtime.reset();
 
 
 
@@ -131,38 +151,67 @@ public class AutoMAIN extends LinearOpMode {
         if (teamcolor == red && side == warehouse){
             double placeHeight = getPlaceHeightTurnRight();
             //Which of these needs to be turn LEFT?
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 300);
+            robot.rotateToHeading(0.25,0);
+            //drop item (including half back)
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            robot.rotateToHeading(0.25,0);
+            robot.spinCarouselServo();
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            //park
 
         }
         if (teamcolor == red && side == carousel){
             double placeHeight = getPlaceHeightTurnRight();
-
+            robot.strafeLeftUsingLeftDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            robot.spinCarouselServo();
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+            robot.rotateToHeading(0.25,0);
+            //drop item (half back?)
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 60);
+            //park
         }
         if (teamcolor == blue && side == warehouse){
             double placeHeight = getPlaceHeightTurnRight();
-
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0.25,-90);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
+            robot.rotateToHeading(.25,0);
+            //drop item (including coming back to start (halfback))
+            robot.rotateToHeading(.25,-90);
+            robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0.25,0);
+            robot.spinCarouselServo();
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),80);
+            //park
         }
         if (teamcolor == blue && side == carousel){
             double placeHeight = getPlaceHeightTurnRight();
+            robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 260);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+            robot.spinCarouselServo();
+            robot.strafeLeftUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 225);
+            robot.rotateToHeading(0.25, 90);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
+            robot.rotateToHeading(0.25, 0);
+            //drop item
+            robot.rotateToHeading(0.25, 90);
+            robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 550);
+            //park
         }
         
 
 
 
-
-
-
-
-
-
-
-        telemetry.addData("Place Height: ", placeHeight);
+        /*telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
-        sleep(5000);
-
-
-
-
-
+        sleep(5000);*/
 
 
 
