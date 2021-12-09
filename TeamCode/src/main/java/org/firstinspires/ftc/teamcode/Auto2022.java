@@ -57,13 +57,12 @@ import java.util.List;
 public class Auto2022 extends LinearOpMode {
 
 
-    boolean duckFound = false;
-    double  duckRotateAuto = 25;
-    double  duckDriveForward = 250;
 
 
 
 
+
+    //Vuforia Stuff
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
             "Ball",
@@ -78,10 +77,20 @@ public class Auto2022 extends LinearOpMode {
 
 
 
+
+
+
+
+
+
     /* Declare OpMode members. */
     HardwareMap2022 robot = new HardwareMap2022();
 
 
+
+    boolean duckFound = false;
+    double  duckRotateAuto = 25;
+    double  duckDriveForward = 250;
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -91,12 +100,6 @@ public class Auto2022 extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-
-
-
-
-
-
         initVuforia();
         initTfod();
         if (tfod != null) {
@@ -105,12 +108,30 @@ public class Auto2022 extends LinearOpMode {
 
         }
 
+        //ADD THE SIDE SET UP CODE BELOW
+
+
+
 
 
         waitForStart();
 
 
-        double placeHeight = getPlaceHeightTurnRight(); //moves robot to phase 2
+
+
+        //THIS MOVES THE ROBOT TO THE BEGINNING OF PHASE 2
+        double placeHeight = getPlaceHeightTurnRight();
+
+
+
+
+
+
+
+
+
+
+
 
         telemetry.addData("Place Height: ", placeHeight);
         telemetry.update();
