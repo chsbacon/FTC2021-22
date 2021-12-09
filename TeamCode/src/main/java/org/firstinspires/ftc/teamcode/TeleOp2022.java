@@ -144,21 +144,8 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
 
-            // move Lift motor up a bit
-          /*  if(gamepad2.x){
-
-               liftMotorTicks += 500;
-               robot.moveLiftMotor(liftMotorTicks,.75);
 
 
-            }
-
-            //move Lift Motor down a bit
-           if(gamepad2.a){
-                liftMotorTicks -= 500;
-                robot.moveLiftMotor(liftMotorTicks,.75);
-
-            }*/
 
             if(gamepad2.a && robot.liftMotor.getCurrentPosition()<0){
                 robot.liftMotor.setPower(1);
@@ -207,20 +194,6 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-            /*
-            //Intake Servo Down - Locking
-            if(gamepad2.right_bumper){
-                robot.intakeServo1.setPower(-1);
-                robot.intakeServo2.setPower(1);
-                while (gamepad2.right_bumper){
-
-                }
-                robot.intakeServo1.setPower(0);
-                robot.intakeServo2.setPower(0);
-            }
-            */
-
-
 
 
             if(gamepad2.right_bumper){
@@ -236,20 +209,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo2.setPower(0);
             }
 
-            /*
-            //Intake Servo Up - Locking
-            if(gamepad2.left_bumper){
-                robot.intakeServo1.setPower(1);
-                robot.intakeServo2.setPower(-1);
-                while (gamepad2.left_bumper){
 
-                }
-                robot.intakeServo1.setPower(0);
-                robot.intakeServo2.setPower(0);
-            }
-            */
-
-            
             
             //driving controls
             y = gamepad1.left_stick_y;
