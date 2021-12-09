@@ -159,11 +159,6 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
 
-            //drop item
-            if(gamepad2.b){
-                robot.dropItem();
-            }
-
 
 
             //spitake out items
