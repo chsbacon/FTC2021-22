@@ -72,7 +72,8 @@ public class TeleOp2022 extends LinearOpMode {
         double carouselServoOnPower = -1;
         double spintakeMotorState = 0;
 
-        int linearSlideTicks = 0;
+
+        int liftMotorTicks = 0;
 
         //start Orientation will always be 0; this is the heading when initialized
         Orientation startOrientation;
@@ -83,27 +84,25 @@ public class TeleOp2022 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+
+        robot.dropServo.setPosition(0);
+
+
+
+
+
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            /*
-            FUNCTION EXAMPLES
-
-            // to drive straight for a set time at a set speed
-            robot.driveStraightTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),5000);
-                    //to grab current heading from robot (straight
-                    //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
-
-            // to rotate to a certain heading
-                (set pwr to 0)
-            robot.rotateToHeading(0,-135);
-
-
-             */
 
 
 
@@ -128,32 +127,49 @@ public class TeleOp2022 extends LinearOpMode {
                 //rotate 90 deg right
                 robot.rotateToHeading(0.25,-90);
             }
-            
-            
+
+            if(gamepad1.b){
+                robot.dropServo.setPosition(0);
+            }
+            if(gamepad1.y){
+                robot.dropServo.setPosition(.5);
+            }
+
+
             //GAMEPAD 2 Capabilities
 
+            // sping CarouselServo
             if(gamepad2.y){
                 robot.spinCarouselServo();
             }
-            if(gamepad2.a){
-                //dump cargo
-                robot.intakeServo1.setPower(0);
-                robot.intakeServo2.setPower(0);
+
+
+            // move Lift motor up a bit
+            if(gamepad2.x){
+
+               liftMotorTicks += 500;
+               robot.moveLiftMotor(liftMotorTicks,.75);
+
+
             }
+
+            //move Lift Motor down a bit
+            if(gamepad2.a){
+
+                liftMotorTicks -= 500;
+                robot.moveLiftMotor(liftMotorTicks,.75);
+
+            }
+
+
+            //drop item
             if(gamepad2.b){
                 robot.dropItem();
             }
 
-            /*
-            if(gamepad2.dpad_up){
-                //linear slide out
-            }
-            if(gamepad2.dpad_down){
-                //linear slide in
-            }
-            */
 
 
+            //spitake out items
             if(gamepad2.dpad_down){
                 robot.spinTakeMotor.setPower(-.75);
                 while(gamepad2.dpad_down){
@@ -163,7 +179,7 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
 
-            //spintake motor in
+            //spintake items in
             if(gamepad2.dpad_up){
 
 
@@ -182,7 +198,7 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-            //Intake Servos
+            //Intake Servo Down
             if(gamepad2.right_bumper){
                 robot.intakeServo1.setPower(-1);
                 robot.intakeServo2.setPower(1);
@@ -192,6 +208,11 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
+
+
+
+
+            //Intake Servo Up
             if(gamepad2.left_bumper){
                 robot.intakeServo1.setPower(1);
                 robot.intakeServo2.setPower(-1);

@@ -133,7 +133,7 @@ public class HardwareMap2022
         carouselServo.setPower(0);
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
-        dropServo.setPosition(0);
+        dropServo.setPosition(0.7);
 
 
 
@@ -1266,7 +1266,7 @@ public class HardwareMap2022
     }
 
     public void dropItem(){
-        dropServo.setPosition(90);
+        dropServo.setPosition(.5);
         ElapsedTime  dropTime = new ElapsedTime();
         while(dropTime.milliseconds() < 1000){
 
