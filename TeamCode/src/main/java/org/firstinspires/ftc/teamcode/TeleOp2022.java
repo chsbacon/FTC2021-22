@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -47,7 +46,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
 
-
+/**
+ * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
+ * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
+ * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
+ *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all linear OpModes contain.
+ *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ */
+//Graham Branch
 @TeleOp(name="TeleOp 2022", group="Linear Opmode")
 //@Disabled
 public class TeleOp2022 extends LinearOpMode {
@@ -68,14 +79,12 @@ public class TeleOp2022 extends LinearOpMode {
         double backLeft;
         double backRight;
         double fastSlow = 1;
-        
+
         double carouselServoOnPower = -1;
-        double spintakeMotorState = 0;
 
+        int linearSlideTicks = 0;
 
-        int liftMotorTicks = 0;
-
-        //start Orientation will always be 0; this is the heading when initialized
+        //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
         startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         Orientation currentOrientation;
@@ -84,129 +93,40 @@ public class TeleOp2022 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
         // Wait for the game to start (driver presses PLAY)
+
         waitForStart();
-
-
-        robot.dropServo.setPosition(0);
-
-
-
-
-
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-
-
-
+            // to grab heading from robot
+            //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            //GAMEPAD 1 Capabilities
-            
-            //fast slow toggle
+            //fast slow + auto test
+
+
+
+
             if(gamepad1.a){
-                fastSlow = 3;
-            }
-            else{
-                fastSlow = 1;
-            }
-
-            if(gamepad1.dpad_left){
-                //rotate 90 deg left
-                robot.rotateToHeading(0.25,90);
-            }
-            if(gamepad1.dpad_right){
-                //rotate 90 deg right
-                robot.rotateToHeading(0.25,-90);
-            }
-
-            if(gamepad1.b){
-                robot.dropServo.setPosition(0);
-            }
-            if(gamepad1.y){
-                robot.dropServo.setPosition(.35);
-            }
-
-
-            //GAMEPAD 2 Capabilities
-
-            // spin CarouselServo
-            if(gamepad2.y){
-                robot.spinCarouselServo();
-            }
-
-
-
-
-
-            if(gamepad2.a && robot.liftMotor.getCurrentPosition()<0){
-                robot.liftMotor.setPower(1);
 
             }
-            else if (gamepad2.x && robot.liftMotor.getCurrentPosition()>-2800){
-                robot.liftMotor.setPower(-1);
-            }
-            else{
-                robot.liftMotor.setPower(0);
-            }
-
-
-
-
-            //spitake out items
-            if(gamepad2.dpad_down){
-                robot.spinTakeMotor.setPower(-.75);
-                while(gamepad2.dpad_down){
-
-                }
-                robot.spinTakeMotor.setPower(0);
-            }
-
-
-            //spintake items in
-            if(gamepad2.dpad_up){
-
-
-                if(spintakeMotorState == 0){
-                    spintakeMotorState = 1;
-                    robot.spinTakeMotor.setPower(.75);
-
-                }
-                else{
-                    robot.spinTakeMotor.setPower(0);
-                    spintakeMotorState = 0;
-
-                }
-            }
 
 
 
 
 
-            if(gamepad2.left_bumper){
-                robot.intakeServo1.setPower(-1);
-                robot.intakeServo2.setPower(1);
-            }
-            else if (gamepad2.right_bumper){
-                robot.intakeServo1.setPower(1);
-                robot.intakeServo2.setPower(-1);
-            }
-            else{
-                robot.intakeServo1.setPower(0);
-                robot.intakeServo2.setPower(0);
-            }
 
 
-            
-            //driving controls
+
+
+
+
+
+
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
@@ -229,18 +149,20 @@ public class TeleOp2022 extends LinearOpMode {
             //telemetry.addData("back left", "%.2f", backLeft/fastSlow);
             //telemetry.addData("back right", "%.2f", backRight/fastSlow);
             //telemetry for IMU
-            telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
+            //telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
             telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
-
-            telemetry.addData("Lift Motor Pos: ", robot.liftMotor.getCurrentPosition());
+            //telemtry for Distance Sensors
+            telemetry.addData("Front Sensor", String.format("%.01f mm", robot.frontDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Right Sensor", String.format("%.01f mm", robot.rightDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Back Sensor", String.format("%.01f mm", robot.backDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Left Sensor", String.format("%.01f mm", robot.leftDistance.getDistance(DistanceUnit.MM)));
+            telemetry.addData("current Angle",currentOrientation);
 
             telemetry.update();
-            
+
+
         }
     }
-
-
-
 
 
     //just formatting stuff for the angles -- this was copied and pasted
@@ -253,6 +175,61 @@ public class TeleOp2022 extends LinearOpMode {
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
+    /*
+    public void moveLinearSlide(int myTicks){
+        //robot.leftLinearSlideMotor.setTargetPosition(myTicks);
+        robot.rightLinearSlideMotor.setTargetPosition(myTicks);
 
+        //robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        //robot.leftLinearSlideMotor.setPower(0.1);
+        robot.rightLinearSlideMotor.setPower(0.1);
+
+        while(robot.leftLinearSlideMotor.isBusy() && robot.rightLinearSlideMotor.isBusy()){
+        }
+        //robot.leftLinearSlideMotor.setPower(0);
+        robot.rightLinearSlideMotor.setPower(0);
+
+        //robot.leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    */
 }
+
+
+//auto test
+/*
+                robot.driveBackwardUseBackDistance(.25,startOrientation,500);
+                robot.strafeRight(.5,startOrientation,1500);
+                robot.rotateToHeading(0,-90);
+                robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1500);
+                robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
+                robot.spinCarouselMotor();
+                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),800);
+                robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 750 );
+                robot.rotateToHeading(0,0);
+                robot.driveForwardUseTime(.25,startOrientation,4000);
+                robot.driveForwardUseTime(.7,startOrientation,3000);
+ */
+
+//Basic Blue Duck Side Auto
+/*
+                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),550);
+                //rotate towards shipping hub
+                robot.rotateToHeading(0,55);
+                //drive slow straight for 1/4 a second
+                robot.driveForwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
+                //place
+                robot.spinCarouselMotor();
+                //drive slow backwards for 1/4 a second
+                robot.driveBackwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
+                //rotate towards to -90
+                robot.rotateToHeading(0,-90);
+                robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+                robot.rotateToHeading(0,0);
+                robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+                robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),330);
+                robot.spinCarouselMotor();
+                robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650);
+ */

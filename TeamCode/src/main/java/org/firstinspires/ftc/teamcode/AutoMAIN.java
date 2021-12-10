@@ -183,32 +183,49 @@ public class AutoMAIN extends LinearOpMode {
 
         }
         if (teamcolor == red && side == carousel){
+            /*
+
             double placeHeight = getPlaceHeightTurnRight();
 
-            robot.rotateToHeading(.25, 0);
-            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
-            robot.rotateToHeading(.25, -90);
-            robot.driveBackwardUseBackDistance(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+
+            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1050);
+
+
+            robot.rotateToHeading(0,0);
+            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
+            robot.rotateToHeading(0,179);
+
+            robot.autoDrop(placeHeight);
+            robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
+
+            robot.rotateToHeading(0,-90);
+            robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
+            robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+            robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
+
+            robot.spinCarouselServo();
+
 
             //robot.strafeLeft(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
             robot.spinCarouselServo();
-
-
-            /*robot.strafeLeftUsingLeftDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),60);
+            */
+            robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),515);
             robot.spinCarouselServo();
-            robot.rotateToHeading(0.25,-90);
-            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
-            robot.rotateToHeading(0.25,0);
-            //drop item (half back?)
-            robot.rotateToHeading(0.25,-90);
-            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 60);*/
-            //park
+            robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
+            robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+            robot.rotateToHeading(.25,90);
+            robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650);
+            robot.rotateToHeading(0,179);
+            robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+
+
         }
         if (teamcolor == blue && side == warehouse){
+            /*
             double placeHeight = getPlaceHeightTurnRight();
             robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
             robot.rotateToHeading(0.25,-90);
-            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
+            robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
             robot.rotateToHeading(.25,0);
             //drop item (including coming back to start (halfback))
             robot.rotateToHeading(.25,-90);
@@ -218,8 +235,26 @@ public class AutoMAIN extends LinearOpMode {
             robot.rotateToHeading(0.25,90);
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),80);
             //park
+            */
+
         }
         if (teamcolor == blue && side == carousel){
+            robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+            robot.rotateToHeading(0,90);
+            robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
+            robot.rotateToHeading(0,0);
+            robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
+            robot.rotateToHeading(0,90);
+
+
+            robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+            robot.driveBackwardUseBackDistance(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+            robot.spinCarouselServo();
+            robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),700);
+
+
+
+            /*
             double placeHeight = getPlaceHeightTurnLeft();
             robot.strafeRightUsingRightDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 260);
             robot.driveForwardUseBackwardDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
@@ -232,6 +267,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.rotateToHeading(0.25, 90);
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 550);
             //park
+            */
         }
 
 
