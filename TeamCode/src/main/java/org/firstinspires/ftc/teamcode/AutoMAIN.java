@@ -155,9 +155,6 @@ public class AutoMAIN extends LinearOpMode {
         runtime.reset();
 
 
-
-        //THIS MOVES THE ROBOT TO THE BEGINNING OF PHASE 2
-
         //red warehouse
         if ((teamcolor == red) && (side == warehouse)){
 
@@ -257,7 +254,6 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveBackwardUseBackDistance(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
             robot.spinCarouselServo();
             robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),700);
-
 
 
             /*
