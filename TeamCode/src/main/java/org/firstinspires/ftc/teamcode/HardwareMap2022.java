@@ -1353,7 +1353,7 @@ public class HardwareMap2022
     }
 
     public void dropItem(){
-        dropServo.setPosition(.3);
+        dropServo.setPosition(.35);
         ElapsedTime  dropTime = new ElapsedTime();
         while(dropTime.milliseconds() < 1500){
 
