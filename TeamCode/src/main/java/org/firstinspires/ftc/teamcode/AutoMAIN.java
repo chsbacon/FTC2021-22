@@ -162,8 +162,8 @@ public class AutoMAIN extends LinearOpMode {
 
             robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),450);
             robot.rotateToHeading(0,-90);
-            robot.driveForwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
-
+            robot.driveForwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
+            robot.lowerIntake();
 
 
             /*
@@ -213,8 +213,9 @@ public class AutoMAIN extends LinearOpMode {
             robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
             robot.rotateToHeading(0,90);
             robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650);
-            robot.rotateToHeading(0,179);
-            robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.rotateToHeading(0,0);
+            robot.lowerIntake();
+            robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
 
 
         }
@@ -238,7 +239,8 @@ public class AutoMAIN extends LinearOpMode {
 
             robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),450);
             robot.rotateToHeading(0,90);
-            robot.driveForwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+            robot.driveForwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
+            robot.lowerIntake();
 
         }
         if (teamcolor == blue && side == carousel){
@@ -254,7 +256,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveBackwardUseBackDistance(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
             robot.spinCarouselServo();
             robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),700);
-
+            robot.lowerIntake();
 
             /*
             double placeHeight = getPlaceHeightTurnLeft();
