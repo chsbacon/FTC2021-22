@@ -119,6 +119,10 @@ public class TeleOp2022 extends LinearOpMode {
                 fastSlow = 1;
             }
 
+            if(gamepad1.x){
+                robot.dropServo.setPosition(0.7);
+            }
+
             if(gamepad1.dpad_left){
                 //rotate 90 deg left
                 robot.rotateToHeading(0.25,90);
