@@ -160,16 +160,17 @@ public class AutoMAIN extends LinearOpMode {
 
         //red warehouse
         if ((teamcolor == red) && (side == warehouse)){
-            telemetry.addLine("Running AUTO");
-            telemetry.update();
-
-            //ADD A SLEEP HERE FOR COMPETITON OF AROUND 10 SECONDS
 
 
+
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),450);
+            robot.rotateToHeading(0,-90);
+            robot.driveForwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+
+
+
+            /*
             double placeHeight = getPlaceHeightTurnLeft();
-
-
-
             robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),700);
             robot.rotateToHeading(0,179);
             robot.driveBackwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),490);
@@ -177,7 +178,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
             robot.rotateToHeading(0,-90);
             robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
-
+            */
 
 
 
@@ -213,7 +214,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.spinCarouselServo();
             robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
             robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
-            robot.rotateToHeading(.25,90);
+            robot.rotateToHeading(0,90);
             robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650);
             robot.rotateToHeading(0,179);
             robot.driveForwardUseFrontDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
@@ -236,13 +237,11 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),80);
             //park
             */
-            ElapsedTime  parkTimeB = new ElapsedTime();
-            while(parkTimeB.milliseconds() < 20000){
 
-            }
-            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
-            robot.rotateToHeading(0.25,90);
-            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),180);
+
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),450);
+            robot.rotateToHeading(0,90);
+            robot.driveForwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
 
         }
         if (teamcolor == blue && side == carousel){
