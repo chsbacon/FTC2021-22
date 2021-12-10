@@ -236,6 +236,13 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveForwardUseFrontDistance(0.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),80);
             //park
             */
+            ElapsedTime  parkTimeB = new ElapsedTime();
+            while(parkTimeB.milliseconds() < 20000){
+
+            }
+            robot.driveForwardUseBackwardDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),200);
+            robot.rotateToHeading(0.25,90);
+            robot.driveForwardUseFrontDistance(0.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),180);
 
         }
         if (teamcolor == blue && side == carousel){
