@@ -1385,6 +1385,8 @@ public class HardwareMap2022
     void spinCarouselServo(){
         ElapsedTime  carouselRuntime = new ElapsedTime();
 
+        //-1 for blue
+        // 1 for red
         carouselServo.setPower(-1);
         while(carouselRuntime.milliseconds() < 4250){
 

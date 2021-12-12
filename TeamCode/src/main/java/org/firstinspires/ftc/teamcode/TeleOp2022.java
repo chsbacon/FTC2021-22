@@ -93,13 +93,6 @@ public class TeleOp2022 extends LinearOpMode {
         waitForStart();
 
 
-        robot.dropServo.setPosition(0);
-
-
-
-
-
-
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 

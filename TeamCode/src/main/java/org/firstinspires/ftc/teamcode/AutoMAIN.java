@@ -164,7 +164,6 @@ public class AutoMAIN extends LinearOpMode {
             robot.rotateToHeading(0,-90);
             robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),100);
             robot.driveForwardUseTime(.99,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
-            robot.lowerIntake();
 
 
             /*
@@ -215,7 +214,6 @@ public class AutoMAIN extends LinearOpMode {
             robot.rotateToHeading(0,90);
             robot.driveForwardUseBackwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650);
             robot.rotateToHeading(0,0);
-            robot.lowerIntake();
             robot.driveBackwardUseBackDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
 
 
@@ -242,7 +240,6 @@ public class AutoMAIN extends LinearOpMode {
             robot.rotateToHeading(0,90);
             robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),100);
             robot.driveForwardUseTime(.99,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
-            robot.lowerIntake();
 
         }
         if (teamcolor == blue && side == carousel){
@@ -259,7 +256,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.driveBackwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
             robot.spinCarouselServo();
             robot.driveForwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
-            robot.lowerIntake();
+
 
             /*
             double placeHeight = getPlaceHeightTurnLeft();
@@ -295,7 +292,7 @@ public class AutoMAIN extends LinearOpMode {
         //parameters.cameraDirection = CameraDirection.BACK;
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
