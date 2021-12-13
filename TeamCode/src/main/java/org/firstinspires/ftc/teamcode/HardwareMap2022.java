@@ -923,6 +923,81 @@ public class HardwareMap2022
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public void driveBackwardUseEncoder(double positivePWR, Orientation target, double desiredTicks){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        while(Math.abs(backLeftMotor.getCurrentPosition()) < Math.abs(desiredTicks)){
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (error / 180) / (positivePWR);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = positivePWR + r ;
+            backLeft = positivePWR + r ;
+            backRight = positivePWR - r ;
+            frontRight = positivePWR - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+
+            //telemetry.addData("Target: ", desiredTicks);
+            //telemetry.addData("tickPos: ",robot.backLeftMotor.getCurrentPosition());
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(-frontLeft);
+            backLeftMotor.setPower(-backLeft);
+            backRightMotor.setPower(-backRight);
+            frontRightMotor.setPower(-frontRight);
+
+
+
+        }
+        stopDrivingAndBrake();
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+
 
 
     void spinCarouselServo(){
