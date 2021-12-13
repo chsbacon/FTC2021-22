@@ -91,21 +91,18 @@ public class HardwareMap2022
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //H1P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //H1P3
 
-        liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
-
-        leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
-        rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
-
-
-        carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
+        //liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
+        //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
+        //rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
+        //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
 
 
         frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
-        backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
-        leftDistance = hwMap.get(DistanceSensor.class,"LDS"); //H1P3
+        //backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
+        //leftDistance = hwMap.get(DistanceSensor.class,"LDS"); //H1P3
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
@@ -115,10 +112,10 @@ public class HardwareMap2022
 
         //leftLinearSlideMotor.setPower(0);
         //rightLinearSlideMotor.setPower(0);
-        liftMotor.setPower(0);
+        //liftMotor.setPower(0);
 
 
-        carouselServo.setPower(0); //not sure if this is stationary
+        //carouselServo.setPower(0); //not sure if this is stationary
 
 
 
@@ -132,7 +129,7 @@ public class HardwareMap2022
 
         //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -179,10 +176,7 @@ public class HardwareMap2022
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
+        stopDriving();
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -925,17 +919,7 @@ public class HardwareMap2022
 
 
         }
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        stopDriving();
-
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        stopDrivingAndBrake();
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
