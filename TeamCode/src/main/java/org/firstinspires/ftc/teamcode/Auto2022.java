@@ -83,6 +83,7 @@ public class Auto2022 extends LinearOpMode {
         robot.init(hardwareMap);
 
 
+        robot.driveForwardUseColor(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
 
 
 

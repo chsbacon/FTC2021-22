@@ -28,7 +28,13 @@
  */
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -60,6 +66,11 @@ public class HardwareMap2022
 
     public CRServo carouselServo = null;
 
+    public ColorSensor downColor = null;
+
+    public RevBlinkinLedDriver blinkinLedDriver;
+    public RevBlinkinLedDriver.BlinkinPattern pattern;
+
 
     public DistanceSensor frontDistance = null;
     public DistanceSensor rightDistance = null;
@@ -74,6 +85,23 @@ public class HardwareMap2022
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime runtime  = new ElapsedTime();
+
+
+
+    //Color Sensor Set Up
+
+    // hsvValues is an array that will hold the hue, saturation, and value information.
+    float hsvValues[] = {0F, 0F, 0F};
+    // values is a reference to the hsvValues array.
+    final float values[] = hsvValues;
+    // sometimes it helps to multiply the raw RGB values with a scale factor
+    // to amplify/attentuate the measured values.
+    final double SCALE_FACTOR = 255;
+    // get a reference to the RelativeLayout so we can change the background
+    // color of the Robot Controller app to match the hue detected by the RGB sensor.
+    int relativeLayoutId = hwMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hwMap.appContext.getPackageName());
+    final View relativeLayout = ((Activity) hwMap.appContext).findViewById(relativeLayoutId);
+
 
     /* Constructor */
     public HardwareMap2022(){
@@ -90,6 +118,14 @@ public class HardwareMap2022
         frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //H1P1
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //H1P2
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //H1P3
+
+        downColor = hwMap.get(ColorSensor.class, "colD"); //i2c
+
+        blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
+
+
+
+
 
         //liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
         //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
@@ -995,6 +1031,89 @@ public class HardwareMap2022
         }
         stopDrivingAndBrake();
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void driveForwardUseColor(double pwr, Orientation target, double alphaThreshold){
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
+        blinkinLedDriver.setPattern(pattern);
+
+        Color.RGBToHSV((int) (downColor.red() * SCALE_FACTOR),
+                (int) (downColor.green() * SCALE_FACTOR),
+                (int) (downColor.blue() * SCALE_FACTOR),
+                hsvValues);
+
+        while(((downColor.alpha() < alphaThreshold))){
+
+            Color.RGBToHSV((int) (downColor.red() * SCALE_FACTOR),
+                    (int) (downColor.green() * SCALE_FACTOR),
+                    (int) (downColor.blue() * SCALE_FACTOR),
+                    hsvValues);
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (-error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(frontLeft);
+            backLeftMotor.setPower(backLeft);
+            backRightMotor.setPower(backRight);
+            frontRightMotor.setPower(frontRight);
+
+
+
+        }
+        stopDriving();
+        pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+        blinkinLedDriver.setPattern(pattern);
     }
 
 
