@@ -99,8 +99,8 @@ public class HardwareMap2022
     final double SCALE_FACTOR = 255;
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the hue detected by the RGB sensor.
-    int relativeLayoutId = hwMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hwMap.appContext.getPackageName());
-    final View relativeLayout = ((Activity) hwMap.appContext).findViewById(relativeLayoutId);
+    //int relativeLayoutId = hwMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hwMap.appContext.getPackageName());
+    //final View relativeLayout = ((Activity) hwMap.appContext).findViewById(relativeLayoutId);
 
 
     /* Constructor */
@@ -135,8 +135,8 @@ public class HardwareMap2022
 
 
 
-        frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
-        rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
+        //frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
+        //rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
         //backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
         //leftDistance = hwMap.get(DistanceSensor.class,"LDS"); //H1P3
 
@@ -236,7 +236,7 @@ public class HardwareMap2022
         double derivative;
         double out;
 
-        double kP = .07;
+        double kP = .045;
         double kI = .0;
         double kD = .99;
 
@@ -1112,8 +1112,6 @@ public class HardwareMap2022
 
         }
         stopDriving();
-        pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-        blinkinLedDriver.setPattern(pattern);
     }
 
 
