@@ -157,7 +157,7 @@ public class HardwareMap2022
         //liftMotor.setPower(0);
 
 
-        //carouselServo.setPower(0); //not sure if this is stationary
+        //carouselServo.setPower(0); //this is stationary
 
 
 
