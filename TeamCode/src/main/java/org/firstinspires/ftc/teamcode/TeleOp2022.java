@@ -84,6 +84,7 @@ public class TeleOp2022 extends LinearOpMode {
 
         int linearSlideTicks = 0;
 
+
         //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
         startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -109,6 +110,19 @@ public class TeleOp2022 extends LinearOpMode {
             //fast slow + auto test
 
 
+
+
+            if(gamepad2.left_bumper){
+                robot.intakeServo1.setPosition(0);
+                robot.intakeServo2.setPosition(1);
+            }
+            else if(gamepad2.right_bumper){
+                robot.intakeServo1.setPosition(1);
+                robot.intakeServo2.setPosition(0);
+            }
+            else{
+
+            }
 
 
 

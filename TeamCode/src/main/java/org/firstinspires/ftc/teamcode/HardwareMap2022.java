@@ -58,10 +58,13 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
 
-    public DcMotor  leftLinearSlideMotor = null;
-    public DcMotor  rightLinearSlideMotor = null;
+    //public DcMotor  leftLinearSlideMotor = null;
+    //public DcMotor  rightLinearSlideMotor = null;
 
-    public DcMotor  liftMotor = null;
+    //public DcMotor  liftMotor = null;
+
+    public Servo intakeServo1 = null;
+    public Servo intakeServo2 = null;
 
 
     public CRServo carouselServo = null;
@@ -124,6 +127,8 @@ public class HardwareMap2022
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
 
 
+        intakeServo1 = hwMap.get(Servo.class,"IS1");
+        intakeServo2 = hwMap.get(Servo.class,"IS2");
 
 
 
@@ -133,7 +138,8 @@ public class HardwareMap2022
         //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
-
+        intakeServo1.setPosition(0);
+        intakeServo2.setPosition(1);
 
         //frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         //rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
