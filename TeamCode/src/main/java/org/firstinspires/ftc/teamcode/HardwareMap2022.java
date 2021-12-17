@@ -67,7 +67,8 @@ public class HardwareMap2022
     public Servo intakeServo2 = null;
 
 
-    public CRServo carouselServo = null;
+    public DcMotor carouselMotorL = null;
+    public DcMotor carouselMotorR = null;
 
     public ColorSensor downColor = null;
 
@@ -130,7 +131,8 @@ public class HardwareMap2022
         intakeServo1 = hwMap.get(Servo.class,"IS1");
         intakeServo2 = hwMap.get(Servo.class,"IS2");
 
-
+        carouselMotorL = hwMap.get(DcMotor.class,"CML");
+        carouselMotorR = hwMap.get(DcMotor.class,"CMR");
 
         //liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
         //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
@@ -167,6 +169,9 @@ public class HardwareMap2022
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        carouselMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        carouselMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -1211,14 +1216,16 @@ public class HardwareMap2022
 
 
 
-    void spinCarouselServo(){
+    void spinCarouselMotors(){
         ElapsedTime  carouselRuntime = new ElapsedTime();
 
-        carouselServo.setPower(-1);
+        carouselMotorR.setPower(-1);
+        carouselMotorL.setPower(-1);
         while(carouselRuntime.milliseconds() < 4250){
 
         }
-        carouselServo.setPower(0);
+        carouselMotorR.setPower(0);
+        carouselMotorL.setPower(0);
 
     }
 
