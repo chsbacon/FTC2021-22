@@ -60,7 +60,8 @@ public class HardwareMap2022
     
     public DcMotor  liftMotor = null;
     
-    public CRServo carouselServo = null;
+    public DcMotor carouselMotorL = null;
+    public DcMotor carouselMotorR = null;
 
     public CRServo intakeServo1 = null;
     public CRServo intakeServo2 = null;
@@ -107,7 +108,8 @@ public class HardwareMap2022
         leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
         rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
         
-        carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
+        carouselMotorL = hwMap.get(DcMotor.class,"CML"); //
+        carouselMotorR = hwMap.get(DcMotor.class,"CMR");
         intakeServo1 = hwMap.get(CRServo.class, "IS1"); //H2ServoP2
         intakeServo2 = hwMap.get(CRServo.class, "IS2"); // H2ServoP3
         dropServo = hwMap.get(Servo.class, "DS"); //H1ServoP2
@@ -129,8 +131,8 @@ public class HardwareMap2022
         rightLinearSlideMotor.setPower(0);
         liftMotor.setPower(0);
 
-
-        carouselServo.setPower(0);
+        carouselMotorL.setPower(0);
+        carouselMotorR.setPower(0);
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
         dropServo.setPosition(0.7);
@@ -1382,16 +1384,18 @@ public class HardwareMap2022
     }
 
 
-    void spinCarouselServo(){
+    void spinCarouselMotors(){
         ElapsedTime  carouselRuntime = new ElapsedTime();
 
         //-1 for blue
         // 1 for red
-        carouselServo.setPower(-1);
+        carouselMotorL.setPower(-1);
+        carouselMotorR.setPower(-1);
         while(carouselRuntime.milliseconds() < 4250){
 
         }
-        carouselServo.setPower(0);
+        carouselMotorL.setPower(0);
+        carouselMotorR.setPower(0);
 
     }
 

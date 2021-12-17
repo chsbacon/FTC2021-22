@@ -208,7 +208,7 @@ public class AutoMAIN extends LinearOpMode {
             robot.spinCarouselServo();
             */
             robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),525);
-            robot.spinCarouselServo();
+            robot.spinCarouselMotors();
             robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
             robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
             robot.rotateToHeading(0,90);
@@ -254,7 +254,7 @@ public class AutoMAIN extends LinearOpMode {
 
             robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
             robot.driveBackwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
-            robot.spinCarouselServo();
+            robot.spinCarouselMotors();
             robot.driveForwardUseTime(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
 
 

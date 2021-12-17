@@ -137,7 +137,7 @@ public class TeleOp2022 extends LinearOpMode {
 
             // spin CarouselServo
             if(gamepad2.y){
-                robot.spinCarouselServo();
+                robot.spinCarouselMotors();
             }
 
 
