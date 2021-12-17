@@ -80,7 +80,7 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
-        double carouselServoOnPower = -1;
+        //double carouselServoOnPower = -1;
 
         int linearSlideTicks = 0;
 
