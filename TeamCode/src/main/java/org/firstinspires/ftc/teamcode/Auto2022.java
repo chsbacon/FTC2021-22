@@ -155,10 +155,10 @@ public class Auto2022 extends LinearOpMode {
             robot.rotateToHeading(0,0);
             robot.strafeRight(.6,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
 
-            robot.driveForwardUseBlue(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),42,2500);
+            robot.driveForwardUseBlue(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),42,1000);
             robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
             //spin motor
-            robot.driveForwardUseBlue(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),42,2500);
+            robot.driveForwardUseBlue(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),42,2000);
         }
 
         if((teamcolor == red) && (side == carousel)){
