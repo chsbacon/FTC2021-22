@@ -58,10 +58,10 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
 
-    //public DcMotor  leftLinearSlideMotor = null;
-    //public DcMotor  rightLinearSlideMotor = null;
+    public DcMotor  leftLinearSlideMotor = null;
+    public DcMotor  rightLinearSlideMotor = null;
 
-    //public DcMotor  liftMotor = null;
+    public DcMotor  liftMotor = null;
 
     public Servo intakeServo1 = null;
     public Servo intakeServo2 = null;
@@ -128,11 +128,11 @@ public class HardwareMap2022
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
 
 
-        intakeServo1 = hwMap.get(Servo.class,"IS1");
-        intakeServo2 = hwMap.get(Servo.class,"IS2");
+        //intakeServo1 = hwMap.get(Servo.class,"IS1");
+        //intakeServo2 = hwMap.get(Servo.class,"IS2");
 
-        carouselMotorL = hwMap.get(DcMotor.class,"CML");
-        carouselMotorR = hwMap.get(DcMotor.class,"CMR");
+        //carouselMotorL = hwMap.get(DcMotor.class,"CML");
+        //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
 
         //liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
         //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
@@ -140,8 +140,8 @@ public class HardwareMap2022
         //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
-        intakeServo1.setPosition(0);
-        intakeServo2.setPosition(1);
+        //intakeServo1.setPosition(0);
+        //intakeServo2.setPosition(1);
 
         //frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         //rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
@@ -170,8 +170,8 @@ public class HardwareMap2022
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        carouselMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        carouselMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //carouselMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //carouselMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -1052,7 +1052,7 @@ public class HardwareMap2022
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void driveForwardUseColor(double pwr, Orientation target, double alphaThreshold){
+    public void driveForwardUseAlpha(double pwr, Orientation target, double alphaThreshold){
 
         //orients
         Orientation targetOrient;
@@ -1133,7 +1133,7 @@ public class HardwareMap2022
         stopDrivingAndBrake();
     }
 
-    public void driveBackwardUseColor(double pwr, Orientation target, double alphaThreshold){
+    public void driveBackwardUseAlpha(double pwr, Orientation target, double alphaThreshold){
 
         //orients
         Orientation targetOrient;
@@ -1214,6 +1214,87 @@ public class HardwareMap2022
         stopDrivingAndBrake();
     }
 
+    public void driveForwardUseBlue(double pwr, Orientation target, double blueThreshold){
+        //threshold should be 42 for Sigma Lab
+
+        //orients
+        Orientation targetOrient;
+        Orientation currOrient;
+
+
+
+        //converts the target heading to a double to use in error calculation
+        targetOrient = target;
+        double targAng = targetOrient.angleUnit.DEGREES.normalize(target.firstAngle);;  // target.angleUnit.DEGREES.normalize(target.firstAngle);
+
+        //rChanger changes the sensitivity of the R value
+        //double rChanger = 10;
+        double frontLeft, frontRight, backLeft, backRight, max;
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
+        blinkinLedDriver.setPattern(pattern);
+
+        Color.RGBToHSV((int) (downColor.red() * SCALE_FACTOR),
+                (int) (downColor.green() * SCALE_FACTOR),
+                (int) (downColor.blue() * SCALE_FACTOR),
+                hsvValues);
+
+        while(((downColor.blue() < blueThreshold))){
+
+            Color.RGBToHSV((int) (downColor.red() * SCALE_FACTOR),
+                    (int) (downColor.green() * SCALE_FACTOR),
+                    (int) (downColor.blue() * SCALE_FACTOR),
+                    hsvValues);
+
+            currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
+
+            double error = targAng - currAng;
+
+
+            double r = (-error / 180) / (pwr);
+            //r = 0;
+
+            // Normalize the values so none exceeds +/- 1.0
+            frontLeft = pwr + r ;
+            backLeft = pwr + r ;
+            backRight = pwr - r ;
+            frontRight = pwr - r ;
+
+            frontLeft = -frontLeft;
+            backLeft = -backLeft;
+
+            max = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(frontRight), Math.abs(frontRight)));
+            if (max > 1.0) {
+                frontLeft = frontLeft / max;
+                frontRight = frontRight / max;
+                backLeft = backLeft / max;
+                backRight = backRight / max;
+            }
+
+
+
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
+
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
+
+            //telemetry.update();
+
+            //send the power to the motors
+            frontLeftMotor.setPower(frontLeft);
+            backLeftMotor.setPower(backLeft);
+            backRightMotor.setPower(backRight);
+            frontRightMotor.setPower(frontRight);
+
+
+
+        }
+        stopDrivingAndBrake();
+    }
 
 
     void spinCarouselMotors(){

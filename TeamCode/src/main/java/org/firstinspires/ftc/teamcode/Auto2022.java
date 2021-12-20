@@ -86,25 +86,80 @@ public class Auto2022 extends LinearOpMode {
 
 
 
+        int teamcolor = 0; // 1 = Blue 2 = Red
+        int blue = 1;
+        int red = 2;
 
+        int side = 0; // 1 = left side start 2 = right side start
+        int warehouse = 1;
+        int carousel = 2;
 
+        // Choosing the team color
+        telemetry.addData("Press X for Blue, B for Red", "");
+        telemetry.update();
+
+        while (!gamepad1.x && !gamepad1.b) {
+        }
+
+        if(gamepad1.x){
+            teamcolor = blue;
+        }
+        if(gamepad1.b){
+            teamcolor = red;
+        }
+
+        telemetry.addData("teamcolor ", teamcolor);
+        telemetry.update();
+
+        // Choosing side
+        telemetry.addData("Press A for warehouse, Y for carousel", "");
+        telemetry.update();
+
+        while (!gamepad1.a && !gamepad1.y) {
+        }
+        if (gamepad1.a) {
+            side = warehouse;
+        }
+        if (gamepad1.y) {
+            side = carousel;
+        }
+        telemetry.addData("side ", side);
+        telemetry.update();
 
 
 
         waitForStart();
 
+        if ((teamcolor == blue) && (side == warehouse)) {
 
+            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
+            robot.rotateToHeading(0, -40);
+            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
+            robot.rotateToHeading(0, -25);
 
-        robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),125);
-        robot.rotateToHeading(0,-40);
-        robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),700);
-        robot.rotateToHeading(0,-25);
+            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
+            robot.rotateToHeading(0, -90);
+            robot.strafeRight(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 750);
+            robot.driveBackwardUseAlpha(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 350);
 
-        robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
-        robot.rotateToHeading(0,-90);
-        robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
-        robot.driveBackwardUseColor(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
+        }
 
+        if((teamcolor == blue) && (side == carousel)){
+            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
+            robot.rotateToHeading(0, 40);
+            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
+            robot.rotateToHeading(0, 25);
+
+            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 300);
+            robot.rotateToHeading(0, -90);
+            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),800);
+            robot.rotateToHeading(0,0);
+            robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
+        }
+
+        if((teamcolor == red) && (side == carousel)){
+            robot.driveForwardUseBlue(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),42);
+        }
 
 
 
