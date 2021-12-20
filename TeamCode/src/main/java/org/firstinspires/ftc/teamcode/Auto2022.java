@@ -169,6 +169,22 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseBlue(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),42,2000);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+        if((teamcolor == red) && (side == warehouse)){
+
+        }
+
+
         if((teamcolor == red) && (side == carousel)){
         }
 
