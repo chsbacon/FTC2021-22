@@ -80,9 +80,8 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
-        //double carouselServoOnPower = -1;
-
-        int linearSlideTicks = 0;
+       double servo1Pos = .5;
+       double servo2Pos = .5;
 
 
         //start Orientation will always be 0; this is the heading when robot is initialized
@@ -107,18 +106,23 @@ public class TeleOp2022 extends LinearOpMode {
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            //fast slow + auto test
+
+
+            telemetry.addData("Servo1Pos: ", robot.intakeServo1.getPosition());
+            telemetry.addData("Servo2Pos: ", robot.intakeServo2.getPosition());
+            telemetry.update();
 
 
 
 
-            if(gamepad2.left_bumper){
-                robot.intakeServo1.setPosition(0);
-                robot.intakeServo2.setPosition(1);
-            }
-            else if(gamepad2.right_bumper){
+            //intake servo
+            if(gamepad2.left_bumper){ //intake servo up
                 robot.intakeServo1.setPosition(1);
                 robot.intakeServo2.setPosition(0);
+            }
+            else if(gamepad2.right_bumper){ //intake servo down
+                robot.intakeServo1.setPosition(0);
+                robot.intakeServo2.setPosition(1);
             }
             else{
 

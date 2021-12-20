@@ -117,7 +117,12 @@ public class HardwareMap2022
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
+
+
+
+        // Define and Initialize -----------------------------------------
+
+
         frontLeftMotor  = hwMap.get(DcMotor.class, "FLM"); //H1P0
         frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //H1P1
         backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //H1P2
@@ -128,8 +133,8 @@ public class HardwareMap2022
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
 
 
-        //intakeServo1 = hwMap.get(Servo.class,"IS1");
-        //intakeServo2 = hwMap.get(Servo.class,"IS2");
+        intakeServo1 = hwMap.get(Servo.class,"IS1");
+        intakeServo2 = hwMap.get(Servo.class,"IS2");
 
         //carouselMotorL = hwMap.get(DcMotor.class,"CML");
         //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
@@ -140,13 +145,16 @@ public class HardwareMap2022
         //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
-        //intakeServo1.setPosition(0);
-        //intakeServo2.setPosition(1);
-
         //frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
         //rightDistance = hwMap.get(DistanceSensor.class,"RDS"); //H1P1
         //backDistance = hwMap.get(DistanceSensor.class,"BDS"); //H1P2
         //leftDistance = hwMap.get(DistanceSensor.class,"LDS"); //H1P3
+
+
+
+
+
+        //Set Power and Position -----------------------------------------
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
@@ -154,14 +162,22 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
+        intakeServo1.setPosition(1);
+        intakeServo2.setPosition(0);
+
+
         //leftLinearSlideMotor.setPower(0);
         //rightLinearSlideMotor.setPower(0);
         //liftMotor.setPower(0);
 
-
         //carouselServo.setPower(0); //this is stationary
 
 
+
+
+
+
+        //Set Modes -----------------------------------------
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -178,15 +194,12 @@ public class HardwareMap2022
         //rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-
         //leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
 
 
 
@@ -239,7 +252,6 @@ public class HardwareMap2022
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
     }
-
 
     public void rotateToHeading(double pwr, double target){
 
@@ -1391,6 +1403,35 @@ public class HardwareMap2022
         stopDrivingAndBrake();
     }
 
+
+
+
+
+
+
+
+    void lowerIntake(){
+
+        ElapsedTime  lowerTime = new ElapsedTime();
+        intakeServo1.setPosition(0);
+        intakeServo2.setPosition(1);
+
+        while(lowerTime.milliseconds() < 500){
+
+        }
+
+    }
+
+    void raiseIntake(){
+
+        ElapsedTime  raiseTime = new ElapsedTime();
+        intakeServo1.setPosition(1);
+        intakeServo2.setPosition(0);
+
+        while(raiseTime.milliseconds() < 1000){
+
+        }
+    }
 
     void spinCarouselMotors(){
         ElapsedTime  carouselRuntime = new ElapsedTime();
