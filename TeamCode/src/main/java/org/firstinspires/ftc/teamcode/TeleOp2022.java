@@ -108,11 +108,6 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-            telemetry.addData("Servo1Pos: ", robot.intakeServo1.getPosition());
-            telemetry.addData("Servo2Pos: ", robot.intakeServo2.getPosition());
-            telemetry.update();
-
-
 
 
             //intake servo
