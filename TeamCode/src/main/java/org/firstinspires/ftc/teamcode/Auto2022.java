@@ -134,14 +134,14 @@ public class Auto2022 extends LinearOpMode {
 
             //PLACE
             robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
-            robot.rotateToHeading(0, -40);
-            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
-            robot.rotateToHeading(0, -25);
+            robot.rotateToHeading(0, 140);
+            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
+            robot.rotateToHeading(0, 155);
             //place on correct level
 
 
             //GET TO WAREHOUSE
-            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
+            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
             robot.rotateToHeading(0, 90);
             robot.strafeLeft(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 750);
             robot.driveForwardUseAlpha(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 350,2500);
@@ -154,11 +154,12 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),325);
             //raise intake
             //deactivate spintake
-            robot.driveBackwardUseAlpha(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350,2500);
+            robot.driveBackwardUseAlpha(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350,1500);
 
 
 
             //PLACE (2nd)
+            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1400);
 
             //GET TO WAREHOUSE (2nd)
 
