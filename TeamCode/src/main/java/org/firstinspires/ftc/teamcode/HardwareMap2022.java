@@ -1052,13 +1052,13 @@ public class HardwareMap2022
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void driveForwardUseAlpha(double pwr, Orientation target, double alphaThreshold){
+    public void driveForwardUseAlpha(double pwr, Orientation target, double alphaThreshold, double failsafeTime){
 
         //orients
         Orientation targetOrient;
         Orientation currOrient;
 
-
+        ElapsedTime alphaTime = new ElapsedTime();
 
         //converts the target heading to a double to use in error calculation
         targetOrient = target;
@@ -1128,18 +1128,22 @@ public class HardwareMap2022
             frontRightMotor.setPower(frontRight);
 
 
+            if(alphaTime.milliseconds() > failsafeTime){
+                break;
+            }
 
         }
         stopDrivingAndBrake();
     }
 
-    public void driveBackwardUseAlpha(double pwr, Orientation target, double alphaThreshold){
+    public void driveBackwardUseAlpha(double pwr, Orientation target, double alphaThreshold, double failsafeTime){
 
         //orients
         Orientation targetOrient;
         Orientation currOrient;
 
 
+        ElapsedTime alphaTime = new ElapsedTime();
 
         //converts the target heading to a double to use in error calculation
         targetOrient = target;
@@ -1209,19 +1213,22 @@ public class HardwareMap2022
             frontRightMotor.setPower(-frontRight);
 
 
+            if(alphaTime.milliseconds() > failsafeTime){
+                break;
+            }
 
         }
         stopDrivingAndBrake();
     }
 
-    public void driveForwardUseBlue(double pwr, Orientation target, double blueThreshold){
+    public void driveForwardUseBlue(double pwr, Orientation target, double blueThreshold, double failsafeTime){
         //threshold should be 42 for Sigma Lab
 
         //orients
         Orientation targetOrient;
         Orientation currOrient;
 
-
+        ElapsedTime blueTime = new ElapsedTime();
 
         //converts the target heading to a double to use in error calculation
         targetOrient = target;
@@ -1290,19 +1297,22 @@ public class HardwareMap2022
             backRightMotor.setPower(backRight);
             frontRightMotor.setPower(frontRight);
 
-
+            if(blueTime.milliseconds() > failsafeTime){
+                break;
+            }
 
         }
         stopDrivingAndBrake();
     }
 
-    public void driveBackwardUseBlue(double pwr, Orientation target, double blueThreshold){
+    public void driveBackwardUseBlue(double pwr, Orientation target, double blueThreshold, double failsafeTime){
         //threshold should be 42 for Sigma Lab
 
         //orients
         Orientation targetOrient;
         Orientation currOrient;
 
+        ElapsedTime blueTime = new ElapsedTime();
 
 
         //converts the target heading to a double to use in error calculation
@@ -1372,6 +1382,9 @@ public class HardwareMap2022
             backRightMotor.setPower(-backRight);
             frontRightMotor.setPower(-frontRight);
 
+            if(blueTime.milliseconds() > failsafeTime){
+                break;
+            }
 
 
         }
