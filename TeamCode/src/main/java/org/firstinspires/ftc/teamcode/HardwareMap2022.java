@@ -63,8 +63,8 @@ public class HardwareMap2022
 
     public DcMotor  liftMotor = null;
 
-    public Servo intakeServo1 = null;
-    public Servo intakeServo2 = null;
+    public CRServo intakeServo1 = null;
+    public CRServo intakeServo2 = null;
 
 
     public DcMotor carouselMotorL = null;
@@ -133,8 +133,8 @@ public class HardwareMap2022
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
 
 
-        intakeServo1 = hwMap.get(Servo.class,"IS1");
-        intakeServo2 = hwMap.get(Servo.class,"IS2");
+        intakeServo1 = hwMap.get(CRServo.class,"IS1");
+        intakeServo2 = hwMap.get(CRServo.class,"IS2");
 
         //carouselMotorL = hwMap.get(DcMotor.class,"CML");
         //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
@@ -162,8 +162,8 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-        intakeServo1.setPosition(1);
-        intakeServo2.setPosition(0);
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
 
 
         //leftLinearSlideMotor.setPower(0);
@@ -1410,27 +1410,34 @@ public class HardwareMap2022
 
 
 
-    void lowerIntake(){
-
+    public void lowerIntake(){
         ElapsedTime  lowerTime = new ElapsedTime();
-        intakeServo1.setPosition(0);
-        intakeServo2.setPosition(1);
 
-        while(lowerTime.milliseconds() < 500){
+        intakeServo1.setPower(-1);
+        intakeServo2.setPower(1);
+
+        while(lowerTime.milliseconds() < 1000){
 
         }
+
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
 
     }
 
-    void raiseIntake(){
-
+    public void raiseIntake(){
         ElapsedTime  raiseTime = new ElapsedTime();
-        intakeServo1.setPosition(1);
-        intakeServo2.setPosition(0);
 
-        while(raiseTime.milliseconds() < 1000){
+        intakeServo1.setPower(1);
+        intakeServo2.setPower(-1);
+
+        while(raiseTime.milliseconds() < 2000){
 
         }
+
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
+
     }
 
     void spinCarouselMotors(){

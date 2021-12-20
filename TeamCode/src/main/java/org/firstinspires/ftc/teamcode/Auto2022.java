@@ -149,10 +149,10 @@ public class Auto2022 extends LinearOpMode {
 
 
             //WAREHOUSE STUFF
-            robot.lowerIntake();
+            //lower intake
             //activate spintake
             robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),325);
-            robot.raiseIntake();
+            //raise intake
             //deactivate spintake
             robot.driveBackwardUseAlpha(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350,2500);
 
