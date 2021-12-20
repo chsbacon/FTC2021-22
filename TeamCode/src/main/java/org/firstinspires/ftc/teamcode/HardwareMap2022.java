@@ -133,8 +133,8 @@ public class HardwareMap2022
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
 
 
-        intakeServo1 = hwMap.get(CRServo.class,"IS1");
-        intakeServo2 = hwMap.get(CRServo.class,"IS2");
+        //intakeServo1 = hwMap.get(CRServo.class,"IS1");
+        //intakeServo2 = hwMap.get(CRServo.class,"IS2");
 
         //carouselMotorL = hwMap.get(DcMotor.class,"CML");
         //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
@@ -162,8 +162,8 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-        intakeServo1.setPower(0);
-        intakeServo2.setPower(0);
+       // intakeServo1.setPower(0);
+        // intakeServo2.setPower(0);
 
 
         //leftLinearSlideMotor.setPower(0);
