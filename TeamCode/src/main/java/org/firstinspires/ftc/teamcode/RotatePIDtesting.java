@@ -72,7 +72,7 @@ public class RotatePIDtesting extends LinearOpMode {
 
 
             if(gamepad1.a){
-                rotateToHeadingV1(0, 90, kP, kI, kD);
+                rotateToHeadingV1(0, 170, kP, kI, kD);
             }
 
             if(gamepad1.b){
