@@ -58,8 +58,8 @@ public class HardwareMap2022
     public DcMotor  backLeftMotor = null;
     public DcMotor  backRightMotor = null;
 
-    public DcMotor  leftLinearSlideMotor = null;
-    public DcMotor  rightLinearSlideMotor = null;
+    public DcMotor  LinearSlideMotor = null;
+
 
     public DcMotor  liftMotor = null;
 
@@ -133,15 +133,14 @@ public class HardwareMap2022
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
 
 
-        //intakeServo1 = hwMap.get(CRServo.class,"IS1");
-        //intakeServo2 = hwMap.get(CRServo.class,"IS2");
+        intakeServo1 = hwMap.get(CRServo.class,"IS1");
+        intakeServo2 = hwMap.get(CRServo.class,"IS2");
 
         //carouselMotorL = hwMap.get(DcMotor.class,"CML");
         //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
 
         //liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
-        //leftLinearSlideMotor = hwMap.get(DcMotor.class,"LLSM"); //H2P1
-        //rightLinearSlideMotor = hwMap.get(DcMotor.class, "RLSM"); //H2P2
+        //LinearSlideMotor = hwMap.get(DcMotor.class,"LSM"); //H2P1
         //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
@@ -162,12 +161,11 @@ public class HardwareMap2022
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-       // intakeServo1.setPower(0);
-        // intakeServo2.setPower(0);
+        intakeServo1.setPower(0);
+        intakeServo2.setPower(0);
 
 
-        //leftLinearSlideMotor.setPower(0);
-        //rightLinearSlideMotor.setPower(0);
+        //LinearSlideMotor.setPower(0);
         //liftMotor.setPower(0);
 
         //carouselServo.setPower(0); //this is stationary
@@ -190,12 +188,10 @@ public class HardwareMap2022
         //carouselMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        //leftLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightLinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //LinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //leftLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rightLinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //LinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
