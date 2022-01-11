@@ -249,7 +249,7 @@ public class HardwareMap2022
 
     }
 
-    public void rotateToHeading(double pwr, double target){
+    public void rotateToHeading(double pwr, double target, double desiredTime){
 
         // set to a big number so it doesn't accidentally match the target angle
         //therefore hypothetically completing the while-loop accidentally
@@ -302,7 +302,7 @@ public class HardwareMap2022
 
             lastError = error;
 
-            if (cutTimer.milliseconds() > 2000){
+            if (cutTimer.milliseconds() > desiredTime){ //desiredTime should be 2000
                 break;
             }
         }
@@ -914,6 +914,18 @@ public class HardwareMap2022
 
     public void driveForwardUseEncoder(double positivePWR, Orientation target, double desiredTicks){
 
+        /*
+        ElapsedTime rampRuntime = new ElapsedTime();
+        if(positivePWR > .25 && desiredTicks > 200){
+            while(rampRuntime.milliseconds() < 250){
+                frontLeftMotor.setPower(.25);
+                backLeftMotor.setPower(.25);
+                backRightMotor.setPower(.25);
+                frontRightMotor.setPower(.25);
+            }
+        }
+         */
+
         //orients
         Orientation targetOrient;
         Orientation currOrient;
@@ -932,6 +944,7 @@ public class HardwareMap2022
 
 
         while(Math.abs(backLeftMotor.getCurrentPosition()) < Math.abs(desiredTicks)){
+
 
             currOrient = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
@@ -987,6 +1000,17 @@ public class HardwareMap2022
     }
 
     public void driveBackwardUseEncoder(double positivePWR, Orientation target, double desiredTicks){
+
+        /*ElapsedTime rampRuntime = new ElapsedTime();
+        if(positivePWR > .25 && desiredTicks > 200){
+            while(rampRuntime.milliseconds() < 250){
+                frontLeftMotor.setPower(-.25);
+                backLeftMotor.setPower(-.25);
+                backRightMotor.setPower(-.25);
+                frontRightMotor.setPower(-.25);
+            }
+        }
+         */
 
         //orients
         Orientation targetOrient;
