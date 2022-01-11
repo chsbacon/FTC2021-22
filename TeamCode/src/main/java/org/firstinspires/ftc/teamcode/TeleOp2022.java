@@ -80,8 +80,9 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
-       double servo1Pos = .5;
-       double servo2Pos = .5;
+
+       double spintakeMotorState = 0;
+
 
 
         //start Orientation will always be 0; this is the heading when robot is initialized
@@ -111,7 +112,6 @@ public class TeleOp2022 extends LinearOpMode {
 
 
             //intake servo
-
             if(gamepad2.left_bumper){
                 robot.intakeServo1.setPower(-1);
                 robot.intakeServo2.setPower(1);
@@ -125,6 +125,28 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo2.setPower(0);
             }
 
+
+
+
+            //spintake motor
+            if(gamepad2.dpad_down){
+                robot.spintakeMotor.setPower(-.75);
+                while(gamepad2.dpad_down){
+                }
+                robot.spintakeMotor.setPower(0);
+            }
+
+            //spintake items in
+            if(gamepad2.dpad_up){
+                if(spintakeMotorState == 0){
+                    spintakeMotorState = 1;
+                    robot.spintakeMotor.setPower(.75);
+                }
+                else{
+                    robot.spintakeMotor.setPower(0);
+                    spintakeMotorState = 0;
+                }
+            }
 
 
 

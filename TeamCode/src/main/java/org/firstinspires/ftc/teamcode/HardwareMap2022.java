@@ -61,7 +61,7 @@ public class HardwareMap2022
     public DcMotor  LinearSlideMotor = null;
 
 
-    public DcMotor  liftMotor = null;
+    public DcMotor spintakeMotor = null;
 
     public CRServo intakeServo1 = null;
     public CRServo intakeServo2 = null;
@@ -139,7 +139,9 @@ public class HardwareMap2022
         //carouselMotorL = hwMap.get(DcMotor.class,"CML");
         //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
 
-        //liftMotor = hwMap.get(DcMotor.class,"LM"); //H2P0
+        spintakeMotor = hwMap.get(DcMotor.class,"SM"); //H2P0
+
+
         //LinearSlideMotor = hwMap.get(DcMotor.class,"LSM"); //H2P1
         //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
@@ -164,9 +166,9 @@ public class HardwareMap2022
         intakeServo1.setPower(0);
         intakeServo2.setPower(0);
 
+        spintakeMotor.setPower(0);
 
         //LinearSlideMotor.setPower(0);
-        //liftMotor.setPower(0);
 
         //carouselServo.setPower(0); //this is stationary
 
@@ -189,10 +191,9 @@ public class HardwareMap2022
 
 
         //LinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //LinearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        spintakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
@@ -1424,7 +1425,15 @@ public class HardwareMap2022
     }
 
 
-
+public void spintakeIn(){
+        spintakeMotor.setPower(.5);
+}
+public void spintakeOut(){
+        spintakeMotor.setPower(-.5);
+}
+public void spintakeStop(){
+        spintakeMotor.setPower(0);
+}
 
 
 
