@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -46,19 +47,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-//Graham Branch
+
 @TeleOp(name="TeleOp 2022", group="Linear Opmode")
 //@Disabled
 public class TeleOp2022 extends LinearOpMode {
@@ -81,6 +70,7 @@ public class TeleOp2022 extends LinearOpMode {
         double fastSlow = 1;
 
 
+
        double spintakeMotorState = 0;
 
 
@@ -94,10 +84,15 @@ public class TeleOp2022 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // Wait for the game to start (driver presses PLAY)
 
         waitForStart();
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -119,12 +114,12 @@ public class TeleOp2022 extends LinearOpMode {
             else if (gamepad2.right_bumper){
                 robot.intakeServo1.setPower(1);
                 robot.intakeServo2.setPower(-1);
+
             }
             else{
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
-
 
 
 
@@ -146,15 +141,43 @@ public class TeleOp2022 extends LinearOpMode {
                     robot.spintakeMotor.setPower(0);
                     spintakeMotorState = 0;
                 }
+
+            }
+            else if (gamepad2.x && robot.liftMotor.getCurrentPosition()>-2800){
+                robot.liftMotor.setPower(-1);
+            }
+            else{
+                robot.liftMotor.setPower(0);
             }
 
 
 
 
+            //spitake out items
+            if(gamepad2.dpad_down){
+                robot.spinTakeMotor.setPower(-.75);
+                while(gamepad2.dpad_down){
+
+                }
+                robot.spinTakeMotor.setPower(0);
+            }
 
 
+            //spintake items in
+            if(gamepad2.dpad_up){
 
 
+                if(spintakeMotorState == 0){
+                    spintakeMotorState = 1;
+                    robot.spinTakeMotor.setPower(.75);
+
+                }
+                else{
+                    robot.spinTakeMotor.setPower(0);
+                    spintakeMotorState = 0;
+
+                }
+            }
 
 
 
@@ -177,9 +200,11 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-
         }
     }
+
+
+
 
 
     //just formatting stuff for the angles -- this was copied and pasted
