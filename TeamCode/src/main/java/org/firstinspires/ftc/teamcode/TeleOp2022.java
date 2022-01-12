@@ -69,13 +69,13 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
-        double carouselServoOnPower = -1;
-        double spintakeMotorState = 0;
 
 
-        int liftMotorTicks = 0;
+       double spintakeMotorState = 0;
 
-        //start Orientation will always be 0; this is the heading when initialized
+
+
+        //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
         startOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         Orientation currentOrientation;
@@ -90,62 +90,57 @@ public class TeleOp2022 extends LinearOpMode {
 
 
         // Wait for the game to start (driver presses PLAY)
+
         waitForStart();
 
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-
-
-
+            // to grab heading from robot
+            //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            //GAMEPAD 1 Capabilities
 
-            //fast slow toggle
-            if(gamepad1.a){
-                fastSlow = 3;
+
+
+
+            //intake servo
+            if(gamepad2.left_bumper){
+                robot.intakeServo1.setPower(-1);
+                robot.intakeServo2.setPower(1);
+            }
+            else if (gamepad2.right_bumper){
+                robot.intakeServo1.setPower(1);
+                robot.intakeServo2.setPower(-1);
+
             }
             else{
-                fastSlow = 1;
-            }
-
-            if(gamepad1.x){
-                robot.dropServo.setPosition(0.7);
-            }
-
-            if(gamepad1.dpad_left){
-                //rotate 90 deg left
-                robot.rotateToHeading(0.25,90);
-            }
-            if(gamepad1.dpad_right){
-                //rotate 90 deg right
-                robot.rotateToHeading(0.25,-90);
-            }
-
-            if(gamepad1.b){
-                robot.dropServo.setPosition(0);
-            }
-            if(gamepad1.y){
-                robot.dropServo.setPosition(.35);
-            }
-
-
-            //GAMEPAD 2 Capabilities
-
-            // spin CarouselServo
-            if(gamepad2.y){
-                robot.spinCarouselMotors();
+                robot.intakeServo1.setPower(0);
+                robot.intakeServo2.setPower(0);
             }
 
 
 
+            //spintake motor
+            if(gamepad2.dpad_down){
+                robot.spintakeMotor.setPower(.75);
+                while(gamepad2.dpad_down){
+                }
+                robot.spintakeMotor.setPower(0);
+            }
 
-
-            if(gamepad2.a && robot.liftMotor.getCurrentPosition()<0){
-                robot.liftMotor.setPower(1);
+            //spintake items in
+            if(gamepad2.dpad_up){
+                if(spintakeMotorState == 0){
+                    spintakeMotorState = 1;
+                    robot.spintakeMotor.setPower(-.75);
+                }
+                else{
+                    robot.spintakeMotor.setPower(0);
+                    spintakeMotorState = 0;
+                }
 
             }
             else if (gamepad2.x && robot.liftMotor.getCurrentPosition()>-2800){
@@ -188,22 +183,6 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-            if(gamepad2.left_bumper){
-                robot.intakeServo1.setPower(-1);
-                robot.intakeServo2.setPower(1);
-            }
-            else if (gamepad2.right_bumper){
-                robot.intakeServo1.setPower(1);
-                robot.intakeServo2.setPower(-1);
-            }
-            else{
-                robot.intakeServo1.setPower(0);
-                robot.intakeServo2.setPower(0);
-            }
-
-
-
-            //driving controls
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;
@@ -220,18 +199,6 @@ public class TeleOp2022 extends LinearOpMode {
             robot.backRightMotor.setPower(backRight/fastSlow);
 
 
-            //telemtry for motors
-            //telemetry.addData("front left", "%.2f", frontLeft/fastSlow);
-            //telemetry.addData("front right", "%.2f", frontRight/fastSlow);
-            //telemetry.addData("back left", "%.2f", backLeft/fastSlow);
-            //telemetry.addData("back right", "%.2f", backRight/fastSlow);
-            //telemetry for IMU
-            telemetry.addData("startOrientation", formatAngle(startOrientation.angleUnit, startOrientation.firstAngle));
-            telemetry.addData("currentOrientation", formatAngle(currentOrientation.angleUnit, currentOrientation.firstAngle));
-
-            telemetry.addData("Lift Motor Pos: ", robot.liftMotor.getCurrentPosition());
-
-            telemetry.update();
 
         }
     }
@@ -251,5 +218,6 @@ public class TeleOp2022 extends LinearOpMode {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-
 }
+
+

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
+//@Disabled
 @TeleOp(name="RotatePIDtesting", group="Linear Opmode")
 public class RotatePIDtesting extends LinearOpMode {
 
@@ -34,6 +36,7 @@ public class RotatePIDtesting extends LinearOpMode {
         //Raise kI until it starts osccalting
         //Raise kD until its smooth
 
+        /*
         //heavy osilcation but accurate withing 1/10 of a degree
         //kP = .08
         // kI = 0
@@ -46,7 +49,7 @@ public class RotatePIDtesting extends LinearOpMode {
 
         //   kp      baby oscolates at .04; does get stuck (when kI and kD are 0)
         //           full oscolation at .08
-
+*/
         double kP = .04;
         double kI = .0;
         double kD = .99;
@@ -69,7 +72,7 @@ public class RotatePIDtesting extends LinearOpMode {
 
 
             if(gamepad1.a){
-                rotateToHeadingV1(.0, 90, kP, kI, kD);
+                rotateToHeadingV1(0, 170, kP, kI, kD);
             }
 
             if(gamepad1.b){
@@ -148,6 +151,8 @@ public class RotatePIDtesting extends LinearOpMode {
             //robot.frontRightMotor.setPower(pwr);
             //robot.backLeftMotor.setPower(pwr);
             //robot.backRightMotor.setPower(pwr);
+
+            //out = out * .9;
 
             robot.frontLeftMotor.setPower(pwr + out);
             robot.frontRightMotor.setPower(pwr + out);

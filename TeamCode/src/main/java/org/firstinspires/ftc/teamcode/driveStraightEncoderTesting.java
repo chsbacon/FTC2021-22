@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode;
+import java.lang.Math;
 
 
 
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -14,45 +14,52 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
-//@Disabled
-@TeleOp(name="driveStraight Testing", group="Linear Opmode")
-public class driveStraight extends LinearOpMode {
+@TeleOp(name="Drive Straight Encoder Testing", group="Linear Opmode")
+public class driveStraightEncoderTesting extends LinearOpMode {
 
-    private ElapsedTime runtime = new ElapsedTime();
+
     HardwareMap2022 robot = new HardwareMap2022();
 
     public void runOpMode(){
 
         robot.init(hardwareMap);
 
-        waitForStart();
 
+
+        waitForStart();
 
 
 
         while(opModeIsActive()){
 
-            if(gamepad1.a){
-                driveStraightForwardDistance(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 10);
-            }
+
+
+        if(gamepad1.a){
+            driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
+        }
+
+
+
+
+
+
 
 
         }
-
     }
 
 
-    void driveStraightForwardDistance(double pwr, Orientation target, double desiredDistanceCM){
+
+
+    public void driveForwardUseEncoder(double positivePWR, Orientation target, double desiredTicks){
 
         //orients
         Orientation targetOrient;
         Orientation currOrient;
-
 
 
         //converts the target heading to a double to use in error calculation
@@ -63,9 +70,11 @@ public class driveStraight extends LinearOpMode {
         //double rChanger = 10;
         double frontLeft, frontRight, backLeft, backRight, max;
 
-        while(((robot.frontDistance.getDistance(DistanceUnit.CM) > desiredDistanceCM) && (opModeIsActive()))){
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
+        while(Math.abs(robot.backLeftMotor.getCurrentPosition()) < Math.abs(desiredTicks)){
 
             currOrient = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double currAng = currOrient.angleUnit.DEGREES.normalize(currOrient.firstAngle);
@@ -73,14 +82,14 @@ public class driveStraight extends LinearOpMode {
             double error = targAng - currAng;
 
 
-            double r = (-error / 180) / (pwr);
+            double r = (-error / 180) / (positivePWR);
             //r = 0;
 
             // Normalize the values so none exceeds +/- 1.0
-            frontLeft = pwr + r ;
-            backLeft = pwr + r ;
-            backRight = pwr - r ;
-            frontRight = pwr - r ;
+            frontLeft = positivePWR + r ;
+            backLeft = positivePWR + r ;
+            backRight = positivePWR - r ;
+            frontRight = positivePWR - r ;
 
             frontLeft = -frontLeft;
             backLeft = -backLeft;
@@ -95,16 +104,16 @@ public class driveStraight extends LinearOpMode {
 
 
 
-            telemetry.addData("front left", "%.2f", frontLeft);
-            telemetry.addData("front right", "%.2f", frontRight);
-            telemetry.addData("back left", "%.2f", backLeft);
-            telemetry.addData("back right", "%.2f", backRight);
+            //telemetry.addData("front left", "%.2f", frontLeft);
+            //telemetry.addData("front right", "%.2f", frontRight);
+            //telemetry.addData("back left", "%.2f", backLeft);
+            //telemetry.addData("back right", "%.2f", backRight);
 
-            telemetry.addData("current heading", currAng);
-            telemetry.addData("target heading", targAng);
-            telemetry.addData("desired Distance", desiredDistanceCM);
-            telemetry.addData("current Distance", robot.frontDistance.getDistance(DistanceUnit.CM));
+            //telemetry.addData("current heading", currAng);
+            //telemetry.addData("target heading", targAng);
 
+            telemetry.addData("Target: ", desiredTicks);
+            telemetry.addData("tickPos: ",robot.backLeftMotor.getCurrentPosition());
             telemetry.update();
 
             //send the power to the motors
@@ -116,7 +125,20 @@ public class driveStraight extends LinearOpMode {
 
 
         }
+        robot.frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         robot.stopDriving();
+
+        robot.frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
 
 }
