@@ -130,7 +130,7 @@ public class TeleOp2022 extends LinearOpMode {
 
             //spintake motor
             if(gamepad2.dpad_down){
-                robot.spintakeMotor.setPower(-.75);
+                robot.spintakeMotor.setPower(.75);
                 while(gamepad2.dpad_down){
                 }
                 robot.spintakeMotor.setPower(0);
@@ -140,7 +140,7 @@ public class TeleOp2022 extends LinearOpMode {
             if(gamepad2.dpad_up){
                 if(spintakeMotorState == 0){
                     spintakeMotorState = 1;
-                    robot.spintakeMotor.setPower(.75);
+                    robot.spintakeMotor.setPower(-.75);
                 }
                 else{
                     robot.spintakeMotor.setPower(0);
