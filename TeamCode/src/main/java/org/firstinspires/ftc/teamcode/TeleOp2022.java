@@ -180,9 +180,6 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
 
-
-
-
             y = gamepad1.left_stick_y;
             x = gamepad1.left_stick_x;
             r = gamepad1.right_stick_x;

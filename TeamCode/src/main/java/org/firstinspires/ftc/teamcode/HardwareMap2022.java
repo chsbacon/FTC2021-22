@@ -1455,10 +1455,10 @@ public class HardwareMap2022
 
 
 public void spintakeIn(){
-        spintakeMotor.setPower(.5);
+        spintakeMotor.setPower(-.75);
 }
 public void spintakeOut(){
-        spintakeMotor.setPower(-.5);
+        spintakeMotor.setPower(.75);
 }
 public void spintakeStop(){
         spintakeMotor.setPower(0);
@@ -1489,7 +1489,7 @@ public void spintakeStop(){
         intakeServo1.setPower(1);
         intakeServo2.setPower(-1);
 
-        while(raiseTime.milliseconds() < 2000){
+        while(raiseTime.milliseconds() < 1500){
 
         }
 

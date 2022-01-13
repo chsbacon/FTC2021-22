@@ -145,26 +145,29 @@ public class Auto2022 extends LinearOpMode {
 
 
             //PLACE
-            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),50);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75);
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,150, 2000);
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
+            robot.rotateToHeading(0,150, 1250); //1500 safe
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
             //place block
 
             //GET TO WAREHOUSE (place to warehouse)
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
-            robot.rotateToHeading(0, 90, 1500);
+            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
+            robot.rotateToHeading(0, 90, 1000); //1250 safe
             robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
 
 
 
             //WAREHOUSE STUFF
-            //lower intake
-            //activate spintake
-            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
-            //raise intake
-            //deactivate spintake
+            robot.rotateToHeading(0,85,250);
+            robot.lowerIntake();
+            robot.spintakeIn();
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
+            robot.spintakeStop();
+            robot.raiseIntake();
+            robot.rotateToHeading(0,90,250);
+            robot.strafeLeft(1,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
             robot.driveBackwardUseAlpha(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),150,1500);
 
 
@@ -173,15 +176,15 @@ public class Auto2022 extends LinearOpMode {
             robot.strafeRight(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),100); //to clear off wall
             robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
-            robot.rotateToHeading(0,150,2000);
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
+            robot.rotateToHeading(0,150,1250); //1500 safe
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
             //place block
 
 
             //GET TO WAREHOUSE (2nd)
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
-            robot.rotateToHeading(0, 90,1500);
-            robot.strafeLeft(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1250);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
+            robot.rotateToHeading(0, 90,1000);  //1250 safe
+            robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000); //1250 safe
             robot.driveForwardUseEncoder(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
 
 
@@ -193,12 +196,12 @@ public class Auto2022 extends LinearOpMode {
         if((teamcolor == blue) && (side == carousel)){
             //PLACE
             robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
-            robot.rotateToHeading(0, 40,2000);
+            robot.rotateToHeading(0, 40,1500);
             robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
             //place on correct level
 
             robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 325);
-            robot.rotateToHeading(0, -90,2000);
+            robot.rotateToHeading(0, -90,1500);
             robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
             robot.rotateToHeading(0,0,2000);
             robot.strafeRight(.6,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
