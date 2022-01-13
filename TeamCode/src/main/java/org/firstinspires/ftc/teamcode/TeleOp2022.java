@@ -78,7 +78,7 @@ public class TeleOp2022 extends LinearOpMode {
        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //middle height is 150 ticks
-        //top height is 440
+        //top height is 440 ticks
 
         //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
@@ -105,19 +105,20 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-            if(gamepad1.y){
-                liftMotorTicksTele += 10;
-                robot.moveLiftMotor(liftMotorTicksTele,.25);
+            if(gamepad1.y){ //increment up
+                liftMotorTicksTele += 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
                 telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                 telemetry.update();
             }
 
-            if(gamepad1.a){
-                liftMotorTicksTele -= 10;
-                robot.moveLiftMotor(liftMotorTicksTele,.25);
+            if(gamepad1.x){ //increment down
+                liftMotorTicksTele -= 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
                 telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                 telemetry.update();
             }
+
 
 
 
