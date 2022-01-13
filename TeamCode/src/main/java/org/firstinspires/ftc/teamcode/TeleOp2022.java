@@ -84,10 +84,6 @@ public class TeleOp2022 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
         // Wait for the game to start (driver presses PLAY)
 
@@ -121,61 +117,26 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo2.setPower(0);
             }
 
-
-
-            //spintake motor
+            //spitake out items
             if(gamepad2.dpad_down){
-                robot.spintakeMotor.setPower(.75);
+                robot.spintakeMotor.setPower(-.75);
                 while(gamepad2.dpad_down){
+
                 }
                 robot.spintakeMotor.setPower(0);
             }
 
+
             //spintake items in
             if(gamepad2.dpad_up){
+
                 if(spintakeMotorState == 0){
                     spintakeMotorState = 1;
-                    robot.spintakeMotor.setPower(-.75);
+                    robot.spintakeMotor.setPower(.75);
                 }
                 else{
                     robot.spintakeMotor.setPower(0);
                     spintakeMotorState = 0;
-                }
-
-            }
-            else if (gamepad2.x && robot.liftMotor.getCurrentPosition()>-2800){
-                robot.liftMotor.setPower(-1);
-            }
-            else{
-                robot.liftMotor.setPower(0);
-            }
-
-
-
-
-            //spitake out items
-            if(gamepad2.dpad_down){
-                robot.spinTakeMotor.setPower(-.75);
-                while(gamepad2.dpad_down){
-
-                }
-                robot.spinTakeMotor.setPower(0);
-            }
-
-
-            //spintake items in
-            if(gamepad2.dpad_up){
-
-
-                if(spintakeMotorState == 0){
-                    spintakeMotorState = 1;
-                    robot.spinTakeMotor.setPower(.75);
-
-                }
-                else{
-                    robot.spinTakeMotor.setPower(0);
-                    spintakeMotorState = 0;
-
                 }
             }
 
