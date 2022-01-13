@@ -59,15 +59,6 @@ public class Auto2022 extends LinearOpMode {
 
 
 
-
-
-
-
-
-
-
-
-
     /* Declare OpMode members. */
     HardwareMap2022 robot = new HardwareMap2022();
 
@@ -154,7 +145,7 @@ public class Auto2022 extends LinearOpMode {
             //GET TO WAREHOUSE (place to warehouse)
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
             robot.rotateToHeading(0, 90, 1000); //1250 safe
-            robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+            robot.strafeLeft(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
 
 
@@ -163,7 +154,7 @@ public class Auto2022 extends LinearOpMode {
             robot.rotateToHeading(0,85,250);
             robot.lowerIntake();
             robot.spintakeIn();
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
             robot.spintakeStop();
             robot.raiseIntake();
             robot.rotateToHeading(0,90,250);
@@ -184,7 +175,7 @@ public class Auto2022 extends LinearOpMode {
             //GET TO WAREHOUSE (2nd)
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
             robot.rotateToHeading(0, 90,1000);  //1250 safe
-            robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000); //1250 safe
+            robot.strafeLeft(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000); //1250 safe
             robot.driveForwardUseEncoder(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
 
 

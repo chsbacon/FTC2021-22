@@ -72,8 +72,13 @@ public class TeleOp2022 extends LinearOpMode {
 
 
        double spintakeMotorState = 0;
+       int liftMotorTicksTele = 0;
+       robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+        //middle height is 150 ticks
+        //top height is 440
 
         //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
@@ -100,6 +105,20 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
+            if(gamepad1.y){
+                liftMotorTicksTele += 10;
+                robot.moveLiftMotor(liftMotorTicksTele,.25);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+
+            if(gamepad1.a){
+                liftMotorTicksTele -= 10;
+                robot.moveLiftMotor(liftMotorTicksTele,.25);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+
 
 
             //intake servo
@@ -119,7 +138,7 @@ public class TeleOp2022 extends LinearOpMode {
 
             //spitake out items
             if(gamepad2.dpad_down){
-                robot.spintakeMotor.setPower(-.75);
+                robot.spintakeMotor.setPower(.75);
                 while(gamepad2.dpad_down){
 
                 }
@@ -132,7 +151,7 @@ public class TeleOp2022 extends LinearOpMode {
 
                 if(spintakeMotorState == 0){
                     spintakeMotorState = 1;
-                    robot.spintakeMotor.setPower(.75);
+                    robot.spintakeMotor.setPower(-.75);
                 }
                 else{
                     robot.spintakeMotor.setPower(0);

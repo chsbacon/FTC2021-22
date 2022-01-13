@@ -1477,6 +1477,23 @@ public void spintakeStop(){
 
     }
 
+    public void moveLiftMotor(int myTicks, double positivePWR){
+        liftMotor.setTargetPosition(myTicks);
+
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        liftMotor.setPower(positivePWR);
+
+        while(liftMotor.isBusy()){
+            //telemetry.addData("Target: ", myTicks);
+            //telemetry.addData("tickPos: ",robot.liftMotor.getCurrentPosition());
+            //telemetry.update();
+        }
+        liftMotor.setPower(0);
+
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
 }
 
 
