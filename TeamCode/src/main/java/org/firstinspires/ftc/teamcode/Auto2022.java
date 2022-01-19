@@ -46,6 +46,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.opencv.core.Scalar;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +60,24 @@ import java.util.List;
 //@Disabled
 public class Auto2022 extends LinearOpMode {
 
+    private OpenCvCamera webcam;
 
+    private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
+    private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
 
+    double CrLowerUpdate = 40;
+    double CbLowerUpdate = 160;
+    double CrUpperUpdate = 255;
+    double CbUpperUpdate = 255;
+
+    double lowerruntime = 0;
+    double upperruntime = 0;
+
+    // Pink Range                                      Y      Cr     Cb
+    public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 150.0, 120.0);
+    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
+
+    double placeHeight = 0;
 
     /* Declare OpMode members. */
     HardwareMap2022 robot = new HardwareMap2022();
@@ -72,6 +92,34 @@ public class Auto2022 extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+
+
+
+        // OpenCV webcam
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        //OpenCV Pipeline
+        ContourPipeline myPipeline;
+        webcam.setPipeline(myPipeline = new ContourPipeline());
+        // Configuration of Pipeline
+        myPipeline.ConfigurePipeline(30, 30,30,30,  CAMERA_WIDTH, CAMERA_HEIGHT);
+        myPipeline.ConfigureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
+        myPipeline.ConfigureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
+        // Webcam Streaming
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+            }
+        });
+
 
 
 
@@ -118,6 +166,43 @@ public class Auto2022 extends LinearOpMode {
         telemetry.update();
 
 
+        while (!isStarted())
+        {
+
+            if(myPipeline.error){
+                telemetry.addData("Exception: ", myPipeline.debug);
+            }
+            // Only use this line of the code when you want to find the lower and upper values, using Ftc Dashboard (https://acmerobotics.github.io/ftc-dashboard/gettingstarted)
+            testing(myPipeline);
+
+            // Watch our YouTube Tutorial for the better explanation
+
+            telemetry.addData("RectMidpoint: ", myPipeline.getRectMidpointX());
+            telemetry.update();
+
+            if(myPipeline.getRectArea() > 2000){
+                if(myPipeline.getRectMidpointX() > 1300){  //was 1011
+                    placeHeight = 3;
+                    telemetry.addData("placeHeight: ", placeHeight);
+                    telemetry.update();
+                }
+                else if(myPipeline.getRectMidpointX() > 600){ //was 484
+                    placeHeight = 2;
+                    telemetry.addData("placeHeight: ", placeHeight);
+                    telemetry.update();
+                }
+                else {
+                    placeHeight = 1;
+                    telemetry.addData("placeHeight: ", placeHeight);
+                    telemetry.update();
+                }
+            }
+        }
+
+
+
+
+
 
         waitForStart();
 
@@ -135,12 +220,31 @@ public class Auto2022 extends LinearOpMode {
             */
 
 
-            //PLACE
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75);
+            //GET TO PLACE
+            telemetry.addData("placeHeight: ", placeHeight);
+            telemetry.update();
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,150, 1250); //1500 safe
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            //place block
+            robot.rotateToHeading(0,155, 1250); //1250 safe //150 degrees clears obstacle
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),615);
+
+            //PLACE
+            robot.lowerIntake();
+            if(placeHeight == 3){
+                robot.moveLiftMotor(600,.25);
+            }
+            else if(placeHeight == 2){
+                robot.moveLiftMotor(300,.25);
+            }
+            else if (placeHeight == 1){
+                robot.moveLiftMotor(0,.25);
+            }
+            else{
+            }
+            //dump -- add later
+            robot.moveLiftMotor(0,.25);
+            robot.raiseIntake();
+
 
             //GET TO WAREHOUSE (place to warehouse)
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
@@ -150,7 +254,7 @@ public class Auto2022 extends LinearOpMode {
 
 
 
-
+            /*
             //WAREHOUSE STUFF
             robot.rotateToHeading(0,85,250);
             robot.lowerIntake();
@@ -178,7 +282,7 @@ public class Auto2022 extends LinearOpMode {
             robot.rotateToHeading(0, 90,1000);  //1250 safe
             robot.strafeLeft(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000); //1250 safe
             robot.driveForwardUseEncoder(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
-
+            */
 
 
 
@@ -186,13 +290,29 @@ public class Auto2022 extends LinearOpMode {
         }
 
         if((teamcolor == blue) && (side == carousel)){
-            //PLACE
+            //GET TO PLACE
             robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
-            robot.rotateToHeading(0, 40,1500);
-            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
-            //place on correct level
+            robot.rotateToHeading(0, -140,1500);
+            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 700);
 
-            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 325);
+            //PLACE
+            robot.lowerIntake();
+            if(placeHeight == 3){
+                robot.moveLiftMotor(600,.25);
+            }
+            else if(placeHeight == 2){
+                robot.moveLiftMotor(300,.25);
+            }
+            else if (placeHeight == 1){
+                robot.moveLiftMotor(0,.25);
+            }
+            else{
+            }
+            //dump -- add later
+            robot.moveLiftMotor(0,.25);
+            robot.raiseIntake();
+
+            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 325);
             robot.rotateToHeading(0, -90,1500);
             robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
             robot.rotateToHeading(0,0,2000);
@@ -229,5 +349,34 @@ public class Auto2022 extends LinearOpMode {
 
     }
 
+    public void testing(ContourPipeline myPipeline){
+        if(lowerruntime + 0.05 < getRuntime()){
+            CrLowerUpdate += -gamepad1.left_stick_y;
+            CbLowerUpdate += gamepad1.left_stick_x;
+            lowerruntime = getRuntime();
+        }
+        if(upperruntime + 0.05 < getRuntime()){
+            CrUpperUpdate += -gamepad1.right_stick_y;
+            CbUpperUpdate += gamepad1.right_stick_x;
+            upperruntime = getRuntime();
+        }
 
+        CrLowerUpdate = inValues(CrLowerUpdate, 0, 255);
+        CrUpperUpdate = inValues(CrUpperUpdate, 0, 255);
+        CbLowerUpdate = inValues(CbLowerUpdate, 0, 255);
+        CbUpperUpdate = inValues(CbUpperUpdate, 0, 255);
+
+        myPipeline.ConfigureScalarLower(0.0, CrLowerUpdate, CbLowerUpdate);
+        myPipeline.ConfigureScalarUpper(255.0, CrUpperUpdate, CbUpperUpdate);
+
+        telemetry.addData("lowerCr ", (int)CrLowerUpdate);
+        telemetry.addData("lowerCb ", (int)CbLowerUpdate);
+        telemetry.addData("UpperCr ", (int)CrUpperUpdate);
+        telemetry.addData("UpperCb ", (int)CbUpperUpdate);
+    }
+    public Double inValues(double value, double min, double max){
+        if(value < min){ value = min; }
+        if(value > max){ value = max; }
+        return value;
+    }
 }
