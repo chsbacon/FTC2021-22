@@ -1465,16 +1465,14 @@ public void spintakeStop(){
     }
 
     void spinCarouselMotors(){
+        /*
         ElapsedTime  carouselRuntime = new ElapsedTime();
-
-        carouselMotorR.setPower(-1);
-        carouselMotorL.setPower(-1);
         while(carouselRuntime.milliseconds() < 4250){
-
+            robot.carouselMotor1.setPower(carouselDirection);
         }
-        carouselMotorR.setPower(0);
-        carouselMotorL.setPower(0);
-
+        robot.carouselMotor1.setPower(0);
+    }
+    */
     }
 
     public void moveLiftMotor(int myTicks, double positivePWR){

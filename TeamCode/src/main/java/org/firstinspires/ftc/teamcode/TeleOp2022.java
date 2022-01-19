@@ -69,6 +69,7 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
+        double carouselDirection = .75;
 
 
        double spintakeMotorState = 0;
@@ -104,7 +105,7 @@ public class TeleOp2022 extends LinearOpMode {
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
-
+            /*
             if(gamepad1.y){ //increment up
                 liftMotorTicksTele += 100;
                 robot.moveLiftMotor(liftMotorTicksTele,.5);
@@ -118,7 +119,25 @@ public class TeleOp2022 extends LinearOpMode {
                 telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                 telemetry.update();
             }
+            */
 
+            /*
+            //change carousel motor direction
+            if(gamepad2.dpad_left){
+                carouselDirection = -.75;
+            }
+            if(gamepad1.dpad_right){
+                carouselDirection = .75;
+            }
+            //spin CarouselMotor1
+            if(gamepad2.y){
+                ElapsedTime  carouselRuntime = new ElapsedTime();
+                while(carouselRuntime.milliseconds() < 4250){
+                    robot.carouselMotor1.setPower(carouselDirection);
+                }
+                robot.carouselMotor1.setPower(0);
+            }
+            */
 
 
 
