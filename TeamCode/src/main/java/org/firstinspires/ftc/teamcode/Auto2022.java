@@ -330,6 +330,37 @@ public class Auto2022 extends LinearOpMode {
 
 
         if((teamcolor == red) && (side == warehouse)){
+            //GET TO PLACE
+            telemetry.addData("placeHeight: ", placeHeight);
+            telemetry.update();
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
+            robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+            robot.rotateToHeading(0,-155, 1250); //1250 safe //150 degrees clears obstacle
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),550);
+
+            //PLACE
+            robot.lowerIntake();
+            if(placeHeight == 3){
+                robot.moveLiftMotor(600,.25);
+            }
+            else if(placeHeight == 2){
+                robot.moveLiftMotor(300,.25);
+            }
+            else if (placeHeight == 1){
+                robot.moveLiftMotor(0,.25);
+            }
+            else{
+            }
+            //dump -- add later
+            robot.moveLiftMotor(0,.25);
+            robot.raiseIntake();
+
+
+            //GET TO WAREHOUSE (place to warehouse)
+            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
+            robot.rotateToHeading(0, -90, 1000); //1250 safe
+            robot.strafeRight(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
 
         }
 
