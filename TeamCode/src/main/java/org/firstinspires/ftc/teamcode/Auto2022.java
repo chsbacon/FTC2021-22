@@ -181,12 +181,12 @@ public class Auto2022 extends LinearOpMode {
             telemetry.update();
 
             if(myPipeline.getRectArea() > 2000){
-                if(myPipeline.getRectMidpointX() > 1300){  //was 1011
+                if(myPipeline.getRectMidpointX() > 1300){
                     placeHeight = 3;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
                 }
-                else if(myPipeline.getRectMidpointX() > 600){ //was 484
+                else if(myPipeline.getRectMidpointX() > 600){
                     placeHeight = 2;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
