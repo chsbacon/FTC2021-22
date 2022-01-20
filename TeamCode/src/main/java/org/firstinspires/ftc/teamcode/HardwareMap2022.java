@@ -168,7 +168,7 @@ public class HardwareMap2022
 
         //Set Power and Position -----------------------------------------
 
-        dropServo.setPosition(0);
+        dropServo.setPosition(1);
 
         //Set Modes -----------------------------------------
 
