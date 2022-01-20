@@ -72,9 +72,10 @@ public class HardwareMap2022
     public CRServo intakeServo1 = null;
     public CRServo intakeServo2 = null;
 
+    public Servo dropServo = null;
 
-    public DcMotor carouselMotorL = null;
-    public DcMotor carouselMotorR = null;
+
+    public DcMotor carouselMotor = null;
 
     public ColorSensor downColor = null;
 
@@ -139,22 +140,21 @@ public class HardwareMap2022
         backRightMotor = hwMap.get(DcMotor.class, "BRM"); //H1P3
 
         downColor = hwMap.get(ColorSensor.class, "colD"); //i2c
-
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin"); //servo
-
 
         intakeServo1 = hwMap.get(CRServo.class,"IS1");
         intakeServo2 = hwMap.get(CRServo.class,"IS2");
 
-        //carouselMotorL = hwMap.get(DcMotor.class,"CML");
-        //carouselMotorR = hwMap.get(DcMotor.class,"CMR");
+        dropServo = hwMap.get(Servo.class,"DS");
+
+        //carouselMotor = hwMap.get(DcMotor.class,"CML");
+        //carouselServo = hwMap.get(CRServo.class,"CS"); 1
+
 
         spintakeMotor = hwMap.get(DcMotor.class,"SM"); //H2P0
         liftMotor = hwMap.get(DcMotor.class,"LM");
 
 
-        //LinearSlideMotor = hwMap.get(DcMotor.class,"LSM"); //H2P1
-        //carouselServo = hwMap.get(CRServo.class,"CS"); //H2ServoP1
 
 
         //frontDistance = hwMap.get(DistanceSensor.class,"FDS"); //H1P0
@@ -168,6 +168,7 @@ public class HardwareMap2022
 
         //Set Power and Position -----------------------------------------
 
+        dropServo.setPosition(0);
 
         //Set Modes -----------------------------------------
 

@@ -129,15 +129,27 @@ public class TeleOp2022 extends LinearOpMode {
             if(gamepad1.dpad_right){
                 carouselDirection = .75;
             }
-            //spin CarouselMotor1
+            //spin CarouselMotor
             if(gamepad2.y){
                 ElapsedTime  carouselRuntime = new ElapsedTime();
                 while(carouselRuntime.milliseconds() < 4250){
-                    robot.carouselMotor1.setPower(carouselDirection);
+                    robot.carouselMotor.setPower(carouselDirection);
                 }
-                robot.carouselMotor1.setPower(0);
+                robot.carouselMotor.setPower(0);
             }
             */
+
+
+            if(gamepad1.y){
+                robot.dropServo.setPosition(.7);
+            }
+            if(gamepad1.a){
+                robot.dropServo.setPosition(0);
+            }
+
+
+
+
 
 
 
