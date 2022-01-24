@@ -69,11 +69,17 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
 
+        double carouselDirection = .75;
 
 
        double spintakeMotorState = 0;
+       int liftMotorTicksTele = 0;
+       robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+        //middle height is 150 ticks
+        //top height is 440 ticks
 
         //start Orientation will always be 0; this is the heading when robot is initialized
         Orientation startOrientation;
@@ -83,10 +89,6 @@ public class TeleOp2022 extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -101,6 +103,51 @@ public class TeleOp2022 extends LinearOpMode {
             //robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+            /*
+            if(gamepad1.y){ //increment up
+                liftMotorTicksTele += 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+
+            if(gamepad1.x){ //increment down
+                liftMotorTicksTele -= 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+            */
+
+            /*
+            //change carousel motor direction
+            if(gamepad2.dpad_left){
+                carouselDirection = -.75;
+            }
+            if(gamepad1.dpad_right){
+                carouselDirection = .75;
+            }
+            //spin CarouselMotor
+            if(gamepad2.y){
+                ElapsedTime  carouselRuntime = new ElapsedTime();
+                while(carouselRuntime.milliseconds() < 4250){
+                    robot.carouselMotor.setPower(carouselDirection);
+                }
+                robot.carouselMotor.setPower(0);
+            }
+            */
+
+
+            if(gamepad1.y){
+                robot.dropServo.setPosition(0);
+            }
+            if(gamepad1.a){
+                robot.dropServo.setPosition(1);
+            }
+
+
 
 
 
@@ -121,18 +168,19 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo2.setPower(0);
             }
 
-
-
-            //spintake motor
+            //spitake out items
             if(gamepad2.dpad_down){
                 robot.spintakeMotor.setPower(.75);
                 while(gamepad2.dpad_down){
+
                 }
                 robot.spintakeMotor.setPower(0);
             }
 
+
             //spintake items in
             if(gamepad2.dpad_up){
+
                 if(spintakeMotorState == 0){
                     spintakeMotorState = 1;
                     robot.spintakeMotor.setPower(-.75);
@@ -141,46 +189,7 @@ public class TeleOp2022 extends LinearOpMode {
                     robot.spintakeMotor.setPower(0);
                     spintakeMotorState = 0;
                 }
-
             }
-            else if (gamepad2.x && robot.liftMotor.getCurrentPosition()>-2800){
-                robot.liftMotor.setPower(-1);
-            }
-            else{
-                robot.liftMotor.setPower(0);
-            }
-
-
-
-
-            //spitake out items
-            if(gamepad2.dpad_down){
-                robot.spinTakeMotor.setPower(-.75);
-                while(gamepad2.dpad_down){
-
-                }
-                robot.spinTakeMotor.setPower(0);
-            }
-
-
-            //spintake items in
-            if(gamepad2.dpad_up){
-
-
-                if(spintakeMotorState == 0){
-                    spintakeMotorState = 1;
-                    robot.spinTakeMotor.setPower(.75);
-
-                }
-                else{
-                    robot.spinTakeMotor.setPower(0);
-                    spintakeMotorState = 0;
-
-                }
-            }
-
-
-
 
 
             y = gamepad1.left_stick_y;
