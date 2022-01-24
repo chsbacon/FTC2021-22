@@ -70,13 +70,15 @@ public class TeleOp2022 extends LinearOpMode {
         double fastSlow = 1;
         double spinPower = 0.75;
         boolean spinToggle = true;
+        boolean buttonDown = true;
+        boolean spinning = false;
 
         boolean carouselDirection = true;
         double carouselPower = 0.75;
 
 
 
-       boolean spintakeMotorState = true;
+       //boolean spintakeMotorState = true;
        int liftMotorTicksTele = 0;
        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -179,28 +181,44 @@ public class TeleOp2022 extends LinearOpMode {
             }
             if(gamepad2.y){
                 ElapsedTime  carouselRuntime = new ElapsedTime();
-                while(carouselRuntime.milliseconds() < 4250 & carouselDirection==true){
+                while(carouselRuntime.milliseconds() < 4250 && carouselDirection==true){
                     robot.carouselMotor.setPower(carouselPower);
                 }
-                while(carouselRuntime.milliseconds() < 4250 & carouselDirection==false){
+                while(carouselRuntime.milliseconds() < 4250 && carouselDirection==false){
                     robot.carouselMotor.setPower(-carouselPower);
                 }
                 robot.carouselMotor.setPower(0);
             }
 
-            if(gamepad2.dpad_up){
+            if(gamepad2.dpad_up && buttonDown == true) {
+                buttonDown = false;
+                if (spinning == false){
+                    robot.spintakeMotor.setPower(spinPower);
+                    spinning = true;
+                }
+                else{
+                    robot.spintakeMotor.setPower(0);
+                    spinning = false;
+                }
+
+
+                /*spinToggle = !spinToggle;
                 if(spinToggle == true){
                     robot.spintakeMotor.setPower(spinPower);
-                    spinToggle = false;
                 }
                 if(spinToggle == false){
                     robot.spintakeMotor.setPower(0);
-                    spinToggle = true;
-                }
+                }*/
+            }
+
+            if (!gamepad2.dpad_up){
+                buttonDown = true;
 
             }
+
+
             if(gamepad2.dpad_down){
-                spintakeMotorState = !spintakeMotorState;
+                //spintakeMotorState = !spintakeMotorState;
                 spinPower = -spinPower;
 
             }
@@ -283,6 +301,14 @@ public class TeleOp2022 extends LinearOpMode {
                     spintakeMotorState = 0;
                 }
             } */
+    /*if(spinToggle == true){
+                    robot.spintakeMotor.setPower(spinPower);
+                    spinToggle = false;
+                }
+                if(spinToggle == false){
+                    robot.spintakeMotor.setPower(0);
+                    spinToggle = true;
+                }*/
 
 }
 
