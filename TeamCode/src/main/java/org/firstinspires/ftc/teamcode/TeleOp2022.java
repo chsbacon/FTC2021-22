@@ -151,8 +151,6 @@ public class TeleOp2022 extends LinearOpMode {
 
 
 
-
-
             //intake servo
             if(gamepad2.left_bumper){
                 robot.intakeServo1.setPower(-1);
@@ -168,7 +166,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo2.setPower(0);
             }
 
-            //spitake out items
+            //spintake out items
             if(gamepad2.dpad_down){
                 robot.spintakeMotor.setPower(.75);
                 while(gamepad2.dpad_down){
