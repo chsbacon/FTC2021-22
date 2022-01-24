@@ -69,6 +69,7 @@ public class TeleOp2022 extends LinearOpMode {
         double backRight;
         double fastSlow = 1;
         double spinPower = 0.75;
+        boolean spinToggle = true;
 
         boolean carouselDirection = true;
         double carouselPower = 0.75;
@@ -137,10 +138,10 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
             if(gamepad1.y){
-                robot.dropServo.setPosition(1);
+                robot.dropServo.setPosition(0);
             }
             else{
-                robot.dropServo.setPosition(0);
+                robot.dropServo.setPosition(1);
             }
 
             if(gamepad1.b){
@@ -188,7 +189,15 @@ public class TeleOp2022 extends LinearOpMode {
             }
 
             if(gamepad2.dpad_up){
-                robot.spintakeMotor.setPower(spinPower);
+                if(spinToggle == true){
+                    robot.spintakeMotor.setPower(spinPower);
+                    spinToggle = false;
+                }
+                if(spinToggle == false){
+                    robot.spintakeMotor.setPower(0);
+                    spinToggle = true;
+                }
+
             }
             if(gamepad2.dpad_down){
                 spintakeMotorState = !spintakeMotorState;
