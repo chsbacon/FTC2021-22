@@ -248,13 +248,13 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(-3000,.75);
+                robot.moveLiftMotor(-3000,.25);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(-1000,.75);
+                robot.moveLiftMotor(-1000,.25);
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.75);
+                robot.moveLiftMotor(0,.25);
             }
             else{
             }
@@ -324,13 +324,13 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(-3000,.75);
+                robot.moveLiftMotor(-3000,.25);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(-1000,.75); //was 300 and a bit short
+                robot.moveLiftMotor(-1000,.25);
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.75);
+                robot.moveLiftMotor(0,.25);
             }
             else{
             }
