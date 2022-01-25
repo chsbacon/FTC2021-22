@@ -147,7 +147,7 @@ public class HardwareMap2022
 
         dropServo = hwMap.get(Servo.class,"DS");
 
-        //carouselMotor = hwMap.get(DcMotor.class,"CML");
+        carouselMotor = hwMap.get(DcMotor.class,"CML");
         //carouselServo = hwMap.get(CRServo.class,"CS"); 1
 
 
@@ -183,8 +183,7 @@ public class HardwareMap2022
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-        //carouselMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //carouselMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        carouselMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //LinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -1465,16 +1464,16 @@ public void spintakeStop(){
 
     }
 
-    void spinCarouselMotors(){
-        /*
+    void spinCarouselMotor(double carouselDirection){
+
         ElapsedTime  carouselRuntime = new ElapsedTime();
         while(carouselRuntime.milliseconds() < 4250){
-            robot.carouselMotor1.setPower(carouselDirection);
+            carouselMotor.setPower(carouselDirection);
         }
-        robot.carouselMotor1.setPower(0);
+        carouselMotor.setPower(0);
     }
-    */
-    }
+
+
 
     public void moveLiftMotor(int myTicks, double positivePWR){
         liftMotor.setTargetPosition(myTicks);

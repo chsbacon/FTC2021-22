@@ -29,6 +29,8 @@ package org.firstinspires.ftc.teamcode;
  */
 
 import android.util.Log;
+
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -134,6 +136,10 @@ public class Auto2022 extends LinearOpMode {
         int warehouse = 1;
         int carousel = 2;
 
+        double carouselColor = 0;
+
+        RevBlinkinLedDriver blinkinLedDriver;
+        RevBlinkinLedDriver.BlinkinPattern pattern;
 
 
         // Choosing the team color
@@ -145,9 +151,11 @@ public class Auto2022 extends LinearOpMode {
 
         if(gamepad1.x){
             teamcolor = blue;
+            carouselColor = -.75;
         }
         if(gamepad1.b){
             teamcolor = red;
+            carouselColor = .75;
         }
 
         telemetry.addData("teamcolor ", teamcolor);
@@ -214,6 +222,9 @@ public class Auto2022 extends LinearOpMode {
 
         if ((teamcolor == blue) && (side == warehouse)) {
 
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(pattern);
+
             /*
             //PLACE (works but slow)
             robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
@@ -237,13 +248,13 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(600,.25);
+                robot.moveLiftMotor(-3000,.75);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(375,.25); //was 300 and a bit short
+                robot.moveLiftMotor(-1000,.75);
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.25);
+                robot.moveLiftMotor(0,.75);
             }
             else{
             }
@@ -296,30 +307,30 @@ public class Auto2022 extends LinearOpMode {
         }
 
         if((teamcolor == blue) && (side == carousel)){
-            //GET TO PLACE
-            //robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
-            //robot.rotateToHeading(0, -145,1500);
-            //robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 850 + heightAdjust);
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(pattern);
 
             //GET TO PLACE
             telemetry.addData("placeHeight: ", placeHeight);
             telemetry.update();
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,-145, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),625 + placeHeightAdjust); //was 500 ticks
+            robot.rotateToHeading(0,-150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650 + placeHeightAdjust); //was 625
+
 
 
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(600,.25);
+                robot.moveLiftMotor(-3000,.75);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(375,.25); //was 300 and a bit short
+                robot.moveLiftMotor(-1000,.75); //was 300 and a bit short
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.25);
+                robot.moveLiftMotor(0,.75);
             }
             else{
             }
@@ -330,8 +341,15 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
             robot.rotateToHeading(0,-90,1500);
             robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
 
+            robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
+            robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
+            robot.spinCarouselMotor(carouselColor);
+
+            robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
+            robot.rotateToHeading(0,-30,1000);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
 
         }
 
