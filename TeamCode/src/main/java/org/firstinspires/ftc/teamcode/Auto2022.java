@@ -173,14 +173,14 @@ public class Auto2022 extends LinearOpMode {
         {
 
             if(myPipeline.error){
-                telemetry.addData("Exception: ", myPipeline.debug);
+                //telemetry.addData("Exception: ", myPipeline.debug);
             }
             // Only use this line of the code when you want to find the lower and upper values, using Ftc Dashboard (https://acmerobotics.github.io/ftc-dashboard/gettingstarted)
             testing(myPipeline);
 
             // Watch our YouTube Tutorial for the better explanation
 
-            telemetry.addData("RectMidpoint: ", myPipeline.getRectMidpointX());
+            //telemetry.addData("RectMidpoint: ", myPipeline.getRectMidpointX());
             telemetry.update();
 
             if(myPipeline.getRectArea() > 2000){
@@ -188,19 +188,19 @@ public class Auto2022 extends LinearOpMode {
                     placeHeight = 3;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
-                    heightAdjust = 0;
+                    heightAdjust = 75;
                 }
                 else if(myPipeline.getRectMidpointX() > 600){
                     placeHeight = 2;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
-                    heightAdjust = 50;
+                    heightAdjust = 90;
                 }
                 else {
                     placeHeight = 1;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
-                    heightAdjust = 100;
+                    heightAdjust = 105;
                 }
             }
         }
@@ -231,7 +231,7 @@ public class Auto2022 extends LinearOpMode {
             telemetry.update();
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,155, 1250); //1250 safe //150 degrees clears obstacle
+            robot.rotateToHeading(0,150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
             robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + heightAdjust); //was 550 ticks
 
             //PLACE
@@ -240,14 +240,14 @@ public class Auto2022 extends LinearOpMode {
                 robot.moveLiftMotor(600,.25);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(300,.25);
+                robot.moveLiftMotor(375,.25); //was 300 and a bit short
             }
             else if (placeHeight == 1){
                 robot.moveLiftMotor(0,.25);
             }
             else{
             }
-            //dump -- add later
+            robot.dump();
             robot.moveLiftMotor(0,.25);
             robot.raiseIntake();
 
@@ -256,7 +256,7 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
             robot.rotateToHeading(0, 90, 1000); //1250 safe
             robot.strafeLeft(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
 
 
 
@@ -400,10 +400,10 @@ public class Auto2022 extends LinearOpMode {
         myPipeline.ConfigureScalarLower(0.0, CrLowerUpdate, CbLowerUpdate);
         myPipeline.ConfigureScalarUpper(255.0, CrUpperUpdate, CbUpperUpdate);
 
-        telemetry.addData("lowerCr ", (int)CrLowerUpdate);
-        telemetry.addData("lowerCb ", (int)CbLowerUpdate);
-        telemetry.addData("UpperCr ", (int)CrUpperUpdate);
-        telemetry.addData("UpperCb ", (int)CbUpperUpdate);
+        //telemetry.addData("lowerCr ", (int)CrLowerUpdate);
+        //telemetry.addData("lowerCb ", (int)CbLowerUpdate);
+        //telemetry.addData("UpperCr ", (int)CrUpperUpdate);
+        //telemetry.addData("UpperCb ", (int)CbUpperUpdate);
     }
     public Double inValues(double value, double min, double max){
         if(value < min){ value = min; }

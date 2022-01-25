@@ -1493,6 +1493,17 @@ public void spintakeStop(){
         liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public void dump(){
+
+        ElapsedTime dumpTime = new ElapsedTime();
+
+        dropServo.setPosition(0);
+
+        while(dumpTime.milliseconds() < 500){
+
+        }
+        dropServo.setPosition(1);
+    }
 }
 
 

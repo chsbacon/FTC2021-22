@@ -68,15 +68,21 @@ public class TeleOp2022 extends LinearOpMode {
         double backLeft;
         double backRight;
         double fastSlow = 1;
+        double spinPower = 0.75;
+        boolean spinToggle = true;
+        boolean buttonDown = true;
+        boolean spinning = false;
 
-        double carouselDirection = .75;
+        boolean carouselDirection = true;
+        double carouselPower = 0.75;
 
 
-       double spintakeMotorState = 0;
-       int liftMotorTicksTele = 0;
-       robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-       robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //boolean spintakeMotorState = true;
+        int liftMotorTicksTele = 0;
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //middle height is 150 ticks
         //top height is 440 ticks
@@ -104,55 +110,52 @@ public class TeleOp2022 extends LinearOpMode {
             //grabs current orientation for this iteration of opModeIsActive
             currentOrientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+            //GAMEPAD 1 ___________________________________________________________________________
+            y = gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            r = gamepad1.right_stick_x;
+            // do not let rotation dominate movement
+            r = r / 2;
+            // calculate the power for each wheel
+            frontLeft = +y - x + r;
+            backLeft = +y + x + r;
+            frontRight = -y - x + r;
+            backRight = -y + x + r;
+            robot.frontLeftMotor.setPower(frontLeft/fastSlow);
+            robot.frontRightMotor.setPower(frontRight/fastSlow);
+            robot.backLeftMotor.setPower(backLeft/fastSlow);
+            robot.backRightMotor.setPower(backRight/fastSlow);
 
-            /*
-            if(gamepad1.y){ //increment up
+            if(gamepad1.left_bumper){  //Lift motor down
+                liftMotorTicksTele -= 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+            if(gamepad1.right_bumper){ //Lift motor up
                 liftMotorTicksTele += 100;
                 robot.moveLiftMotor(liftMotorTicksTele,.5);
                 telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                 telemetry.update();
             }
 
-            if(gamepad1.x){ //increment down
-                liftMotorTicksTele -= 100;
-                robot.moveLiftMotor(liftMotorTicksTele,.5);
-                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
-                telemetry.update();
-            }
-            */
-
-            /*
-            //change carousel motor direction
-            if(gamepad2.dpad_left){
-                carouselDirection = -.75;
-            }
-            if(gamepad1.dpad_right){
-                carouselDirection = .75;
-            }
-            //spin CarouselMotor
-            if(gamepad2.y){
-                ElapsedTime  carouselRuntime = new ElapsedTime();
-                while(carouselRuntime.milliseconds() < 4250){
-                    robot.carouselMotor.setPower(carouselDirection);
-                }
-                robot.carouselMotor.setPower(0);
-            }
-            */
-
-
             if(gamepad1.y){
                 robot.dropServo.setPosition(0);
             }
-            if(gamepad1.a){
+            else{
                 robot.dropServo.setPosition(1);
             }
 
+            if(gamepad1.b){
+                while (liftMotorTicksTele < 440){
+                    liftMotorTicksTele += 100;
+                    robot.moveLiftMotor(liftMotorTicksTele,.5);
+                    telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                    telemetry.update();
+                }
+            }
 
-
-
-
-
-
+            //GAMEPAD 2 ___________________________________________________________________________
             //intake servo
             if(gamepad2.left_bumper){
                 robot.intakeServo1.setPower(-1);
@@ -168,44 +171,61 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo2.setPower(0);
             }
 
-            //spitake out items
-            if(gamepad2.dpad_down){
-                robot.spintakeMotor.setPower(.75);
-                while(gamepad2.dpad_down){
-
+            if(gamepad2.a){
+                if(carouselDirection==true){
+                    carouselDirection=false;
                 }
-                robot.spintakeMotor.setPower(0);
+                if(carouselDirection==false){
+                    carouselDirection=true;
+                }
+            }
+            if(gamepad2.y){
+                ElapsedTime  carouselRuntime = new ElapsedTime();
+                while(carouselRuntime.milliseconds() < 4250 && carouselDirection==true){
+                    robot.carouselMotor.setPower(carouselPower);
+                }
+                while(carouselRuntime.milliseconds() < 4250 && carouselDirection==false){
+                    robot.carouselMotor.setPower(-carouselPower);
+                }
+                robot.carouselMotor.setPower(0);
             }
 
-
-            //spintake items in
-            if(gamepad2.dpad_up){
-
-                if(spintakeMotorState == 0){
-                    spintakeMotorState = 1;
-                    robot.spintakeMotor.setPower(-.75);
+            if(gamepad2.dpad_up && buttonDown == true) {
+                buttonDown = false;
+                if (spinning == false){
+                    robot.spintakeMotor.setPower(spinPower);
+                    spinning = true;
                 }
                 else{
                     robot.spintakeMotor.setPower(0);
-                    spintakeMotorState = 0;
+                    spinning = false;
                 }
+
+
+                /*spinToggle = !spinToggle;
+                if(spinToggle == true){
+                    robot.spintakeMotor.setPower(spinPower);
+                }
+                if(spinToggle == false){
+                    robot.spintakeMotor.setPower(0);
+                }*/
+            }
+
+            if (!gamepad2.dpad_up){
+                buttonDown = true;
+
             }
 
 
-            y = gamepad1.left_stick_y;
-            x = gamepad1.left_stick_x;
-            r = gamepad1.right_stick_x;
-            // do not let rotation dominate movement
-            r = r / 2;
-            // calculate the power for each wheel
-            frontLeft = +y - x + r;
-            backLeft = +y + x + r;
-            frontRight = -y - x + r;
-            backRight = -y + x + r;
-            robot.frontLeftMotor.setPower(frontLeft/fastSlow);
-            robot.frontRightMotor.setPower(frontRight/fastSlow);
-            robot.backLeftMotor.setPower(backLeft/fastSlow);
-            robot.backRightMotor.setPower(backRight/fastSlow);
+            if(gamepad2.dpad_down){
+                //spintakeMotorState = !spintakeMotorState;
+                spinPower = -spinPower;
+
+            }
+
+
+
+
 
 
 
@@ -227,6 +247,66 @@ public class TeleOp2022 extends LinearOpMode {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-}
+    //OLD CODE I DON'T WANT TO GET RID OF BUT AM NOT USING
+    /*
+            if(gamepad1.y){ //increment up
+                liftMotorTicksTele += 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+            if(gamepad1.x){ //increment down
+                liftMotorTicksTele -= 100;
+                robot.moveLiftMotor(liftMotorTicksTele,.5);
+                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                telemetry.update();
+            }
+            */
+    /* if(gamepad1.y){
+                robot.dropServo.setPosition(0);
+            }
+            if(gamepad1.a){
+                robot.dropServo.setPosition(1);
+            } */
+    /*
+            //change carousel motor direction
+            if(gamepad2.dpad_left){
+                carouselDirection = -.75;
+            }
+            if(gamepad1.dpad_right){
+                carouselDirection = .75;
+            }
+            //spin CarouselMotor
+            if(gamepad2.y){
+                ElapsedTime  carouselRuntime = new ElapsedTime();
+                while(carouselRuntime.milliseconds() < 4250){
+                    robot.carouselMotor.setPower(carouselDirection);
+                }
+                robot.carouselMotor.setPower(0);
+            }
+            */
+    /*if(gamepad2.dpad_up){
+                if(spintakeMotorState == 0){
+                    spintakeMotorState = 1;
+                    robot.spintakeMotor.setPower(-.75);
+                }
+                if(spintakeMotorState ==1){
+                    spintakeMotorState = 0;
+                    robot.spintakeMotor.setPower(.75);
+                }
+                else{
+                    robot.spintakeMotor.setPower(0);
+                    spintakeMotorState = 0;
+                }
+            } */
+    /*if(spinToggle == true){
+                    robot.spintakeMotor.setPower(spinPower);
+                    spinToggle = false;
+                }
+                if(spinToggle == false){
+                    robot.spintakeMotor.setPower(0);
+                    spinToggle = true;
+                }*/
 
+}
 
