@@ -297,9 +297,18 @@ public class Auto2022 extends LinearOpMode {
 
         if((teamcolor == blue) && (side == carousel)){
             //GET TO PLACE
-            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
-            robot.rotateToHeading(0, -145,1500);
-            robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 850 + heightAdjust);
+            //robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
+            //robot.rotateToHeading(0, -145,1500);
+            //robot.driveBackwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 850 + heightAdjust);
+
+            //GET TO PLACE
+            telemetry.addData("placeHeight: ", placeHeight);
+            telemetry.update();
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
+            robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+            robot.rotateToHeading(0,-145, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),625 + heightAdjust); //was 500 ticks
+
 
             //PLACE
             robot.lowerIntake();
@@ -307,14 +316,14 @@ public class Auto2022 extends LinearOpMode {
                 robot.moveLiftMotor(600,.25);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(300,.25);
+                robot.moveLiftMotor(375,.25); //was 300 and a bit short
             }
             else if (placeHeight == 1){
                 robot.moveLiftMotor(0,.25);
             }
             else{
             }
-            //dump -- add later
+            robot.dump();
             robot.moveLiftMotor(0,.25);
             robot.raiseIntake();
 
