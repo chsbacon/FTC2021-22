@@ -78,7 +78,7 @@ public class Auto2022 extends LinearOpMode {
     public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
 
     double placeHeight = 0;
-    double heightAdjust = 0;
+    double placeHeightAdjust = 0;
 
     /* Declare OpMode members. */
     HardwareMap2022 robot = new HardwareMap2022();
@@ -188,19 +188,19 @@ public class Auto2022 extends LinearOpMode {
                     placeHeight = 3;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
-                    heightAdjust = 75;
+                    placeHeightAdjust = 75;
                 }
                 else if(myPipeline.getRectMidpointX() > 600){
                     placeHeight = 2;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
-                    heightAdjust = 90;
+                    placeHeightAdjust = 90;
                 }
                 else {
                     placeHeight = 1;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
-                    heightAdjust = 105;
+                    placeHeightAdjust = 105;
                 }
             }
         }
@@ -232,7 +232,7 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
             robot.rotateToHeading(0,150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + heightAdjust); //was 550 ticks
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + placeHeightAdjust); //was 550 ticks
 
             //PLACE
             robot.lowerIntake();
@@ -307,7 +307,7 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
             robot.rotateToHeading(0,-145, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),625 + heightAdjust); //was 500 ticks
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),625 + placeHeightAdjust); //was 500 ticks
 
 
             //PLACE
@@ -327,9 +327,11 @@ public class Auto2022 extends LinearOpMode {
             robot.moveLiftMotor(0,.25);
             robot.raiseIntake();
 
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 300);
-            robot.rotateToHeading(0, -90,2000);
-            robot.driveForwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
+            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+            robot.rotateToHeading(0,-90,1500);
+            robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
+
 
         }
 
@@ -351,7 +353,7 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
             robot.rotateToHeading(0,-155, 1250); //1250 safe //150 degrees clears obstacle
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + heightAdjust);
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + placeHeightAdjust);
 
             //PLACE
             robot.lowerIntake();
