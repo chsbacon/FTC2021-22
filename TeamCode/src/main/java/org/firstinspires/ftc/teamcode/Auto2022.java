@@ -152,10 +152,14 @@ public class Auto2022 extends LinearOpMode {
         if(gamepad1.x){
             teamcolor = blue;
             carouselColor = -.75;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(pattern);
         }
         if(gamepad1.b){
             teamcolor = red;
             carouselColor = .75;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            robot.blinkinLedDriver.setPattern(pattern);
         }
 
         telemetry.addData("teamcolor ", teamcolor);
@@ -176,6 +180,8 @@ public class Auto2022 extends LinearOpMode {
         telemetry.addData("side ", side);
         telemetry.update();
 
+        pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+        robot.blinkinLedDriver.setPattern(pattern);
 
         while (!isStarted())
         {
@@ -197,18 +203,24 @@ public class Auto2022 extends LinearOpMode {
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
                     placeHeightAdjust = 75;
+                    pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                    robot.blinkinLedDriver.setPattern(pattern);
                 }
                 else if(myPipeline.getRectMidpointX() > 600){
                     placeHeight = 2;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
                     placeHeightAdjust = 90;
+                    pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                    robot.blinkinLedDriver.setPattern(pattern);
                 }
                 else {
                     placeHeight = 1;
                     telemetry.addData("placeHeight: ", placeHeight);
                     telemetry.update();
                     placeHeightAdjust = 105;
+                    pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+                    robot.blinkinLedDriver.setPattern(pattern);
                 }
             }
         }
@@ -225,18 +237,6 @@ public class Auto2022 extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
             robot.blinkinLedDriver.setPattern(pattern);
 
-            /*
-            //PLACE (works but slow)
-            robot.driveForwardUseEncoder(.25, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 125);
-            robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
-            robot.rotateToHeading(0,90);
-            robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),300);
-            robot.rotateToHeading(0,160);
-            robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),350);
-            //place on correct level
-            */
-
-
             //GET TO PLACE
             telemetry.addData("placeHeight: ", placeHeight);
             telemetry.update();
@@ -248,18 +248,18 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(-3000,.25);
+                robot.moveLiftMotor(2500,.75);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(-1000,.25);
+                robot.moveLiftMotor(1000,.75);
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.25);
+                robot.moveLiftMotor(0,.75);
             }
             else{
             }
             robot.dump();
-            robot.moveLiftMotor(0,.25);
+            robot.moveLiftMotor(0,.75);
             robot.raiseIntake();
 
 
@@ -321,21 +321,23 @@ public class Auto2022 extends LinearOpMode {
 
 
 
+
+
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(-3000,.25);
+                robot.moveLiftMotor(2500,.75);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(-1000,.25);
+                robot.moveLiftMotor(1000,.75);
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.25);
+                robot.moveLiftMotor(0,.75);
             }
             else{
             }
             robot.dump();
-            robot.moveLiftMotor(0,.25);
+            robot.moveLiftMotor(0,.75);
             robot.raiseIntake();
 
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
@@ -365,31 +367,34 @@ public class Auto2022 extends LinearOpMode {
 
 
         if((teamcolor == red) && (side == warehouse)){
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            robot.blinkinLedDriver.setPattern(pattern);
+
             //GET TO PLACE
             telemetry.addData("placeHeight: ", placeHeight);
             telemetry.update();
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,-155, 1250); //1250 safe //150 degrees clears obstacle
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + placeHeightAdjust);
+            robot.rotateToHeading(0,-150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + placeHeightAdjust); //was 550 ticks
 
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(600,.25);
+                //robot.moveLiftMotor(600,.25);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(300,.25);
+                //robot.moveLiftMotor(300,.25);
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.25);
+                //robot.moveLiftMotor(0,.25);
             }
             else{
             }
-            //dump -- add later
-            robot.moveLiftMotor(0,.25);
+            robot.dump();
+            //robot.moveLiftMotor(0,.25);
             robot.raiseIntake();
-
 
             //GET TO WAREHOUSE (place to warehouse)
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);

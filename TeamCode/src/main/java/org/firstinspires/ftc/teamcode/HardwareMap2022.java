@@ -1483,8 +1483,8 @@ public void spintakeStop(){
         liftMotor.setPower(positivePWR);
 
         while(liftMotor.isBusy()){
-            //telemetry.addData("Target: ", myTicks);
-            //telemetry.addData("tickPos: ",robot.liftMotor.getCurrentPosition());
+            //addData("Target: ", myTicks);
+            //telemetry.addData("tickPos: ",liftMotor.getCurrentPosition());
             //telemetry.update();
         }
         liftMotor.setPower(0);
