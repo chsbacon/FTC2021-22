@@ -96,6 +96,10 @@ public class Auto2022 extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
+        int liftMotorTicks = 0;
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // OpenCV webcam
@@ -248,10 +252,10 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(2500,.75);
+                robot.moveLiftMotor(4500,.75);
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(1000,.75);
+                robot.moveLiftMotor(2500,.75);
             }
             else if (placeHeight == 1){
                 robot.moveLiftMotor(0,.75);
@@ -311,6 +315,9 @@ public class Auto2022 extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
             robot.blinkinLedDriver.setPattern(pattern);
 
+            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+
             //GET TO PLACE
             telemetry.addData("placeHeight: ", placeHeight);
             telemetry.update();
@@ -320,24 +327,31 @@ public class Auto2022 extends LinearOpMode {
             robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650 + placeHeightAdjust); //was 625
 
 
-
-
-
             //PLACE
             robot.lowerIntake();
+            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
             if(placeHeight == 3){
-                robot.moveLiftMotor(2500,.75);
+                robot.moveLiftMotor(4500,.75);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(1000,.75);
+                robot.moveLiftMotor(2500,.75);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
             }
             else if (placeHeight == 1){
                 robot.moveLiftMotor(0,.75);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
             }
             else{
             }
             robot.dump();
             robot.moveLiftMotor(0,.75);
+            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
             robot.raiseIntake();
 
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
@@ -382,18 +396,18 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                //robot.moveLiftMotor(600,.25);
+                robot.moveLiftMotor(4500,.75);
             }
             else if(placeHeight == 2){
-                //robot.moveLiftMotor(300,.25);
+                robot.moveLiftMotor(2500,.75);
             }
             else if (placeHeight == 1){
-                //robot.moveLiftMotor(0,.25);
+                robot.moveLiftMotor(0,.75);
             }
             else{
             }
             robot.dump();
-            //robot.moveLiftMotor(0,.25);
+            robot.moveLiftMotor(0,.75);
             robot.raiseIntake();
 
             //GET TO WAREHOUSE (place to warehouse)
@@ -406,6 +420,61 @@ public class Auto2022 extends LinearOpMode {
 
 
         if((teamcolor == red) && (side == carousel)){
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            robot.blinkinLedDriver.setPattern(pattern);
+
+            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+
+            //GET TO PLACE
+            telemetry.addData("placeHeight: ", placeHeight);
+            telemetry.update();
+            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
+            robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+            robot.rotateToHeading(0,150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650 + placeHeightAdjust); //was 625
+
+
+
+
+            //PLACE
+            robot.lowerIntake();
+            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+            if(placeHeight == 3){
+                robot.moveLiftMotor(4500,.75);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
+            }
+            else if(placeHeight == 2){
+                robot.moveLiftMotor(2500,.75);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
+            }
+            else if (placeHeight == 1){
+                robot.moveLiftMotor(0,.75);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
+            }
+            else{
+            }
+            robot.dump();
+            robot.moveLiftMotor(0,.75);
+            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+            robot.raiseIntake();
+
+            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+            robot.rotateToHeading(0,90,1500);
+
+            //drive forward
+            //slam into wall
+            //drive forward into carousel
+            //spin
+            //drive backwards
+
+
+
         }
 
 

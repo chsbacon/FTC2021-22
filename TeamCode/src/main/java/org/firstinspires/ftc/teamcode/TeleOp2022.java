@@ -68,10 +68,8 @@ public class TeleOp2022 extends LinearOpMode {
         double backLeft;
         double backRight;
         double fastSlow = 1;
-        double spinPower = 0.75;
-        boolean spinToggle = true;
-        boolean buttonDown = true;
-        boolean spinning = false;
+
+        double spintakeMotorState = 0;
 
         boolean carouselDirection = true;
         double carouselPower = 0.75;
@@ -126,18 +124,22 @@ public class TeleOp2022 extends LinearOpMode {
             robot.backLeftMotor.setPower(backLeft/fastSlow);
             robot.backRightMotor.setPower(backRight/fastSlow);
 
-            if(gamepad1.left_bumper){  //Lift motor down
-                liftMotorTicksTele -= 100;
-                robot.moveLiftMotor(liftMotorTicksTele,.5);
+
+
+            if(gamepad1.left_bumper){  //Lift motor up
+                liftMotorTicksTele -= 1000;
+                robot.moveLiftMotor(liftMotorTicksTele,1);
                 telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                 telemetry.update();
             }
-            if(gamepad1.right_bumper){ //Lift motor up
-                liftMotorTicksTele += 100;
-                robot.moveLiftMotor(liftMotorTicksTele,.5);
-                telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
-                telemetry.update();
+            if(gamepad1.right_bumper /* && liftMotorTicksTele < 0*/){ //Lift motor down
+                    liftMotorTicksTele += 1000;
+                    robot.moveLiftMotor(liftMotorTicksTele, 1);
+                    telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
+                    telemetry.update();
             }
+
+
 
             if(gamepad1.y){
                 robot.dropServo.setPosition(0);
@@ -145,6 +147,7 @@ public class TeleOp2022 extends LinearOpMode {
             else{
                 robot.dropServo.setPosition(1);
             }
+
 
             if(gamepad1.b){
                 while (liftMotorTicksTele < 440){
@@ -154,6 +157,9 @@ public class TeleOp2022 extends LinearOpMode {
                     telemetry.update();
                 }
             }
+
+
+
 
             //GAMEPAD 2 ___________________________________________________________________________
             //intake servo
@@ -190,47 +196,37 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.carouselMotor.setPower(0);
             }
 
-            if(gamepad2.dpad_up && buttonDown == true) {
-                buttonDown = false;
-                if (spinning == false){
-                    robot.spintakeMotor.setPower(spinPower);
-                    spinning = true;
-                }
-                else{
-                    robot.spintakeMotor.setPower(0);
-                    spinning = false;
-                }
-
-
-                /*spinToggle = !spinToggle;
-                if(spinToggle == true){
-                    robot.spintakeMotor.setPower(spinPower);
-                }
-                if(spinToggle == false){
-                    robot.spintakeMotor.setPower(0);
-                }*/
-            }
-
-            if (!gamepad2.dpad_up){
-                buttonDown = true;
-
-            }
-
-
+            //spitake out items
             if(gamepad2.dpad_down){
-                //spintakeMotorState = !spintakeMotorState;
-                spinPower = -spinPower;
+                robot.spintakeMotor.setPower(.75);
+                while(gamepad2.dpad_down){
+
+                }
+                robot.spintakeMotor.setPower(0);
+            }
+
+            //spintake items in
+            if(gamepad2.dpad_up && spintakeMotorState == 0){
+                    spintakeMotorState = 1;
+                    robot.spintakeMotor.setPower(-.75);
+                }
+            else if(gamepad2.dpad_up && spintakeMotorState == 1){
+                    robot.spintakeMotor.setPower(0);
+                    spintakeMotorState = 0;
+
+                }
+            else{
 
             }
 
 
 
-
+            }
 
 
 
         }
-    }
+
 
 
 
