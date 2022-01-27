@@ -160,25 +160,75 @@ public class TeleOp2022 extends LinearOpMode {
             }
             */
 
-
+/*
             //glide up and down
             if(gamepad1.left_bumper){
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.liftMotor.setPower(.75);
+                robot.liftMotor.setPower(1);
             }
-            else if (gamepad1.right_bumper /*&& (liftMotorTicksTele < 0)*/){
+            else if (gamepad1.right_bumper ){
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.liftMotor.setPower(-.75);
+                robot.liftMotor.setPower(-1);
+            }
+            else{
+                robot.liftMotor.setPower(0);
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+*/
+
+//glide up and down 2
+
+            if(gamepad1.left_bumper){
+                if(robot.liftMotor.getCurrentPosition() >= 0){
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.liftMotor.setPower(-1);
+                }
+                else{
+
+                }
+            }
+            else if (gamepad1.right_bumper){
+                if(robot.liftMotor.getCurrentPosition() <= 4750){
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.liftMotor.setPower(1);
+                }
+                else{
+
+                }
             }
             else{
                 robot.liftMotor.setPower(0);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 
+/*
+            if(gamepad1.left_bumper) {
+                while (gamepad1.left_bumper) {
+                    if (robot.liftMotor.getCurrentPosition() > 0) {
+                        robot.liftMotor.setPower(-.25);
+                        if (robot.liftMotor.getCurrentPosition() < 0) {
+                            robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                            robot.liftMotor.setPower(0);
+                        }
 
+                    }
 
-
-
+                }
+            }
+            else if (gamepad1.right_bumper){
+                if(robot.liftMotor.getCurrentPosition() <= 4750){
+                    robot.liftMotor.setPower(.25);
+                    if(robot.liftMotor.getCurrentPosition() >= 4750){
+                        robot.liftMotor.setPower(0);
+                        robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    }
+                }
+            }
+            else{
+                robot.liftMotor.setPower(0);
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+*/
             if(gamepad1.y){
                 robot.dropServo.setPosition(0);
             }
@@ -186,16 +236,23 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.dropServo.setPosition(1);
             }
 
-
+/*
             if(gamepad1.b){
-                while (liftMotorTicksTele < 440){
-                    liftMotorTicksTele += 100;
-                    robot.moveLiftMotor(liftMotorTicksTele,.5);
-                    telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
-                    telemetry.update();
+                if(robot.liftMotor.getCurrentPosition() >= 2000){
+                    robot.liftMotor.setTargetPosition(0);
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setPower(.25);
+                }
+                if(robot.liftMotor.getCurrentPosition() <= 2000){
+                    robot.liftMotor.setTargetPosition(4000);
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setPower(.25);
                 }
             }
+            else{
 
+            }
+*/
 
 
 
@@ -214,26 +271,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
-            /*
-            if(gamepad2.a){
-                if(carouselDirection==true){
-                    carouselDirection=false;
-                }
-                if(carouselDirection==false){
-                    carouselDirection=true;
-                }
-            }
-            if(gamepad2.y){
-                ElapsedTime  carouselRuntime = new ElapsedTime();
-                while(carouselRuntime.milliseconds() < 4250 && carouselDirection==true){
-                    robot.carouselMotor.setPower(carouselPower);
-                }
-                while(carouselRuntime.milliseconds() < 4250 && carouselDirection==false){
-                    robot.carouselMotor.setPower(-carouselPower);
-                }
-                robot.carouselMotor.setPower(0);
-            }
-            */
+
             if(gamepad2.y){
                 robot.carouselMotor.setPower(carouselPower);
             }
@@ -265,9 +303,11 @@ public class TeleOp2022 extends LinearOpMode {
 
             }
 
-
+            telemetry.addData("Ticks: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
 
             }
+
 
 
 
