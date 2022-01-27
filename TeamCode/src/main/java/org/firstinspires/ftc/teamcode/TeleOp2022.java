@@ -124,20 +124,38 @@ public class TeleOp2022 extends LinearOpMode {
             robot.backLeftMotor.setPower(backLeft/fastSlow);
             robot.backRightMotor.setPower(backRight/fastSlow);
 
-
-
+            /*
+            //increment up and down (works)
             if(gamepad1.left_bumper){  //Lift motor up
                 liftMotorTicksTele -= 1000;
                 robot.moveLiftMotor(liftMotorTicksTele,1);
                 telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                 telemetry.update();
             }
-            if(gamepad1.right_bumper /* && liftMotorTicksTele < 0*/){ //Lift motor down
+            if(gamepad1.right_bumper){ //Lift motor down
                     liftMotorTicksTele += 1000;
                     robot.moveLiftMotor(liftMotorTicksTele, 1);
                     telemetry.addData("LiftMotor Pos: ", liftMotorTicksTele);
                     telemetry.update();
             }
+            */
+
+
+            //glide up and down
+            if(gamepad1.left_bumper){
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.liftMotor.setPower(.75);
+            }
+            else if (gamepad1.right_bumper /*&& (liftMotorTicksTele < 0)*/){
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.liftMotor.setPower(-.75);
+            }
+            else{
+                robot.liftMotor.setPower(0);
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+
 
 
 
