@@ -200,8 +200,8 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.liftMotor.setPower(0);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-
 /*
+// glide up and down 3 (not working)
             if(gamepad1.left_bumper) {
                 while (gamepad1.left_bumper) {
                     if (robot.liftMotor.getCurrentPosition() > 0) {
@@ -218,7 +218,7 @@ public class TeleOp2022 extends LinearOpMode {
             else if (gamepad1.right_bumper){
                 if(robot.liftMotor.getCurrentPosition() <= 4750){
                     robot.liftMotor.setPower(.25);
-                    if(robot.liftMotor.getCurrentPosition() >= 4750){
+                    while(robot.liftMotor.getCurrentPosition() >= 4750){
                         robot.liftMotor.setPower(0);
                         robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     }
@@ -229,6 +229,10 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 */
+
+
+
+
             if(gamepad1.y){
                 robot.dropServo.setPosition(0);
             }
@@ -239,11 +243,13 @@ public class TeleOp2022 extends LinearOpMode {
 /*
             if(gamepad1.b){
                 if(robot.liftMotor.getCurrentPosition() >= 2000){
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.liftMotor.setTargetPosition(0);
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.liftMotor.setPower(.25);
                 }
                 if(robot.liftMotor.getCurrentPosition() <= 2000){
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.liftMotor.setTargetPosition(4000);
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.liftMotor.setPower(.25);
