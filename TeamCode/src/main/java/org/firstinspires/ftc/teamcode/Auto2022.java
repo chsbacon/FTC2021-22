@@ -140,6 +140,8 @@ public class Auto2022 extends LinearOpMode {
         int warehouse = 1;
         int carousel = 2;
 
+        int startDelay = 0;
+
         double carouselColor = 0;
 
         RevBlinkinLedDriver blinkinLedDriver;
@@ -147,7 +149,7 @@ public class Auto2022 extends LinearOpMode {
 
 
         // Choosing the team color
-        telemetry.addData("Press X for Blue, B for Red", "");
+        telemetry.addData("Gamepad1: Press X for Blue, B for Red", "");
         telemetry.update();
 
         while (!gamepad1.x && !gamepad1.b) {
@@ -170,7 +172,7 @@ public class Auto2022 extends LinearOpMode {
         telemetry.update();
 
         // Choosing side
-        telemetry.addData("Press A for warehouse, Y for carousel", "");
+        telemetry.addData("Gamepad1: Press A for warehouse, Y for carousel", "");
         telemetry.update();
 
         while (!gamepad1.a && !gamepad1.y) {
@@ -181,8 +183,32 @@ public class Auto2022 extends LinearOpMode {
         if (gamepad1.y) {
             side = carousel;
         }
-        telemetry.addData("side ", side);
+        telemetry.addData("side: ", side);
         telemetry.update();
+
+        //choosing delay
+        telemetry.addData("Gamepad2: A=0 sec, B=5sec, Y=10sec, X=15sec", "");
+        telemetry.update();
+
+        while(!gamepad2.a && !gamepad2.b && !gamepad2.y && !gamepad2.x){
+        }
+        if(gamepad2.a){
+            startDelay = 0;
+        }
+        if(gamepad2.b){
+            startDelay = 5000;
+        }
+        if(gamepad2.y){
+            startDelay = 10000;
+        }
+        if(gamepad2.x){
+            startDelay = 15000;
+        }
+
+        telemetry.addData("Start Delay: ", startDelay);
+        telemetry.update();
+
+
 
         pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
         robot.blinkinLedDriver.setPattern(pattern);
@@ -235,6 +261,8 @@ public class Auto2022 extends LinearOpMode {
 
 
         waitForStart();
+
+        sleep(startDelay);
 
         if ((teamcolor == blue) && (side == warehouse)) {
 
