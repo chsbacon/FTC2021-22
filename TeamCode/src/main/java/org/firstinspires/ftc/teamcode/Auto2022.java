@@ -481,24 +481,24 @@ public class Auto2022 extends LinearOpMode {
             telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
             telemetry.update();
             if(placeHeight == 3){
-                robot.moveLiftMotor(4750,.75);
+                robot.moveLiftMotor(4750,1);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
             }
             else if(placeHeight == 2){
-                robot.moveLiftMotor(2500,.75);
+                robot.moveLiftMotor(2500,1);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
             }
             else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.75);
+                robot.moveLiftMotor(0,1);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
             }
             else{
             }
             robot.dump();
-            robot.moveLiftMotor(0,.75);
+            robot.moveLiftMotor(0,1);
             telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
             telemetry.update();
             robot.raiseIntake();
@@ -507,11 +507,11 @@ public class Auto2022 extends LinearOpMode {
             robot.blinkinLedDriver.setPattern(pattern);
 
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
-            robot.rotateToHeading(0,90,1500);
+            robot.rotateToHeading(0,90,1250);
 
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
 
-            robot.rotateToHeading(0,-170,1500);
+            robot.rotateToHeading(0,-170,1250);
             robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
 
             robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),850);
@@ -520,7 +520,7 @@ public class Auto2022 extends LinearOpMode {
 
 
             //robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.driveBackwardUseTime(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+            robot.driveBackwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
 
             requestOpModeStop();
         }
