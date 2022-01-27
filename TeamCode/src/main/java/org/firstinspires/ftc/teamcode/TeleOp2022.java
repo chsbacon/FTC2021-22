@@ -117,11 +117,8 @@ public class TeleOp2022 extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
             robot.blinkinLedDriver.setPattern(pattern);
         }
-//
-
 
         waitForStart();
-
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {

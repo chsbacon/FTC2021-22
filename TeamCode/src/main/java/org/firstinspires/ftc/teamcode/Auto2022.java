@@ -280,7 +280,7 @@ public class Auto2022 extends LinearOpMode {
             //PLACE
             robot.lowerIntake();
             if(placeHeight == 3){
-                robot.moveLiftMotor(4500,.75);
+                robot.moveLiftMotor(4750,.75);
             }
             else if(placeHeight == 2){
                 robot.moveLiftMotor(2500,.75);
@@ -360,7 +360,7 @@ public class Auto2022 extends LinearOpMode {
             telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
             telemetry.update();
             if(placeHeight == 3){
-                robot.moveLiftMotor(4500,.75);
+                robot.moveLiftMotor(4750,.75);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
             }
@@ -459,8 +459,8 @@ public class Auto2022 extends LinearOpMode {
             telemetry.update();
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650 + placeHeightAdjust); //was 625
+            robot.rotateToHeading(0,153, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),625 + placeHeightAdjust); //was 625
 
 
 
@@ -470,7 +470,7 @@ public class Auto2022 extends LinearOpMode {
             telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
             telemetry.update();
             if(placeHeight == 3){
-                robot.moveLiftMotor(4500,.75);
+                robot.moveLiftMotor(4750,.75);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
             }
@@ -492,15 +492,21 @@ public class Auto2022 extends LinearOpMode {
             telemetry.update();
             robot.raiseIntake();
 
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
             robot.rotateToHeading(0,90,1500);
 
-            //drive forward
-            //slam into wall
-            //drive forward into carousel
-            //spin
-            //drive backwards
+            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
 
+            robot.rotateToHeading(0,-170,1500);
+            robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+
+            robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),850);
+
+            robot.spinCarouselMotor(carouselColor);
+
+
+            //robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+            robot.driveBackwardUseTime(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
 
 
         }
