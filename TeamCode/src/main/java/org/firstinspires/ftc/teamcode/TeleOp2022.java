@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -72,9 +73,10 @@ public class TeleOp2022 extends LinearOpMode {
         double spintakeMotorState = 0;
 
         boolean carouselDirection = true;
-        double carouselPower = 0.75;
+        double carouselPower = 0;
 
-
+        RevBlinkinLedDriver blinkinLedDriver;
+        RevBlinkinLedDriver.BlinkinPattern pattern;
 
         //boolean spintakeMotorState = true;
         int liftMotorTicksTele = 0;
@@ -96,6 +98,27 @@ public class TeleOp2022 extends LinearOpMode {
 
 
         // Wait for the game to start (driver presses PLAY)
+
+
+        // Choosing the team color
+        telemetry.addData("Gamepad1: Press X for Blue, B for Red", "");
+        telemetry.update();
+
+        while (!gamepad1.x && !gamepad1.b) {
+        }
+
+        if(gamepad1.x){
+            carouselPower = -.75;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(pattern);
+        }
+        if(gamepad2.b){
+            carouselPower = .75;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            robot.blinkinLedDriver.setPattern(pattern);
+        }
+
+
 
         waitForStart();
 
@@ -125,7 +148,7 @@ public class TeleOp2022 extends LinearOpMode {
             robot.backRightMotor.setPower(backRight/fastSlow);
 
             /*
-            //increment up and down (works)
+            //increment up and down (works but not using)
             if(gamepad1.left_bumper){  //Lift motor up
                 liftMotorTicksTele -= 1000;
                 robot.moveLiftMotor(liftMotorTicksTele,1);
@@ -194,7 +217,7 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.intakeServo1.setPower(0);
                 robot.intakeServo2.setPower(0);
             }
-
+            /*
             if(gamepad2.a){
                 if(carouselDirection==true){
                     carouselDirection=false;
@@ -213,6 +236,14 @@ public class TeleOp2022 extends LinearOpMode {
                 }
                 robot.carouselMotor.setPower(0);
             }
+            */
+            if(gamepad2.y){
+                robot.carouselMotor.setPower(carouselPower);
+            }
+            else{
+                robot.carouselMotor.setPower(0);
+            }
+
 
             //spitake out items
             if(gamepad2.dpad_down){
