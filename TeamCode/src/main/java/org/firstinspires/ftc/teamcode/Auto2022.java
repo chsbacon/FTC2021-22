@@ -294,6 +294,8 @@ public class Auto2022 extends LinearOpMode {
             robot.moveLiftMotor(0,.75);
             robot.raiseIntake();
 
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(pattern);
 
             //GET TO WAREHOUSE (place to warehouse)
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
@@ -383,6 +385,9 @@ public class Auto2022 extends LinearOpMode {
             telemetry.update();
             robot.raiseIntake();
 
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(pattern);
+
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
             robot.rotateToHeading(0,-90,1500);
             robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
@@ -392,9 +397,9 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
             robot.spinCarouselMotor(carouselColor);
 
-            robot.driveBackwardUseEncoder(.25,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
-            robot.rotateToHeading(0,-30,1000);
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
+            robot.rotateToHeading(0,-42,1000);
+            robot.driveForwardUseEncoder(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1200);
 
             requestOpModeStop();
         }
@@ -439,6 +444,9 @@ public class Auto2022 extends LinearOpMode {
             robot.dump();
             robot.moveLiftMotor(0,.75);
             robot.raiseIntake();
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            robot.blinkinLedDriver.setPattern(pattern);
 
             //GET TO WAREHOUSE (place to warehouse)
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
@@ -494,6 +502,9 @@ public class Auto2022 extends LinearOpMode {
             telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
             telemetry.update();
             robot.raiseIntake();
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            robot.blinkinLedDriver.setPattern(pattern);
 
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
             robot.rotateToHeading(0,90,1500);
