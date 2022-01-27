@@ -112,7 +112,7 @@ public class TeleOp2022 extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
             robot.blinkinLedDriver.setPattern(pattern);
         }
-        if(gamepad2.b){
+        if(gamepad1.b){
             carouselPower = .75;
             pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
             robot.blinkinLedDriver.setPattern(pattern);
