@@ -75,6 +75,9 @@ public class TeleOp2022 extends LinearOpMode {
         boolean carouselDirection = true;
         double carouselPower = 0;
 
+        boolean liftMotorMovingDown;
+        boolean liftMotorMovingUp;
+
         RevBlinkinLedDriver blinkinLedDriver;
         RevBlinkinLedDriver.BlinkinPattern pattern;
 
@@ -177,7 +180,7 @@ public class TeleOp2022 extends LinearOpMode {
 */
 
 //glide up and down 2
-
+/*
             if(gamepad1.left_bumper){
                 if(robot.liftMotor.getCurrentPosition() >= 0){
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -200,35 +203,32 @@ public class TeleOp2022 extends LinearOpMode {
                 robot.liftMotor.setPower(0);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-/*
+*/
 // glide up and down 3 (not working)
             if(gamepad1.left_bumper) {
-                while (gamepad1.left_bumper) {
-                    if (robot.liftMotor.getCurrentPosition() > 0) {
-                        robot.liftMotor.setPower(-.25);
-                        if (robot.liftMotor.getCurrentPosition() < 0) {
-                            robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                            robot.liftMotor.setPower(0);
-                        }
-
-                    }
-
-                }
+                robot.liftMotor.setPower(.25);
+                liftMotorMovingDown = false;
+                liftMotorMovingUp = true;
             }
-            else if (gamepad1.right_bumper){
-                if(robot.liftMotor.getCurrentPosition() <= 4750){
-                    robot.liftMotor.setPower(.25);
-                    while(robot.liftMotor.getCurrentPosition() >= 4750){
-                        robot.liftMotor.setPower(0);
-                        robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    }
-                }
+            else if (gamepad1.right_bumper) {
+                robot.liftMotor.setPower(-.25);
+                liftMotorMovingDown = true;
+                liftMotorMovingUp = false;
             }
             else{
                 robot.liftMotor.setPower(0);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                liftMotorMovingDown = false;
+                liftMotorMovingUp = false;
             }
-*/
+
+            if((liftMotorMovingDown == true) && robot.liftMotor.getCurrentPosition() < 0){
+                robot.liftMotor.setPower(0);
+            }
+            if((liftMotorMovingUp == true) && robot.liftMotor.getCurrentPosition() > 4000){
+                robot.liftMotor.setPower(0);
+            }
+
 
 
 
