@@ -206,12 +206,12 @@ public class TeleOp2022 extends LinearOpMode {
 */
 // glide up and down 3 (not working)
             if(gamepad1.left_bumper) {
-                robot.liftMotor.setPower(.25);
+                robot.liftMotor.setPower(1);
                 liftMotorMovingDown = false;
                 liftMotorMovingUp = true;
             }
             else if (gamepad1.right_bumper) {
-                robot.liftMotor.setPower(-.25);
+                robot.liftMotor.setPower(-1);
                 liftMotorMovingDown = true;
                 liftMotorMovingUp = false;
             }
@@ -225,7 +225,7 @@ public class TeleOp2022 extends LinearOpMode {
             if((liftMotorMovingDown == true) && robot.liftMotor.getCurrentPosition() < 0){
                 robot.liftMotor.setPower(0);
             }
-            if((liftMotorMovingUp == true) && robot.liftMotor.getCurrentPosition() > 4000){
+            if((liftMotorMovingUp == true) && robot.liftMotor.getCurrentPosition() > 4500){
                 robot.liftMotor.setPower(0);
             }
 
@@ -239,7 +239,14 @@ public class TeleOp2022 extends LinearOpMode {
             else{
                 robot.dropServo.setPosition(1);
             }
-
+/*
+            if(gamepad1.b){
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.liftMotor.setTargetPosition(0);
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setPower(.25);
+                }
+*/
 /*
             if(gamepad1.b){
                 if(robot.liftMotor.getCurrentPosition() >= 2000){

@@ -185,7 +185,7 @@ public class Auto2022 extends LinearOpMode {
         }
         telemetry.addData("side: ", side);
         telemetry.update();
-
+/*
         //choosing delay
         telemetry.addData("Gamepad2: A=0 sec, B=5sec, Y=10sec, X=15sec", "");
         telemetry.update();
@@ -204,7 +204,7 @@ public class Auto2022 extends LinearOpMode {
         if(gamepad2.x){
             startDelay = 15000;
         }
-
+ */
         telemetry.addData("Start Delay: ", startDelay);
         telemetry.update();
 
@@ -275,7 +275,7 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
             robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
             robot.rotateToHeading(0,150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500 + placeHeightAdjust); //was 550 ticks
+            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600 + placeHeightAdjust); //was 550 ticks
 
             //PLACE
             robot.lowerIntake();
@@ -300,10 +300,10 @@ public class Auto2022 extends LinearOpMode {
             //GET TO WAREHOUSE (place to warehouse)
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
             robot.rotateToHeading(0, 90, 1000); //1250 safe
-            robot.strafeLeft(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
+            robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1250);
+            robot.driveForwardUseTime(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1100);
 
-            requestOpModeStop();
+            finish();
 
 
             /*
@@ -452,7 +452,7 @@ public class Auto2022 extends LinearOpMode {
             robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
             robot.rotateToHeading(0, -90, 1000); //1250 safe
             robot.strafeRight(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1250);
+            robot.driveForwardUseTime(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1100);
 
             requestOpModeStop();
         }
@@ -560,5 +560,12 @@ public class Auto2022 extends LinearOpMode {
         if(value < min){ value = min; }
         if(value > max){ value = max; }
         return value;
+    }
+
+    public void finish(){
+        while (opModeIsActive()){
+            robot.stopDriving();
+        }
+        requestOpModeStop();
     }
 }
