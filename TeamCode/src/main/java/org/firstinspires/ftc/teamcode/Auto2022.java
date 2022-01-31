@@ -262,48 +262,46 @@ public class Auto2022 extends LinearOpMode {
 
         waitForStart();
 
-        sleep(startDelay);
 
-        if ((teamcolor == blue) && (side == warehouse)) {
 
-            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-            robot.blinkinLedDriver.setPattern(pattern);
+            sleep(startDelay);
 
-            //GET TO PLACE
-            telemetry.addData("placeHeight: ", placeHeight);
-            telemetry.update();
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
-            robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600 + placeHeightAdjust); //was 550 ticks
+            if ((teamcolor == blue) && (side == warehouse)) {
 
-            //PLACE
-            robot.lowerIntake();
-            if(placeHeight == 3){
-                robot.moveLiftMotor(4750,.75);
-            }
-            else if(placeHeight == 2){
-                robot.moveLiftMotor(2500,.75);
-            }
-            else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.75);
-            }
-            else{
-            }
-            robot.dump();
-            robot.moveLiftMotor(0,.75);
-            robot.raiseIntake();
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                robot.blinkinLedDriver.setPattern(pattern);
 
-            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-            robot.blinkinLedDriver.setPattern(pattern);
+                //GET TO PLACE
+                telemetry.addData("placeHeight: ", placeHeight);
+                telemetry.update();
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 75); //was 75 pre ziptie
+                robot.strafeRight(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+                robot.rotateToHeading(0, 150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+                robot.driveBackwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600 + placeHeightAdjust); //was 550 ticks
 
-            //GET TO WAREHOUSE (place to warehouse)
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
-            robot.rotateToHeading(0, 90, 1000); //1250 safe
-            robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1250);
-            robot.driveForwardUseTime(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1100);
+                //PLACE
+                robot.lowerIntake();
+                if (placeHeight == 3) {
+                    robot.moveLiftMotor(4750, .75);
+                } else if (placeHeight == 2) {
+                    robot.moveLiftMotor(2500, .75);
+                } else if (placeHeight == 1) {
+                    robot.moveLiftMotor(0, .75);
+                } else {
+                }
+                robot.dump();
+                robot.moveLiftMotor(0, .75);
+                robot.raiseIntake();
 
-            finish();
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                robot.blinkinLedDriver.setPattern(pattern);
+
+                //GET TO WAREHOUSE (place to warehouse)
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
+                robot.rotateToHeading(0, 90, 1000); //1250 safe
+                robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1250);
+                robot.driveForwardUseTime(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1100);
+
 
 
             /*
@@ -337,194 +335,172 @@ public class Auto2022 extends LinearOpMode {
             */
 
 
+            }
 
+            if ((teamcolor == blue) && (side == carousel)) {
 
-        }
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                robot.blinkinLedDriver.setPattern(pattern);
 
-        if((teamcolor == blue) && (side == carousel)){
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-            robot.blinkinLedDriver.setPattern(pattern);
-
-            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-            telemetry.update();
-
-            //GET TO PLACE
-            telemetry.addData("placeHeight: ", placeHeight);
-            telemetry.update();
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
-            robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,-150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),650 + placeHeightAdjust); //was 625
-
-
-            //PLACE
-            robot.lowerIntake();
-            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-            telemetry.update();
-            if(placeHeight == 3){
-                robot.moveLiftMotor(4750,.75);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
-            }
-            else if(placeHeight == 2){
-                robot.moveLiftMotor(2500,.75);
+
+                //GET TO PLACE
+                telemetry.addData("placeHeight: ", placeHeight);
+                telemetry.update();
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 75); //was 75 pre ziptie
+                robot.strafeLeft(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+                robot.rotateToHeading(0, -150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+                robot.driveBackwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 650 + placeHeightAdjust); //was 625
+
+
+                //PLACE
+                robot.lowerIntake();
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
-            }
-            else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.75);
+                if (placeHeight == 3) {
+                    robot.moveLiftMotor(4750, .75);
+                    telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                } else if (placeHeight == 2) {
+                    robot.moveLiftMotor(2500, .75);
+                    telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                } else if (placeHeight == 1) {
+                    robot.moveLiftMotor(0, .75);
+                    telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                } else {
+                }
+                robot.dump();
+                robot.moveLiftMotor(0, .75);
                 telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
                 telemetry.update();
+                robot.raiseIntake();
+
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                robot.blinkinLedDriver.setPattern(pattern);
+
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+                robot.rotateToHeading(0, -90, 1500);
+                robot.strafeRight(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 750);
+
+                robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 250);
+                robot.driveForwardUseTime(.2, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+                robot.spinCarouselMotor(carouselColor);
+
+                robot.driveBackwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
+                robot.rotateToHeading(0, -42, 1000);
+                robot.driveForwardUseEncoder(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
+
+
             }
-            else{
+
+
+            if ((teamcolor == red) && (side == warehouse)) {
+
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                robot.blinkinLedDriver.setPattern(pattern);
+
+                //GET TO PLACE
+                telemetry.addData("placeHeight: ", placeHeight);
+                telemetry.update();
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 75); //was 75 pre ziptie
+                robot.strafeLeft(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+                robot.rotateToHeading(0, -150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+                robot.driveBackwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 665 + placeHeightAdjust); //was 550 ticks
+
+                //PLACE
+                robot.lowerIntake();
+                if (placeHeight == 3) {
+                    robot.moveLiftMotor(4750, .75);
+                } else if (placeHeight == 2) {
+                    robot.moveLiftMotor(2500, .75);
+                } else if (placeHeight == 1) {
+                    robot.moveLiftMotor(0, .75);
+                } else {
+                }
+                robot.dump();
+                robot.moveLiftMotor(0, .75);
+                robot.raiseIntake();
+
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                robot.blinkinLedDriver.setPattern(pattern);
+
+                //GET TO WAREHOUSE (place to warehouse)
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
+                robot.rotateToHeading(0, -90, 1000); //1250 safe
+                robot.strafeRight(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+                robot.driveForwardUseTime(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1100);
+
+
             }
-            robot.dump();
-            robot.moveLiftMotor(0,.75);
-            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-            telemetry.update();
-            robot.raiseIntake();
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-            robot.blinkinLedDriver.setPattern(pattern);
-
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
-            robot.rotateToHeading(0,-90,1500);
-            robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),750);
-
-            robot.strafeLeft(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),250);
-            robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
-            robot.spinCarouselMotor(carouselColor);
-
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),600);
-            robot.rotateToHeading(0,-42,1000);
-            robot.driveForwardUseEncoder(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1200);
-
-            finish();
-        }
 
 
+            if ((teamcolor == red) && (side == carousel)) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                robot.blinkinLedDriver.setPattern(pattern);
+
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
+
+                //GET TO PLACE
+                telemetry.addData("placeHeight: ", placeHeight);
+                telemetry.update();
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 75); //was 75 pre ziptie
+                robot.strafeRight(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500);
+                robot.rotateToHeading(0, 153, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
+                robot.driveBackwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 625 + placeHeightAdjust); //was 625
 
 
+                //PLACE
+                robot.lowerIntake();
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
+                if (placeHeight == 3) {
+                    robot.moveLiftMotor(4750, 1);
+                    telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                } else if (placeHeight == 2) {
+                    robot.moveLiftMotor(2500, 1);
+                    telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                } else if (placeHeight == 1) {
+                    robot.moveLiftMotor(0, 1);
+                    telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                } else {
+                }
+                robot.dump();
+                robot.moveLiftMotor(0, 1);
+                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
+                telemetry.update();
+                robot.raiseIntake();
+
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                robot.blinkinLedDriver.setPattern(pattern);
+
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
+                robot.rotateToHeading(0, 90, 1250);
+
+                robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
+
+                robot.rotateToHeading(0, -170, 1250);
+                robot.strafeRight(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+
+                robot.driveForwardUseTime(.2, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 850);
+
+                robot.spinCarouselMotor(carouselColor);
 
 
+                //robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
+                robot.driveBackwardUseTime(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
 
 
-
-
-
-
-        if((teamcolor == red) && (side == warehouse)){
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-            robot.blinkinLedDriver.setPattern(pattern);
-
-            //GET TO PLACE
-            telemetry.addData("placeHeight: ", placeHeight);
-            telemetry.update();
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
-            robot.strafeLeft(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,-150, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),665 + placeHeightAdjust); //was 550 ticks
-
-            //PLACE
-            robot.lowerIntake();
-            if(placeHeight == 3){
-                robot.moveLiftMotor(4750,.75);
             }
-            else if(placeHeight == 2){
-                robot.moveLiftMotor(2500,.75);
-            }
-            else if (placeHeight == 1){
-                robot.moveLiftMotor(0,.75);
-            }
-            else{
-            }
-            robot.dump();
-            robot.moveLiftMotor(0,.75);
-            robot.raiseIntake();
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-            robot.blinkinLedDriver.setPattern(pattern);
-
-            //GET TO WAREHOUSE (place to warehouse)
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 400);
-            robot.rotateToHeading(0, -90, 1000); //1250 safe
-            robot.strafeRight(1, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
-            robot.driveForwardUseTime(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1100);
 
             requestOpModeStop();
-        }
-
-
-        if((teamcolor == red) && (side == carousel)){
-            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-            robot.blinkinLedDriver.setPattern(pattern);
-
-            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-            telemetry.update();
-
-            //GET TO PLACE
-            telemetry.addData("placeHeight: ", placeHeight);
-            telemetry.update();
-            robot.driveForwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),75); //was 75 pre ziptie
-            robot.strafeRight(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.rotateToHeading(0,153, 1250); //1250 safe //150 degrees clears obstacle //was 155 degrees
-            robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),625 + placeHeightAdjust); //was 625
-
-
-
-
-            //PLACE
-            robot.lowerIntake();
-            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-            telemetry.update();
-            if(placeHeight == 3){
-                robot.moveLiftMotor(4750,1);
-                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            else if(placeHeight == 2){
-                robot.moveLiftMotor(2500,1);
-                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            else if (placeHeight == 1){
-                robot.moveLiftMotor(0,1);
-                telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            else{
-            }
-            robot.dump();
-            robot.moveLiftMotor(0,1);
-            telemetry.addData("ticks: ", robot.liftMotor.getCurrentPosition());
-            telemetry.update();
-            robot.raiseIntake();
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-            robot.blinkinLedDriver.setPattern(pattern);
-
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 200);
-            robot.rotateToHeading(0,90,1250);
-
-            robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
-
-            robot.rotateToHeading(0,-170,1250);
-            robot.strafeRight(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1000);
-
-            robot.driveForwardUseTime(.2,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),850);
-
-            robot.spinCarouselMotor(carouselColor);
-
-
-            //robot.driveBackwardUseEncoder(.5,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),500);
-            robot.driveBackwardUseTime(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),400);
-
-            requestOpModeStop();
-        }
-
 
 
 
@@ -563,9 +539,13 @@ public class Auto2022 extends LinearOpMode {
     }
 
     public void finish(){
+        /*
+        robot.stopDrivingAndBrake();
+
+        sleep(500);
         while (opModeIsActive()){
-            robot.stopDriving();
+
         }
-        requestOpModeStop();
+        */
     }
 }
