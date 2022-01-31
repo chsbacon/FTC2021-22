@@ -401,7 +401,7 @@ public class Auto2022 extends LinearOpMode {
             robot.rotateToHeading(0,-42,1000);
             robot.driveForwardUseEncoder(.75,robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES),1200);
 
-            requestOpModeStop();
+            finish();
         }
 
 
