@@ -386,14 +386,14 @@ public class Auto2022 extends LinearOpMode {
                 robot.strafeRight(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
                 robot.driveForwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 750);
 
-                robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 250);
-                robot.driveForwardUseTime(.2, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1000);
+                robot.strafeLeft(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 500); //was 250 sec
+                robot.driveForwardUseTime(.2, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1250);
                 robot.spinCarouselMotor(carouselColor);
 
                 robot.driveBackwardUseEncoder(.5, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 600);
-                robot.rotateToHeading(0, -42, 1000);
-                robot.driveForwardUseEncoder(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 1200);
-
+                robot.rotateToHeading(0, -47, 1000);
+                robot.driveForwardUseEncoder(.75, robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES), 800);
+                robot.rotateToHeading(0,0,1250);
 
             }
 
@@ -500,6 +500,7 @@ public class Auto2022 extends LinearOpMode {
 
             }
 
+            idle();
             requestOpModeStop();
 
 
