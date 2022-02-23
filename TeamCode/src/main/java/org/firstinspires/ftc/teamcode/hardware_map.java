@@ -9,6 +9,7 @@ public class hardware_map {
     public DcMotor motor2 = null;
     public DcMotor motor3 = null;
     public DcMotor motor4 = null;
+    public DcMotor deadWheel = null;
 
     private HardwareMap HWMap = null;
     private ElapsedTime period = new ElapsedTime();
@@ -22,5 +23,6 @@ public class hardware_map {
         motor2 = HWMap.dcMotor.get("M2");
         motor3 = HWMap.dcMotor.get("M3");
         motor4 = HWMap.dcMotor.get("M4");
+        deadWheel = HWMap.dcMotor.get("DWE0");
     }
 }
